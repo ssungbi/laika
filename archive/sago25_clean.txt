@@ -1,0 +1,1805 @@
+ 
+
+
+	
+	
+	가야손해사정 - 교통사고 상해질병 암보상  손해사정
+		
+
+@charset 'euc-kr';
+    	body,td{color:black; font-face:times new roman,굴림;font-size:12px;text-decoration:none;line-height:17px;}
+		    .tdh{color:black; font-face:times new roman,굴림;font-size:12px;text-decoration:none;line-height:22px;}
+	a:link {color:black; font-face:times new roman,굴림;font-size:12px;text-decoration:none;}
+	a:visited {color:black; font-face:times new roman,굴림;font-size:12px;text-decoration:none;}
+	a:hover {color:#698CCB;   font-face:times new roman,굴림;font-size:12px;text-decoration: none; }
+	a {color:black; font-face:times new roman,굴림;font-size:12px;text-decoration:none;}
+	.popper{position : absolute;visibility : hidden;}
+
+ 
+
+var nav = (document.layers);
+var iex = (document.all);
+var skn = (nav) ? document.topdeck : topdeck.style;
+if (nav) document.captureEvents(Event.MOUSEMOVE);
+document.onmousemove = get_mouse;
+function pop(cnt)
+{
+
+	var cnt2;
+	
+	if(checkQuestion(cnt))	
+	{
+		cnt2	= cnt+"&sago25_preview=preview";
+	}
+	else
+	{
+		cnt2	= cnt+"?sago25_preview=preview";
+		
+	}
+	cnt2	= cnt2.replace("?","^^^");
+
+	for(i=1;i<=20;i++)
+	{
+		cnt2	= cnt2.replace("&","***");
+		cnt2	= cnt2.replace("=","djffkfldu");
+	}
+
+
+	var content	= "클릭하시면 연결됩니다. ";
+		
+	  if (nav)
+		    {
+				    skn.document.write(content);
+						  skn.document.close();
+						  	  skn.visibility = "visible";
+							    }
+	      else if (iex)
+			    {
+						  document.all("topdeck").innerHTML = content;
+						  	  skn.visibility = "visible";
+							    }
+}
+
+
+function checkQuestion(str)
+{
+	for(var i=0;i<str.length;i++)
+    {
+         if(str.substring(i,i+1)== "?")
+         {
+                        return true;
+         }
+    }
+	return false;
+}
+
+function sago25linkpop(cnt)
+{
+
+	var cnt2;
+
+	if(checkQuestion(cnt))	
+	{
+		cnt2	= cnt+"&sago25_preview=preview";
+	}
+	else
+	{
+		cnt2	= cnt+"?sago25_preview=preview";
+		
+	}
+	cnt2	= cnt2.replace("?","^^^");
+
+	for(i=1;i<=20;i++)
+	{
+		cnt2	= cnt2.replace("&","***");
+		cnt2	= cnt2.replace("=","djffkfldu");
+	}
+	var content	= "클릭하시면 연결됩니다.";
+		
+	  if (nav)
+		    {
+				    skn.document.write(content);
+						  skn.document.close();
+						  	  skn.visibility = "visible";
+							    }
+	      else if (iex)
+			    {
+						  document.all("topdeck").innerHTML = content;
+						  	  skn.visibility = "visible";
+							    }
+}
+
+
+
+
+function pop2(cnt)
+{
+
+	var content	= "";
+		
+	  if (nav)
+		    {
+				    skn.document.write(content);
+						  skn.document.close();
+						  	  skn.visibility = "visible";
+							    }
+	      else if (iex)
+			    {
+						  document.all("topdeck").innerHTML = content;
+						  	  skn.visibility = "visible";
+							    }
+}
+function get_mouse(e)
+{
+		var x = (nav) ? e.pageX : event.x+document.body.scrollLeft;
+		var y = (nav) ? e.pageY : event.y+document.body.scrollTop;
+		//skn.left = x + 30;
+	  	//skn.top  = y-150;
+		skn.left = 20;
+	  	skn.top  = y+5;
+}
+
+function kill()
+{
+	  skn.visibility = "hidden";
+}
+
+function linknone(cnt1,cnt2,cnt3)
+{
+	var content	= "클릭하시면 연결됩니다. "+cnt3+" 
+ 이 페이지는 미리보기가 되지 않습니다.  ";
+
+	if (nav)
+            {
+                    skn.document.write(content);
+                          skn.document.close();
+                              skn.visibility = "visible";
+                                }
+          else if (iex)
+                {
+                          document.all("topdeck").innerHTML = content;
+                              skn.visibility = "visible";
+                                }
+
+}
+
+
+0&&parent.frames.length) {
+		      d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+	    if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+		  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+		    if(!x && document.getElementById) x=document.getElementById(n); return x;
+}
+
+function MM_showHideLayers() { //v3.0
+	  var i,p,v,obj,args=MM_showHideLayers.arguments;
+	    for (i=0; i<(args.length-2); i+=3) if ((obj=MM_findObj(args[i]))!=null) { v=args[i+2];
+			    if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v='hide')?'hidden':v; }
+				    obj.visibility=v; }
+}
+
+function MM_swapImgRestore() { //v3.0
+	  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_preloadImages() { //v3.0
+	  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+		      var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+				      if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImage() { //v3.0
+	  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+		     if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function ChangeMenu( num ) {
+	for( i=1; i 
+
+
+
+
+	
+	
+	
+	
+	
+		
+
+		
+			
+				
+					
+				
+
+			
+
+
+		 
+
+		
+		
+			
+
+
+
+
+
+
+			
+				
+						
+					참고자료
+					
+				
+			
+			
+				
+				
+				
+
+
+
+
+
+
+		
+		
+				
+					
+					
+		
+		
+			 
+
+		 
+	 
+
+function ShowMainLoginForm()
+{
+	document.getElementById('MAIN_LOGIN_FORM_DISPLAY').style.display	='block';
+	document.main_login_form.user_id.focus();
+
+}
+
+function HideMainLoginForm()
+{
+	document.getElementById('MAIN_LOGIN_FORM_DISPLAY').style.display	='none';
+}
+
+
+
+
+
+
+			
+			
+				
+						
+						
+						
+						
+				
+				
+				
+						
+
+        
+        
+                
+                
+                
+        
+        
+                
+                
+        
+
+
+	
+<!--
+
+function main_check_form()
+{
+	var c_f= document.main_login_form;
+
+
+	if(isEmpty(c_f.user_id.value))
+        {
+                alert("아이디를 적어주세요");
+				document.getElementById('LOGIN_FORM_ERR_MSG').innerHTML		= '아이디를 적어주세요';
+				document.getElementById('LOGIN_FORM_USER_ID_COLOR').color	= 'red'; 
+                c_f.user_id.focus();
+                return;
+        }
+	
+	if(isEmpty(c_f.user_pw.value))
+	{
+		alert("비밀번호를 입력하세요");
+		document.getElementById('LOGIN_FORM_ERR_MSG').innerHTML			= '비밀번호를 입력하여주세요';
+		document.getElementById('LOGIN_FORM_USER_PW_COLOR').color		= 'red'; 
+		c_f.user_pw.focus();
+		return;
+	}
+
+	c_f.submit();
+}
+function isEmpty(data)
+{
+        for(var i=0;i
+
+
+
+	
+	
+		
+		
+			
+			아이디
+			 
+		
+		
+			
+			비밀번호
+				
+		
+		
+			
+			확인
+				
+		
+		 
+				
+	
+	
+                
+                
+        
+        
+                
+                
+                
+        
+        
+        
+						
+				
+			
+			
+
+
+
+
+
+
+			
+		
+		
+
+
+
+
+
+
+
+		
+
+				
+					
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+					
+				
+
+
+		
+			
+
+
+				
+					
+						
+						
+					
+			
+				
+					
+					
+					
+				
+				
+					
+					
+0&&tlayer.top0&&tlayer2.top0&&tdiv.style.pixelTop0&&tdiv2.style.pixelTop
+ 
+ 
+	 
+		
+
+
+			
+
+			image[0]='보험금 지급 막으려 의료자문 손댔나…전면 조사 필요';
+image[1]='2026년 상반기 적용 건설, 제조 임금실태 조사보고서';
+
+
+			
+			
+			
+			 
+				 
+					
+					
+						document.write(image[0]); 
+					
+					
+					
+					
+						document.write(image[1]); 
+					
+					
+				
+			 
+			
+		
+		
+	
+
+
+startscroll();
+
+
+
+					
+				
+				
+					
+					
+					
+				
+			
+		
+						
+					
+				
+
+		
+
+
+
+
+
+
+
+
+			
+				
+			
+		
+
+		
+
+				
+
+
+	
+
+	function ShowMainTopBg(n)
+	{
+		document.all.main_bg_img.background	= 	'https://sago25.com/new_page/images/global_menu/global_menu'+n+'b.jpg'; 
+		// if(n==2)	document.all.FMLayer2_sub_menu.style.visibility	= 'visible'; 
+	}
+
+	function HideMainTopBg()
+	{
+		document.all.main_bg_img.background	= 	'https://sago25.com/new_page/images/global_menu/global_menu4b.jpg'; 
+	}
+
+
+
+
+	
+	
+
+	
+	
+			
+				
+					
+					
+					
+				
+				
+					
+					
+		
+		
+			 교통사고 상담     
+			
+		 상해질병 상담
+		
+		
+	
+					
+				
+				
+					
+					
+					
+				
+			
+		
+	
+	
+
+
+
+	
+		
+			
+			
+			
+	
+
+
+		
+			  
+		  
+                건설/제조노임단가
+			
+		
+		
+			  
+		  
+                농촌노임/고용형태별
+			
+		
+		
+			  
+		  
+                맥브라이드표
+			
+		
+		
+			  
+		  
+                직종별등급표
+			
+		
+		
+			  
+		  
+                호프만계수표
+			
+		
+		
+			  
+		  
+                완전생명표
+			
+		
+		
+			  
+		  
+                국가배상장해
+			
+		
+		
+			  
+		  
+                상해/질병관련
+			
+		
+		
+			  
+		  
+                책임보험등급표
+			
+		
+		
+			  
+		  
+                통합장해분류표
+			
+		
+		
+			  
+		  
+                AMA표준각도
+			
+		
+		
+			  
+		  
+                손해/생명장해분류
+			
+		
+		
+			  
+		  
+                산재보험관련
+			
+		
+		
+			  
+		  
+                산재보험장해
+			
+		
+		
+			  
+		  
+                산재장해판정기준
+			
+		
+		
+			  
+		  
+                건강보험
+			
+		
+		
+			  
+		  
+                보건복지부장애
+			
+		
+		
+			  
+		  
+                평균여명표
+			
+		
+
+
+			
+			
+			
+
+				
+
+		
+
+		
+	
+			
+
+			
+			Home 손해/생명장해분류
+			
+		
+        
+            
+    
+            
+            
+                
+            
+        
+    
+        
+        
+                
+                
+                
+        
+        
+                
+                
+        
+	
+		
+			
+
+			
+				
+					
+					
+					
+				
+				
+					
+					    생명보험 장해분류표 (1999.02.01~2005.03.31)
+					
+				
+				
+					
+					
+					
+				
+			
+		
+				
+
+				
+			
+		
+		
+			
+			
+			
+				
+					
+					   2634 번      조회 : 9910      
+  날짜 : 2011-05-05 09:47:07      
+				
+			
+
+		
+			function CheckDelete(num)
+			{
+        			if(confirm("삭제하시겠습니까?"))
+        			{
+                			document.location.href="https://sago25.com/new_page/sago25_bbs/bbs_delete_db.php?dir=info&menu=&category_key=data&category_num=204&category_sub_num=33&search_field=&search_keyword=&table_name=sago25_bbs_info&db=delete&num="+num;
+        			}
+			}
+		
+		
+			
+			
+			
+		
+
+		
+			 
+
+생명보험 장해분류표  1999.02.01~2005.03.31 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+등급
+
+
+신 체 장 해
+
+
+제1급
+
+
+1. 두눈의 시력을 완전영구히 잃었을 때
+
+2. 말 또는 씹어먹는 기능을 완전영구히 잃었을 때
+
+3. 중추신경계 또는 정신에 뚜렷한 장해를 남겨서 평생토록 항상 간호를 받아야 할 때
+
+4. 흉·복부 장기에 뚜렷한 장해를 남겨서 평생토록 항상 간호를 받아야 할 때
+
+5. 두팔의 손목이상을 잃었거나 완전영구히 사용하지 못하게 되었을 때
+
+6. 두다리의 발목이상을 잃었거나 완전영구히 사용하지 못하게 되었을 때
+
+7. 한팔의 손목이상을 잃고, 한다리의 발목이상을 잃었을 때
+
+8. 한팔의 손목이상을 잃고, 한다리를 완전영구히 사용하지 못하게 되었을 때
+
+9. 한다리의 발목이상을 잃고, 한팔을 완전영구히 사용하지 못하게 되었을 때 
+
+
+
+제2급
+
+
+1. 중추신경계 또는 정신에 뚜렷한 장해를 남겨서 평생토록 수시 간호를 받아야 할 때
+
+2. 흉·복부 장기에 뚜렷한 장해를 남겨서 평생토록 수시 간호를 받아야 할 때
+
+3. 한팔 및 한다리를 완전영구히 사용하지 못하게 되었을 때
+
+4. 10손가락을 잃었거나 완전영구히 사용하지 못하게 되었을 때
+
+5. 한팔 또는 한다리 중에서 제3급의 2 내지 7중의 신체장해가 생기고 다른 한팔 또는
+
+한다리 중에서 제3급의 2 내지 7중 또는 제4급의 5 내지 11중에서 신체장해가 발생
+
+되었을 때
+
+6. 두귀의 청력을 완전영구히 잃었을 때
+
+
+
+제3급
+
+
+1. 한눈의 시력을 영구히 잃었을 때
+
+2. 한팔의 손목이상을 잃었을 때
+
+3. 한팔 또는 한팔의 3대관절중 2관절을 완전영구히 사용하지 못하게 되었을 때
+
+4. 한다리의 발목이상을 잃었을 때
+
+5. 한다리 또는 한다리의 3대관절중 2관절을 완전영구히 사용하지 못하게 되었을 때
+
+6. 한손의 5손가락을 잃었을 때
+
+7. 한손의 첫째손가락 및 둘째손가락을 포함하여 4손가락을 잃었을 때
+
+8. 10발가락을 잃었을 때
+
+9. 척추에 고도의 기형 또는 고도의 운동장해를 영구히 남겼을 때 (추간판탈출증은 제외)
+
+10. 한팔 또는 한다리중 제4급의 5 또는 6의 신체장해가 있고 다른 한팔 또는 한다리 중
+
+제4급의 5 또는 6의 신체장해가 발생하였을 때
+
+
+
+제4급
+
+
+
+3. 중추신경계 또는 정신에 뚜렷한 장해를 남겨서 평생 일상생활 기본동작에 제한을
+
+받게 되었을 때
+
+4. 흉·복부 장기에 뚜렷한 장해를 남겨서 평생 일상생활 기본동작에 제한을 받게 되었
+
+거나, 양쪽 고환을 잃었을 때
+
+5. 한팔의 3대관절 중 1관절을 완전영구히 사용하지 못하게 되었을 때
+
+6. 한다리의 3대관절 중 1관절을 완전영구히 사용하지 못하게 되었을 때
+
+7. 한다리가 영구히 5cm이상 단축되었을 때
+
+8. 한손의 첫째손가락 및 둘째손가락을 잃었을 때
+
+9. 한손의 첫째손가락 또는 둘째손가락 중 1손가락을 포함하여 3손가락 이상을 잃었을 때
+
+10. 한손의 5손가락을 완전영구히 사용하지 못하게 되었을 때
+
+11. 한손의 첫째손가락 및 둘째손가락을 포함하여 3손가락 이상을 완전영구히 사용하지
+
+못하게 되었을 때
+
+12. 10발가락을 완전영구히 사용하지 못하게 되었을 때
+
+13. 한발의 5발가락을 잃었을 때
+
+14. 한귀의 청력을 영구히 잃고 다른 귀의 청력에 뚜렷한 장해를 영구히 남겼을 때
+
+15. 척추에 중도의 기형 또는 중도의 운동장해를 영구히 남겼을 때(추간판탈출증은 제외)
+
+16. 고도의 추간판탈출증
+
+
+
+제5급
+
+
+1. 비장 또는 한쪽의 신장을 상실한 때
+
+2. 한팔의 3대관절 중 2관절의 기능에 뚜렷한 장해를 영구히 남겼을 때
+
+3. 한다리의 3대관절 중 2관절의 기능에 뚜렷한 장해를 영구히 남겼을 때
+
+4. 한손의 첫째손가락 또는 둘째손가락을 잃었을 때
+
+5. 한손의 첫째손가락 또는 둘째손가락 중 1손가락을 포함하여 2손가락을 잃었을 때
+
+6. 한손의 첫째손가락 및 둘째손가락 이외의 3손가락을 잃었을 때
+
+7. 한손의 첫째손가락 및 둘째손가락을 완전영구히 사용하지 못하게 되었을 때
+
+8. 한손의 첫째손가락 또는 둘째손가락중 1손가락을 포함하여 3손가락 이상을 완전
+
+영구히 사용하지 못하게 되었을 때
+
+9. 한발의 5발가락을 완전영구히 사용하지 못하게 되었을 때
+
+10. 한발의 첫째발가락을 포함하여 2발가락 내지 4발가락을 잃었을 때
+
+11. 두귀의 청력에 뚜렷한 장해를 영구히 남겼을 때
+
+12. 한귀의 청력을 완전영구히 잃었을 때
+
+13. 코가 결손되거나 또는 그 기능에 뚜렷한 장해를 영구히 남겼을 때
+
+14. 척추에 경도의 기형 또는 경도의 운동장해를 영구히 남겼을 때 (추간판탈출증은 제외)
+
+15. 두부 및 안면부에 현저한 추상을 남겼을 때
+
+16. 중도의 추간판 탈출증
+
+
+제6급
+
+
+1. 한눈의 시력에 뚜렷한 장해를 영구히 남겼을 때
+
+2. 한팔의 3대관절중 1관절의 기능에 뚜렷한 장해를 영구히 남겼을 때
+
+3. 한다리의 3대관절중 1관절의 기능에 뚜렷한 장해를 영구히 남겼을 때
+
+4. 한다리가 영구히 3cm이상 5cm미만 단축되었을 때
+
+5. 한손의 첫째손가락 또는 둘째손가락을 완전영구히 사용하지 못하게 되었을 때
+
+6. 한손의 첫째손가락 또는 둘째손가락을 포함하여 2손가락을 완전영구히 사용하지 못하
+
+게 되었을 때
+
+7. 한손의 첫째손가락 및 둘째손가락 이외의 2손가락 이상을 완전영구히 사용하지 못하게
+
+되었을 때
+
+8. 한손의 첫째손가락 또는 둘째손가락 이외의 1손가락 또는 2손가락을 잃었을 때
+
+9. 한발의 첫째발가락 또는 다른 4발가락을 잃었을 때
+
+10. 한발의 첫째발가락을 포함하여 3발가락 이상을 완전 영구히 사용하지 못하게 되었을
+
+때
+
+11. 한귀의 청력에 뚜렷한 장해를 남겼을 때
+
+12. 두부 및 안면부에 추상을 남겼을 때
+
+13. 성기능에 영구적으로 장해가 남았을 때 
+
+14. 경도의 추간판탈출증
+
+ 
+
+
+
+1. 장해의 정의 및 평가기준 
+
+
+가. 장해의 정의 
+
+장해란 재해로 인한 상해 또는 질병에 대하여 충분한 치료를 하였으나 완전히 회복되지 않고 증상이 고정되어 신체에 남아 있는 영구적인 정신 또는 육체의 훼손상태를 말한다. 
+
+
+나. 평가기준 
+
+- 장해의 평가시 하나의 장해가 두 개 이상의 등급분류에 해당되는 경우에는 그 중 상위등급을 적용한다. 
+- 신체의 제관절 운동의 정상 각도는 미국의사협회(A.M.A)의 영구적 신체장해 평가지침 제4판에서 규정하는 기준을 따르며, 측정방법 또한 이에 따르도록 한다. 다만, 계약자 선택에 따라 그외의 A.M.A지침에 의한 장해진단내용도 인정될 수 있다.  
+
+
+
+2. "일상생활 기본동작의 제한" 
+
+생명유지를 위한 일상생활의 기본동작 중 하나 이상에 제한은 있으나 타인의 수발이나 보조장구(휠체어, 목발등)가 필요치 않은 상태를 말한다. 
+
+
+ 
+
+(1) 이동동작 
+(2) 음식물 섭취동작 
+(3) 옷 입고 벗기 동작 
+(4) 배변, 배뇨 또는 그 뒷처리 
+(5) 목욕 
+
+
+3. "항상 간호" 
+
+생명유지를 위한 일상생활의 기본적인 동작 중 (1)의 이동동작제한을 포함하고, (2) 내지 (5)의 항목중 2개 이상이 제한되거나, 치매 또는 정신질환등으로 인하여 항상 타인의 수발에 전적으로 의존해야 하는 경우를 말하며, (1)의 이동동작 제한 정도는 침상을 벗어나지 못하는 정도를 말한다. 
+
+
+4. "수시간호" 
+
+"수시간호"란 다음의 경우를 말한다. 
+
+1) 생명유지를 위한 일상생활의 기본적인 동작 중 (1)의 이동동작의 제한을 포함하고, (2) 내지 (5)의 항목 중 1개 이상이 제한되거나, 치매 또는 정신질환등으로 수시로 타인의 수발이 반드시 필요한 경우를 말하며, (1)의 이동동작 제한 정도는 침상을 벗어나는 이동시 타인의 수발이나 보조수단(휠체어등)이 반드시 필요한 정도를 말한다. 
+
+2) 심장, 신장 또는 간장의 장기이식을 한 경우 또는 장기이식을 하지 않고서는 생명유지가 불가능하여 혈액투석 등 의료처치를 평생토록 받아야 할 때 
+
+
+
+5. "시력을 잃은 것" 
+
+국제식 시력검사표에 의하여 한 눈의 교정시력이 0.02 이하로 되어 망막 또는 시신경손상이 증명되고 회복되지 않는 경우를 말한다. 단, 시력장해가 아닌 시야장해, 안구운동장해 등의 눈의 장해는 제외한다. 
+
+
+6. "시력의 뚜렷한 장해" 
+
+국제식 시력검사표에 의하여 한 눈의 교정시력이 0.06 이하로 되어 망막 또는 시신경손상이 증명되고 회복되지 않는 경우를 말한다. 시야장해, 굴절장해, 안구운동장해, 조절장해, 복시 등은 이에 준하여 평가한다. 
+
+
+7. "말 또는 씹어먹는 기능을 잃은 것" 
+
+가. "말의 기능을 완전 영구히 잃은 것"이란 다음의 경우를 말한다. 
+
+1) 말과 소리내는 기능 장해로서 구순음(ㅁ,ㅂ,ㅍ), 치설음(ㄴ.ㄷ.ㄹ), 구개음(ㅈ,ㅊ), 후두음(ㅇ,ㅎ) 중 3종류 이상의 발음이 불가능하고 그 회복이 되지 않는 경우 
+
+2) 뇌언어 중추의 손상으로 인한 실어증으로서 음성언어에 의한 의사 소통이 불가능하고 그 회복이 되지 않는 경우 
+
+3) 성대 전부를 떼어 냄으로써 발음이 불가능한 경우 
+
+
+나. "씹어먹는 기능을 완전 영구히 잃은 것" 
+
+물이나 유동식(미음등) 이외의 것은 섭취할 수 없는 상태로서 그 회복이 불가능한 경우를 말한다. 
+
+
+
+8. "말 또는 씹어먹는 기능의 뚜렷한 장해" 
+
+가. "말의 기능에 뚜렷한 장해를 영구히 남긴 것" 
+
+말과 소리를 내는 기능의 장해로서 구순음, 치설음, 구개음, 후두음중 2종류 이상의 발음이 불가능하고 그 회복이 되지 않는 경우를 말한다. 
+
+나. "씹어먹는 기능에 뚜렷한 장해를 영구히 남긴 것" 
+
+죽 또는 이에 준하는 음식 이외의 것은 섭취할 수 없는 상태로서 그 회복이 불가능한 경우를 말한다. 
+
+
+
+9. "청력을 완전 영구히 잃은 것" 
+
+주파수 500, 1000, 2000, 4000 헬스의 경우에 청력 상실의 정도를 각각 a, b, c, d 데시벨(청력검사 단위)로 했을 때 1/6(a+2b+2c+d)의 값이 80데시벨(청력검사 단위) 이상(귓전에 접하여도 큰소리를 듣지 못하는 것)으로서 회복이 불가능한 경우를 말한다. 
+
+
+
+10. "청력의 뚜렷한 장해" 
+
+위의 방법에 따른 값이 60데시벨(청력검사 단위) 이상(40cm 이상의 거리에서 보통의 말소리를 해득하지 못하는 것)으로서 회복이 불가능한 경우를 말한다. 
+
+
+
+11. "코의 결손 또는 뚜렷한 장해" 
+
+코뼈가 결손되거나 또는 후각 기능을 잃고 그 회복이 불가능한 경우를 말한다. 
+
+
+
+12. "팔다리를 완전 영구히 사용하지 못하는 것" 
+
+팔다리의 운동 기능을 완전히 잃은 것을 말하며, 팔다리의 완전 운동 마비 또는 팔다리 각각의 3대 관절 (팔은 어깨 관절, 팔꿈치 관절, 손목, 다리는 골반 관절, 무릎, 발목)의 완전 강직으로 그 회복이 불가능한 경우를 말한다. 관절을 영구히 쓸 수 없는 경우 ( 인공관절 포함 ) 에도 이에 준한다. 
+
+
+
+13. "팔다리 관절의 뚜렷한 장해" 
+
+팔다리 각각의 3대 관절의 운동방향이 A.M.A의 영구적 신체장해 평가지침에서 명시한 주운동방향을 기준으로 하여 ½이하로 제한되거나, 한 관절의 운동종류별 정상운동범위에 대한 장해후 운동범위의 값에 비례치를 곱하여 산출한 각 값의 합 (∑×비례치)이 ½이하로 제한된 경우와 고정장구의 장착을 수시로 필요로 하는 정도의 동요관절의 경우를 말한다. 
+
+
+
+14. "척추의 뚜렷한 기형 또는 운동 장해" 
+
+피보험자의 척추의 기형 정도와 운동가능 영역을 정상인의 운동영역과 비교하여 아래 해당 여부를 판단한다. 
+
+
+가. "척추의 고도의 기형" 
+
+엑스선 사진에 명백한 척추의 골절등으로 인하여 35°이상의 후만증 또는 20°이상의 측만(側灣)변형이 있는 자를 말한다. 
+
+
+나. "척추의 중도의 기형" 
+
+엑스선 사진에 척추의 골절등으로 인하여 15°이상의 후만증 또는 10°이상의 측만(側灣)변형이 있는 자, 압박골절이 추체높이 50%이상인 자 또는 척추에 엑스선상 불안정성이 확실한 자를 말한다. 
+
+
+다. "척추의 경도의 기형" 
+
+엑스선 사진에 척추의 골절등으로 인하여 나체상태에서 후만증 또는 측만변형이 있는 자를 말한다. 
+
+
+라. "척추의 고도의 운동장해" 
+
+경추, 흉추 또는 요추 중 어느 한 척추에 대해서 둘 이상의 운동종류가 각각 정상 운동범위의 ¼ 이하로 제한되는 경우를 말한다. 이 때 둘 이상의 운동종류의 범위는 AMA의 영구적 신체장해 평가지침의 각 척추 운동의 종류에 따른 범위를 말한다. 
+
+
+마. "척추의 중도의 운동장해" 
+
+경추, 흉추 또는 요추 중 어느 한 척추에 대해서 둘 이상의 운동종류가 각각 정상 운동범위의 ½ 이하로 제한된 경우를 말한다. 이 때 둘 이상의 운동종류의 범위는 AMA의 영구적 신체장해 평가지침의 각 척추 운동의 종류에 따른 범위를 말한다. 
+
+
+바. "척추의 경도의 운동장해" 
+
+경추, 흉추 또는 요추 중 어느 한 척추에 대해서 둘 이상의 운동종류가 각각 정상 운동범위의의 ¾ 이하로 제한된 경우를 말한다. 이 때 둘 이상의 운동종류의 범위는 AMA의 영구적 신체장해 평가지침의 각 척추 운동의 종류에 따른 범위를 말한다. 
+
+
+
+
+15. "손가락의 장해" 
+
+
+가. "손가락을 잃은 것" 
+
+첫째 손가락은 지절간관절(끝에서 첫째 마디), 기타의 손가락은 근위지절간관절(끝에서 둘째 마디) 이상을 잃은 것을 말한다. 
+
+
+나. "손가락을 완전 영구히 사용하지 못하는 것" 
+
+(1) 첫째 손가락의 경우 지절간관절(끝에서 첫째 마디) 하방의 ½이상을 잃거나 또는 지절간관절 또는 중수지절관절이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다. 
+
+(2) 기타 손가락의 경우 원위지절간관절(끝에서 첫째 마디) 이상을 잃거나 또는 중수지절관절(끝에서 마지막 마디) 또는 근위지절간관절(끝에서 둘째 마디)이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다. 
+
+
+
+16. "발가락의 장해" 
+
+가. "발가락을 잃은 것" 
+
+발가락 전부 ( 첫째발가락의 경우 말절골 이상 ) 를 잃은 것을 말한다. 
+
+나. "발가락을 완전 영구히 사용하지 못하는 것" 
+
+(1) 첫째 발가락의 경우 지절간관절(끝에서 첫째 마디) 하방의 ½이상을 잃거나 또는 지절간관절 또는 중족지절관절(끝에서 마지막 마디)이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다. 
+
+(2) 기타 발가락의 경우 원위지절간관절(끝에서 첫째 마디) 이상을 잃거나 또는 중족지절관절(끝에서 마지막 마디) 또는 근위지절간관절(끝에서 둘째 마디)이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다. 
+
+
+
+17. 두부 및 안면부의 추상 
+
+가. 현저한 추상 
+
+두부 또는 안면부에 최대 길이 10㎝ 이상 또는 직경 5㎝ 이상의 추상반흔 또는 조직함몰이 된 경우로서 성형수술을 하여도 더 이상 반흔이나 함몰이 없어지지 않는다는 의사의 진단이 있는 경우 
+
+
+나. 추상 
+
+두부 또는 안면부에 최대 길이 5㎝ 이상 10㎝ 미만 또는 직경 2㎝ 이상 5㎝ 미만의 추상반흔 또는 조직함몰이 된 경우로서 성형수술을 하여도 더 이상 반흔이나 함몰이 없어지지 않는다는 의사의 진단이 있는 경우 
+
+
+
+18. 성기능의 영구적 장해 
+
+음경의 결손, 반흔 또는 경결 등으로 음위(陰　: 발기부전)가 있거나 반흔으로 인한 질구협착 등으로 성교 불능인 경우를 말한다. 
+
+
+
+19. 추간판탈출증(신설) 
+
+추간판탈출증, 팽윤, 파열 등은 의학적 임상증상과 특수검사(CT, MRI, 근전도 등) 소견이 일치하는 경우 그 증상을 인정하며, 수술여부에 관계없이 운동장해는 인정하지 아니하고, 후유증상의 정도에 따라 다음과 같이 구분한다. 
+
+가. "고도의 추간판탈출증" 
+
+2개 이상의 추체간에 추간판탈출증에 대한 수술을 하거나 하나의 추간판이라도 재수술을 하여 후유증상이 뚜렷한 경우 
+
+
+나. "중도의 추간판탈출증" 
+
+- 근위축 또는 근력약화와 같은 임상소견이 뚜렷하고, 특수보조검사에서 이상이 있으며, 척추신경근의 불완전마비가 인정되는 경우 
+
+- 신경마비로 인하여 사지에 경도의 단마비가 있을 경우. 이 경우 복합된 척추신경근의 완전마비가 있는 경우에는 신경계통의 기능장해정도에 따라 등급을 결정한다. 
+
+
+다. "경도의 추간판탈출증" 
+
+- 감각이상·요통·방사통 등의 자각증세가 있고 하지직거상 검사에 의한 양성소견이 있는 경우 
+
+
+
+20. 신체의 동일 부위 
+
+가. 한팔에 대하여는 어깨관절 이하(손가락, 손목 이하, 팔꿈치 이하, 어깨 이하)를 모두 동일 부위라 한다. 
+
+나. 한 다리에 대하여는 골반관절 이하 (발가락, 발목 이하, 무릎 이하, 골반 이하)를 모두 동일 부위라 한다. 
+
+다. 눈 또는 귀의 장해에 대하여는 두눈 또는 두귀를 각각 동일 부위라 한다. 
+
+라. 척추에 대하여는 목뼈 이하를 모두 동일 부위라 한다. 
+
+마. 장해등급 분류표중 제1급의 5,6,7,8,9, 제2급의 3,4,5, 제3급의 8 또는 제4급의 12의 장해에 해당하는 경우는 두팔, 두다리, 한팔과 한다리, 10손가락 또는 발가락을 각각 동일 부위라 한다. 
+
+
+
+21. "영구히" 
+
+"영구히"란 다음의 경우를 말한다. 
+
+가. 장래에 더 이상의 호전을 기대할 수 없는 상태인 경우 
+나. 장래에 일정기간 경과후 호전가능성의 유무를 확정할 수 없을 경우 
+다. 장해의 호전가능성이 있다 하여도 장해확정시점까지는 상당한 기간이 소요되는 경우 .
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+			function CheckDeleteMemo(url,num)
+			{
+        			if(confirm("삭제하시겠습니까?"))
+        			{
+                			document.location.href=url+num;
+        			}
+			}
+	
+		
+
+	
+
+
+
+function ShowGSPreviewLayer(url)
+{
+
+	var DIVID	= 'GLOBAL_SEARCH_PREVIEW_LAYER';
+
+	document.getElementById(DIVID).style.display	='block';
+	document.getElementById(DIVID).style.left		= document.body.scrollLeft	  + 178;
+	document.getElementById(DIVID).style.top		= document.body.scrollTop     + event.clientY +10;
+	GetGSData(url,DIVID);
+
+}
+
+function HideGSPreviewLayer()
+{
+	var DIVID	= 'GLOBAL_SEARCH_PREVIEW_LAYER';
+	document.getElementById(DIVID).style.display	='none';
+}
+
+
+function GetGSData(dataSource, DIVID)
+{
+
+	var XMLHttpRequestObject = false;
+
+	if (window.XMLHttpRequest) 
+	{
+		XMLHttpRequestObject = new XMLHttpRequest();
+	} 
+	else if (window.ActiveXObject) 
+	{
+		XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+
+
+	if(XMLHttpRequestObject) 
+	{
+		var obj = document.getElementById(DIVID);
+		
+		XMLHttpRequestObject.open("POST", dataSource+'&sago25_preview=preview');
+
+		XMLHttpRequestObject.onreadystatechange = function()
+		{
+			if (XMLHttpRequestObject.readyState == 4 &&XMLHttpRequestObject.status == 200) 
+			{
+				obj.innerHTML = XMLHttpRequestObject.responseText;
+			}
+		}
+		XMLHttpRequestObject.send(null);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+ 
+		
+			번호
+			
+			날짜
+			조회
+		
+	
+				
+					   2649   
+					  <A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2649' title='
+
+상해보험 후유장해 (1998.7.1. ~ 2005.3.31)  
+
+
+
+
+
+
+손해보험 장해분류표 (1998.7.1. ~ 2005.3.31) 	   2011-05-06   14040   
+				
+					   2644   
+					  <A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2644' title='손해보험후유장해 (1998. 7. 1. 이전 )
+
+
+
+
+
+후 유 장 해 의 종 류
+손해보험 장해분류표 (1998. 7. 1. 이전 ) 	   2011-05-06   3377   
+				
+					   2634   
+					  <A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2634' title='
+
+생명보험 장해분류표  1999.02.01~2005.03.31 생명보험 장해분류표 (1999.02.01~2005.03.31) 	   2011-05-05   9910   
+				
+					   2633   
+					  <A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2633' title='
+
+1995.02.01 ~ 1999.01.31
+
+
+
+
+
+
+
+
+
+생명보험 장해분류표 (1995.02.01~1999.01.31) 	   2011-05-05   5887   
+				
+					   2632   
+					  <A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2632' title='
+
+1983.10.01 ~ 1995.01.31
+
+
+
+
+
+
+
+
+생명보험 장해분류표 (1983.10.01~1995.01.31) 	   2011-05-05   6434   
+        
+              
+                
+                
+                        
+         [이전 10 개]  1&nbsp
+[이후  10 개] 
+ 
+              
+           
+        
+
+
+	
+	
+	
+	
+	
+	제 목/내 용   
+
+ 	
+
+  	검색어
+	
+	
+  	
+	
+
+
+ 
+                
+                
+        
+        
+                
+                
+                
+        
+        
+        
+		
+		
+		
+		
+		
+		
+	
+		
+			 
+			
+
+
+	
+        
+            
+    
+            
+            
+                
+            
+        
+    
+			
+			
+		
+	
+
+
+	
+		
+		
+	
+
+
+
+
+	
+	
+
+
+
+
+
+
+	
+		 
+		
+		
+	사무소소개 | 
+	개인정보취급방침 |
+	오시는 길 |
+	운영자에게 
+	
+
+가야손해사정(교통사고.재해.상해.암.질병보험 손해사정)      
+		
+ 
+
+	경남 창원시 마산회원구 구암2동 21-18 경성빌딩 201호(마산복음병원 옆) 
+
+	TEL: 055)293-0041, 293-6222  
+
+		
+	
+
+
+
+
+
+	
+
+
+
+		
+		
+	
+
+
+
+
+
+	
+		
+		
+			
+		
+	
+
+
+	
+
+
+
+
+
+
+
+	
+	
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+			
+				
+					
+					
+					
+				
+				
+					
+					
+
+	
+
+보험금 지급 막으려 의료자문 손댔나…전면 조사 필요
+
+
+
+	
+	
+
+
+					
+				
+				
+					
+					
+					
+				
+			
+		
+
+
+
+function ViewGS()
+{
+
+	var c_f	= document.gs_form;
+	var db	= c_f.kind.value;
+
+
+	switch(db)
+	{
+		case 'global'					: 	GetWord('https://sago25.com/new_page/global_search/bbs_keyword_preview.php?sago25_preview=preview&div=gs&search_keyword=','GSDIV');break;
+		case 'sago25_mri_eng'			:	GetWord('https://sago25.com/new_page/global_search/medic_dic.php?search_keyword=','GSDIV');break;
+		case 'dt_disease_classfication'	:	GetWord('https://sago25.com/new_page/global_search/medic_dic.php?search_keyword=','GSDIV');break;
+
+	}
+
+	
+}
+
+function GetWord(dataSource, DIVID)
+{
+
+
+	var XMLHttpRequestObject = false;
+
+	if (window.XMLHttpRequest) 
+	{
+		XMLHttpRequestObject = new XMLHttpRequest();
+	} 
+	else if (window.ActiveXObject) 
+	{
+		XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+
+	if(document.gs_form.title.value	=='')	
+	{
+		HideLayer('GSDIV2');
+	}
+	else
+	{
+		ViewLayer('GSDIV2');
+	}
+
+	if(XMLHttpRequestObject) 
+	{
+		var obj = document.getElementById(DIVID);
+		var	str	= document.gs_form.title.value;
+		var str2	= document.gs_form.kind.value;
+
+		XMLHttpRequestObject.open("POST", dataSource+str+'&kind='+str2);
+
+		XMLHttpRequestObject.onreadystatechange = function()
+		{
+			if (XMLHttpRequestObject.readyState == 4 &&XMLHttpRequestObject.status == 200) 
+			{
+				obj.innerHTML = XMLHttpRequestObject.responseText;
+			}
+		}
+		XMLHttpRequestObject.send(null);
+	}
+}
+
+function ClearTitle()
+{
+	document.gs_form.title.value	='';
+}
+
+function HideLayer(DIVID)
+{
+	ClearTitle();
+	document.getElementById(DIVID).style.display	='none';
+}
+
+function ViewLayer(DIVID)
+{
+	document.getElementById(DIVID).style.display	='block';
+}
+
+
+
+
+
+ 
+
+				
+
+ 
+
+
+
+
+
+
+
+
+          
+ 
+ 
+			
+				
+					
+					
+					
+				
+				
+					
+					
+
+
+
+
+	
+		
+			
+		 
+		
+			
+	
+
+
+
+
+	
+		
+		
+		
+			
+			
+				
+			
+				
+				전체검색 Global Search
+			
+				
+				
+					
+					
+					
+				
+			
+			
+		
+		
+		
+	
+
+
+
+
+
+	
+		
+		
+		
+		
+	
+
+		
+
+
+
+
+					
+				
+				
+					
+					
+					
+				
+			
+		
+
+
+
+
+
+
+
+
+
+
+
+function ChangeKind(move)
+{
+	var c_f	= document.gs_form;
+	var db	= c_f.kind.value;
+
+	if(move=='left')
+	{
+		switch(db)
+		{
+			case 'global'					: 	c_f.kind.value	= 'sago25_mri_eng';				break;
+			case 'dt_disease_classfication' :	c_f.kind.value	= 'global';						break;
+			case 'sago25_mri_eng'			:	c_f.kind.value	= 'dt_disease_classfication';	break;
+		}
+	}
+	else if(move=='right')
+	{
+		switch(db)
+		{
+			case 'global'					: 	c_f.kind.value	= 'dt_disease_classfication';	break;
+			case 'dt_disease_classfication' :	c_f.kind.value	= 'sago25_mri_eng';				break;
+			case 'sago25_mri_eng'			:	c_f.kind.value	= 'global';						break;
+		}
+	}
+	
+	
+	switch(c_f.kind.value)
+	{
+		case 'global'						:	document.getElementById("GS_TITLE").innerHTML	= '전체검색 Global Search';break;
+		case 'dt_disease_classfication'		:	document.getElementById("GS_TITLE").innerHTML	= '상해질병분류';break;
+		case 'sago25_mri_eng'				:	document.getElementById("GS_TITLE").innerHTML	= '의학용어';break;
+
+	}
+	ViewGS();
+}
+
+
+
+
+
+
+  //<![CDATA[
+  
+
+
+
+
+  // scroll controler
+  function CheckUIElements()
+  {
+    var yMenuFrom, yMenuTo, yOffset, docBody;
+    docBody = document.body;
+    with(this.style)
+	{
+      return function() 
+	  {
+        yMenuFrom = parseInt(top, 10);
+        yMenuTo = docBody.scrollTop + 50; //gotop Layer 의 top 위치
+        if (yMenuFrom != yMenuTo) 
+		{
+			yOffset = Math.ceil( Math.abs( yMenuTo - yMenuFrom ) / 20 );
+			top = parseInt(top, 10) + (yMenuTo 
+
+  
+
+
+
+
+
+
+	
+	
+	
+	

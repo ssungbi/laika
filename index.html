@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보험금계산기 - 자동차보험 산재보험 무료 계산</title>
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            const log = document.getElementById('error-log');
+            alert('JS Error: ' + message); if (log) log.innerHTML += `\nError: ${message} at ${source}:${lineno}:${colno}`;
+            console.error(message, error);
+        };
+    </script>
+</head>
+
+<body>
+    <div id="app" class="has-sidebar">
+        <!-- Sidebar -->
+        <aside class="pc-sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="라이카손해사정" class="logo-img">
+                </a>
+            </div>
+            <div class="sidebar-nav">
+                <!-- 1. 보험금 계산기 -->
+                <div class="nav-section sec-calc">
+                    <h3 class="nav-title">보험금 계산기</h3>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">자보</span>
+                        <span class="text">자동차보험</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">배상</span>
+                        <span class="text">배상책임보험</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">산재</span>
+                        <span class="text">산재/근재보험</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">실비</span>
+                        <span class="text">개인 실비보험</span>
+                    </a>
+                </div>
+
+                <!-- 2. 분류표 / 도구 -->
+                <div class="nav-section sec-tools">
+                    <h3 class="nav-title">분류표 / 도구</h3>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-disability-period'); return false;">
+                        <span class="nav-icon-box">장해</span>
+                        <span class="text">장해분류표(개인보험)</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-mcbride-table'); return false;">
+                        <span class="nav-icon-box">맥브</span>
+                        <span class="text">맥브라이드 장해표</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-other-disability'); return false;">
+                        <span class="nav-icon-box">등급</span>
+                        <span class="text">등급별 장해표(기타)</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-injury-class'); return false;">
+                        <span class="nav-icon-box">부상</span>
+                        <span class="text">부상급수표</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-kcd'); return false;">
+                        <span class="nav-icon-box">질병</span>
+                        <span class="text">KCD 질병분류표</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-neo'); return false;">
+                        <span class="nav-icon-box">종양</span>
+                        <span class="text">신생물형태분류표</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-accident'); return false;">
+                        <span class="nav-icon-box">과실</span>
+                        <span class="text">자동차사고 과실비율</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="navigateTo('view-surgery'); return false;">
+                        <span class="nav-icon-box">수술</span>
+                        <span class="text">종 수술분류표</span>
+                    </a>
+                </div>
+
+                <!-- 3. 판례 / 조정례 -->
+                <div class="nav-section sec-cases">
+                    <h3 class="nav-title">판례 / 조정례</h3>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">법원</span>
+                        <span class="text">법원 판례</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">금감</span>
+                        <span class="text">금융감독원 조정례</span>
+                    </a>
+                </div>
+
+                <!-- 4. 의료자문 / 동시감정 -->
+                <div class="nav-section sec-medical">
+                    <h3 class="nav-title">의료자문 / 동시감정</h3>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">자문</span>
+                        <span class="text">의료자문</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon-box">동시</span>
+                        <span class="text">동시감정</span>
+                    </a>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <p>라이카손해사정</p>
+            </div>
+        </aside>
+
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="라이카손해사정" class="logo-img">
+            </a>
+            <button class="mobile-menu-btn" onclick="document.querySelector('.pc-sidebar').classList.toggle('active')">
+                <span class="material-icons-round">menu</span>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- 1. Main Dashboard View -->
+            <div id="view-main" class="page-view active">
+                <div class="content-wrapper">
+                    <div class="home">
+                        <!-- Top Header -->
+                        <div class="header">
+                            <div class="header-bg">
+                                <div class="bg-gradient"></div>
+                                <div class="bg-pattern"></div>
+                            </div>
+                            <div class="header-inner">
+                                <div class="header-badge">
+                                    <span class="badge-icon material-icons-round">check</span>
+                                    2026년 최신 기준 적용
+                                </div>
+                                <h1>라이카 업무페이지</h1>
+                                <p class="header-subtitle">손해사정을 위한 업무 보조 사이트</p>
+
+                                <a href="#" class="login-btn-center">
+                                    <span class="material-icons-round">login</span>
+                                    <span>로그인하고 저장하기</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="section quick-start">
+                            <div class="quick-start-grid">
+                                <div class="quick-start-card main-cta" onclick="navigateTo('view-insurance-portal');"
+                                    style="cursor:pointer;">
+                                    <div class="qs-icon">
+                                        <span class="material-icons-round" style="font-size: 28px;">business</span>
+                                    </div>
+                                    <div class="qs-content">
+                                        <strong>보험회사 전산실</strong>
+                                        <span>각 보험회사 청구정보 확인하기</span>
+                                    </div>
+                                    <span class="qs-arrow material-icons-round">chevron_right</span>
+                                </div>
+                                <div class="quick-start-card card-meritz" onclick="openMeritzLogin();"
+                                    style="cursor:pointer;">
+                                    <div class="qs-icon">
+                                        <span class="material-icons-round" style="font-size: 28px;">analytics</span>
+                                    </div>
+                                    <div class="qs-content">
+                                        <strong>메리츠 보장분석</strong>
+                                        <span>메리츠 전산 바로가기</span>
+                                    </div>
+                                    <span class="qs-arrow material-icons-round">chevron_right</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: 보험금 계산기 -->
+                        <div class="section">
+                            <h2 class="section-title sec-title-calc">🧮 보험금 계산기</h2>
+                            <div class="category-grid">
+                                <a href="#" class="category-card card-auto">
+                                    <div class="card-icon-wrap auto">
+                                        <span class="material-icons-round">directions_car</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>자동차보험</strong>
+                                        <span>대인·무보험·합의금</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="category-card card-liability">
+                                    <div class="card-icon-wrap liability">
+                                        <span class="material-icons-round">gavel</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>배상책임보험</strong>
+                                        <span>일배책·영업배상</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="category-card card-workers">
+                                    <div class="card-icon-wrap workers">
+                                        <span class="material-icons-round">engineering</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>산재/근재보험</strong>
+                                        <span>산재장해·근재보상</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="category-card card-personal">
+                                    <div class="card-icon-wrap personal">
+                                        <span class="material-icons-round">receipt_long</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>개인 실비보험</strong>
+                                        <span>실손의료비 산정·청구</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: 분류표 / 도구 -->
+                        <div class="section">
+                            <h2 class="section-title sec-title-tools">📋 분류표 / 도구</h2>
+                            <div class="tools-grid-4x2">
+                                <a href="#" class="tool-card-new tc-teal"
+                                    onclick="navigateTo('view-disability-period'); return false;">
+                                    <div class="tc-icon material-icons-round">accessibility_new</div>
+                                    <span class="tc-name">장해분류표<br>(개인보험)</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-navy"
+                                    onclick="navigateTo('view-mcbride-table'); return false;">
+                                    <div class="tc-icon material-icons-round">menu_book</div>
+                                    <span class="tc-name">맥브라이드<br>장해표</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-purple" onclick="navigateTo('view-other-disability'); return false;">
+                                    <div class="tc-icon material-icons-round">format_list_numbered</div>
+                                    <span class="tc-name">등급별 장해표<br>(기타)</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-orange" onclick="navigateTo('view-injury-class'); return false;">
+                                    <div class="tc-icon material-icons-round">personal_injury</div>
+                                    <span class="tc-name">부상급수표</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-blue" onclick="navigateTo('view-kcd'); return false;">
+                                    <div class="tc-icon material-icons-round">local_hospital</div>
+                                    <span class="tc-name">KCD<br>질병분류표</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-pink" onclick="navigateTo('view-neo'); return false;">
+                                    <div class="tc-icon material-icons-round">biotech</div>
+                                    <span class="tc-name">신생물형태<br>분류표</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-green" onclick="navigateTo('view-accident'); return false;">
+                                    <div class="tc-icon material-icons-round">traffic</div>
+                                    <span class="tc-name">자동차사고<br>과실비율</span>
+                                </a>
+                                <a href="#" class="tool-card-new tc-gray" onclick="navigateTo('view-surgery'); return false;">
+                                    <div class="tc-icon material-icons-round">healing</div>
+                                    <span class="tc-name">종 수술<br>분류표</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: 판례 / 조정례 -->
+                        <div class="section">
+                            <h2 class="section-title sec-title-cases">⚖️ 판례 / 조정례</h2>
+                            <div class="category-grid">
+                                <a href="#" class="category-card card-cases-court">
+                                    <div class="card-icon-wrap cases-court">
+                                        <span class="material-icons-round">account_balance</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>법원 판례</strong>
+                                        <span>보험·손해배상 관련 판례</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="category-card card-cases-fss">
+                                    <div class="card-icon-wrap cases-fss">
+                                        <span class="material-icons-round">policy</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>금융감독원 조정례</strong>
+                                        <span>금감원 분쟁조정 사례</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: 의료자문 / 동시감정 -->
+                        <div class="section">
+                            <h2 class="section-title sec-title-medical">🏥 의료자문 / 동시감정</h2>
+                            <div class="category-grid">
+                                <a href="#" class="category-card card-medical-consult">
+                                    <div class="card-icon-wrap medical-consult">
+                                        <span class="material-icons-round">medical_services</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>의료자문</strong>
+                                        <span>전문의 자문 의뢰·관리</span>
+                                    </div>
+                                </a>
+                                <a href="#" class="category-card card-medical-joint">
+                                    <div class="card-icon-wrap medical-joint">
+                                        <span class="material-icons-round">group</span>
+                                    </div>
+                                    <div class="card-info">
+                                        <strong>동시감정</strong>
+                                        <span>제 3병원을 선정하여 서면/대면 감정 진행</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div> <!-- End of home -->
+                </div> <!-- End of content-wrapper -->
+            </div> <!-- End of view-main -->
+
+            <!-- 2. Disability Period Selection View -->
+            <div id="view-disability-period" class="page-view hidden">
+                <div class="content-wrapper">
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">장해분류표 - 가입 시점 선택</h2>
+                    </div>
+
+                    <div class="disability-container">
+                        <p class="disability-desc">보험 가입 시점(계약일)에 따라 적용되는 장해분류표 약관이 다릅니다. 해당하는 기간을 선택해 주세요.</p>
+
+                        <div class="period-grid">
+                            <button class="period-btn btn-latest"
+                                onclick="loadDisabilityTable('v1804', '최신 (18.04 이후)')">최신 (18.04 이후)</button>
+                            <button class="period-btn"
+                                onclick="loadDisabilityTable('v0505_unified', '05.05 ~ 18.03')">05.05 ~ 18.03</button>
+                            <button class="period-btn"
+                                onclick="loadDisabilityTable('v9902_life', '생명보험 99.02 ~ 05.04')">생명보험 99.02 ~
+                                05.04</button>
+                            <button class="period-btn"
+                                onclick="loadDisabilityTable('v9502_life_9901', '생명보험 (1995.02.01 ~ 1999.01.31)')">생명보험
+                                95.02 ~ 99.01</button>
+                            <button class="period-btn"
+                                onclick="loadDisabilityTable('v8310_life', '생명보험 83.10 ~ 95.01')">생명보험 83.10 ~
+                                95.01</button>
+                            <button class="period-btn"
+                                onclick="loadDisabilityTable('v9807_nonlife', '손해보험 98.07 ~ 05.03')">손해보험 98.07 ~
+                                05.03</button>
+                            <button class="period-btn"
+                                onclick="loadDisabilityTable('vPre9807_nonlife', '손해보험 98.07 이전')">손해보험 98.07
+                                이전</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Disability Table View (Hidden by default) -->
+            <div id="view-disability-table" class="page-view hidden">
+                <div class="content-wrapper">
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-disability-period')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title" id="dt-title">장해분류표(개인보험)</h2>
+                    </div>
+
+                    <div class="disability-container">
+                        <p class="disability-desc" id="dt-desc">원하시는 신체 부위를 선택하시면 상세 장해 상태와 지급률(%)을 확인하실 수 있습니다.</p>
+
+                        <!-- Tabs (Hidden by default, shown for v9902_life etc) -->
+                        <div class="dt-tabs hidden" id="dt-tabs">
+                            <button class="dt-tab active" onclick="switchDtTab('grades')">장해 등급표</button>
+                            <button class="dt-tab" onclick="switchDtTab('parts')">부위별 장해등급표</button>
+                            <button class="dt-tab" onclick="switchDtTab('explanations')">장해 해설 및 평가기준</button>
+                        </div>
+
+                        <!-- Accordion Container (Grades) -->
+                        <div id="disability-accordion" class="accordion-group">
+                            <!-- JS will populate this -->
+                        </div>
+
+                        <!-- Parts Container (Body Parts) -->
+                        <div id="disability-parts" class="parts-group hidden">
+                            <!-- JS will populate this -->
+                        </div>
+
+                        <!-- Explanations Container -->
+                        <div id="disability-explanations" class="explanations-group hidden">
+                            <!-- JS will populate this -->
+                        </div>
+                        <!-- Chongchik Container (v0505) -->
+                        <div id="disability-chongchik" class="explanations-group hidden">
+                            <!-- JS will populate this -->
+                        </div>
+                        <!-- Criteria Container (v0505) -->
+                        <div id="disability-criteria" class="explanations-group hidden">
+                            <!-- JS will populate this -->
+                        </div>
+                        <div id="error-log" style="color: red; margin-top: 20px; white-space: pre-wrap;"></div>
+                    </div>
+                </div>
+            </div>
+
+          <!-- 7. 자동차사고 과실비율 View -->
+          <div id="view-accident" class="page-view hidden">
+              <div class="content-wrapper">
+                  <div class="sub-header">
+                      <button class="back-btn" onclick="navigateTo('view-main')">
+                          <span class="material-icons-round">arrow_back</span>
+                      </button>
+                      <h2 class="sub-header-title">자동차사고 과실비율</h2>
+                  </div>
+                  
+                  <!-- Navigation Level Container -->
+                  <div id="accident-nav-container" style="max-width: 1200px; margin: 0 auto; padding-top: 24px;">
+                      <!-- Dynamically populated buttons -->
+                  </div>
+
+                  <!-- Final Detail Container -->
+                  <div id="accident-detail-container" style="display: none; max-width: 1200px; margin: 0 auto; border: 1px solid #287df3; background: #fff; border-radius: 8px; overflow: hidden; margin-top: 24px;">
+                      <!-- Top Header -->
+                      <div style="background: #4fb1b5; color: white; padding: 20px 30px; display: flex; align-items: center; border-bottom: 2px solid #287df3;">
+                          <div style="background: white; color: #f59e0b; border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; margin-right: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                              <span id="acc-detail-chart-no" style="font-size: 24px;">차1-1</span>
+                              <span style="font-size: 12px; color: #64748b;">사고상황</span>
+                          </div>
+                          <div style="flex: 1; display: flex; align-items: center; gap: 40px;">
+                              <div>
+                                  <div style="font-size: 14px; opacity: 0.9;">🚗 자동차 A</div>
+                                  <div id="acc-header-car-a" style="font-size: 20px; font-weight: bold;">우회전</div>
+                              </div>
+                              <div style="font-size: 24px; opacity: 0.5;">/</div>
+                              <div>
+                                  <div style="font-size: 14px; opacity: 0.9;">🚗 자동차 B</div>
+                                  <div id="acc-header-car-b" style="font-size: 20px; font-weight: bold;">직진(녹색)</div>
+                              </div>
+                          </div>
+                          <button onclick="initAccidentView()" style="background: white; color: #4fb1b5; border: none; padding: 10px 20px; border-radius: 24px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 15px; transition: all 0.2s;" onmouseover="this.style.background='#f8fafc'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='white'; this.style.transform='translateY(0)'">
+                              <span class="material-icons-round" style="font-size: 20px;">restart_alt</span> 처음부터
+                          </button>
+                      </div>
+
+                      <div style="display: flex;">
+                          <!-- Left: Diagram & Situation -->
+                          <div style="flex: 1; border-right: 1px solid #e2e8f0; padding: 20px; display: flex; flex-direction: column;">
+                              <div id="acc-detail-image" style="background: #e2e8f0; height: 400px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                  <!-- SVG or Image goes here -->
+                                  <span style="color: #94a3b8;">이미지 로딩중...</span>
+                              </div>
+                              <div style="border: 1px solid #cbd5e1;">
+                                  <div style="display: flex; background: #f8fafc; border-bottom: 1px solid #cbd5e1;">
+                                      <button id="acc-tab-situation" onclick="switchAccidentDetailTab('situation')" style="padding: 12px; flex: 1; text-align: center; border: none; border-right: 1px solid #cbd5e1; font-weight: bold; color: #0f766e; background: #fff; cursor: pointer; font-size: 14px;">사고 상황</button>
+                                      <button id="acc-tab-apply" onclick="switchAccidentDetailTab('apply')" style="padding: 12px; flex: 1; text-align: center; border: none; border-right: 1px solid #cbd5e1; color: #64748b; background: transparent; cursor: pointer; font-size: 14px;">적용(비적용)</button>
+                                      <button id="acc-tab-explain" onclick="switchAccidentDetailTab('explain')" style="padding: 12px; flex: 1; text-align: center; border: none; color: #64748b; background: transparent; cursor: pointer; font-size: 14px;">기본과실 해설</button>
+                                  </div>
+                                  <div id="acc-detail-situation" style="padding: 20px; font-size: 15px; color: #334155; line-height: 1.6; min-height: 120px; background: #fff;">
+                                      사고 상황 설명이 이곳에 표시됩니다.
+                                  </div>
+                              </div>
+                          </div>
+
+                          <!-- Right: Ratios & Factors -->
+                          <div style="flex: 1; padding: 0;">
+                              <div id="acc-cases-container" style="display: none; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; overflow-x: auto;">
+                                  <!-- Dynamically populated case tabs -->
+                              </div>
+                              <div id="acc-cases-desc-container" style="display: none; padding: 12px; background: #fff; border-bottom: 1px solid #e2e8f0;">
+                                  <!-- Dynamically populated case comparison table -->
+                              </div>
+                              <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                                  <tr>
+                                      <td id="acc-base-ratio-label" style="width: 20%; padding: 16px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; font-weight: bold; background: #f8fafc;">기본과실</td>
+                                      <td style="padding: 16px; border-bottom: 1px solid #e2e8f0;">
+                                          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                              <span style="color: #ef4444; font-weight: bold; font-size: 18px;">A <span id="acc-ratio-a">80</span></span>
+                                              <span style="color: #f59e0b; font-weight: bold; font-size: 18px;"><span id="acc-ratio-b">20</span> B</span>
+                                          </div>
+                                          <div style="height: 12px; background: #fef3c7; border-radius: 6px; overflow: hidden; display: flex;">
+                                              <div id="acc-bar-a" style="height: 100%; width: 80%; background: #ef4444; transition: width 0.3s;"></div>
+                                              <div id="acc-bar-b" style="height: 100%; width: 20%; background: #f59e0b; transition: width 0.3s;"></div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td colspan="2" style="padding: 0;">
+                                          <div style="display: flex; background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                                              <div style="flex: 2; padding: 12px; border-right: 1px solid #e2e8f0; font-weight: bold; color: #475569;">가감요소</div>
+                                              <div style="flex: 1; padding: 12px; border-right: 1px solid #e2e8f0; color: #ef4444; font-weight: bold;">A</div>
+                                              <div style="flex: 1; padding: 12px; color: #f59e0b; font-weight: bold;">B</div>
+                                          </div>
+                                          <div id="acc-factors-container" style="max-height: 400px; overflow-y: auto;">
+                                              <!-- Dynamically populated factor checkboxes -->
+                                          </div>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+  
+          <!-- Quick Search Modal -->
+            <div id="view-mcbride-table" class="page-view hidden">
+                <div class="content-wrapper">
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">맥브라이드 장해표</h2>
+                    </div>
+                    <div class="disability-container" style="max-width:800px; margin:0 auto; padding-top:20px;">
+
+                        <!-- Search Bar -->
+                        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+                            <input type="text" id="mcbride-search-input" placeholder="맥브라이드 장해 찾기 (예: 절단, 골절 등)"
+                                style="flex: 1; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; outline: none;">
+                        </div>
+
+                        <!-- Tabs -->
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <button id="mcbride-tab-search" onclick="switchMcBrideTab('search')"
+                                style="flex: 1; padding: 12px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; background: #2563eb; color: #fff;">검색
+                                결과</button>
+                            <button id="mcbride-tab-list" onclick="switchMcBrideTab('list')"
+                                style="flex: 1; padding: 12px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; background: #e2e8f0; color: #475569;">증상별
+                                찾기</button>
+                        </div>
+
+                        <!-- Search Results -->
+                        <div id="mcbride-search-results" style="display: block;">
+                            <!-- JS will populate search results here -->
+                        </div>
+
+                        <!-- Symptom List (Accordion) -->
+                        <div id="mcbride-list-container" class="disability-list" style="display: none;">
+                            <!-- JS will populate accordion here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Insurance Portal View -->
+            <div id="view-insurance-portal" class="page-view hidden">
+                <div class="content-wrapper">
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">보험회사 전산실</h2>
+                    </div>
+
+                    <div class="disability-container">
+
+                        <p class="disability-desc">각 보험회사의 청구 팩스, 등기우편 주소, 약관 및 청구양식을 확인하세요.</p>
+
+                        <div class="insurance-search-container">
+                            <span class="material-icons-round search-icon">search</span>
+                            <input type="text" id="ins-search-input" placeholder="보험사를 검색하세요 (초성 검색 가능, 예 : ㅁㄹㅇㅅ)"
+                                onkeyup="filterInsurance()">
+                        </div>
+
+
+                        <div class="insurance-grid" id="insurance-list-container">
+                            <!-- JS로 렌더링 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+        <!-- 부상급수표 View -->
+        <div id="view-injury-class" class="page-view hidden">
+            <div class="content-wrapper">
+                <div class="sub-header">
+                    <button class="back-btn" onclick="navigateTo('view-main')">
+                        <span class="material-icons-round">arrow_back</span>
+                    </button>
+                    <h2 class="sub-header-title">부상급수표</h2>
+                </div>
+                
+                <div class="disability-container" style="max-width: 1200px; margin: 0 auto; padding-top: 24px;">
+                    <!-- Tabs -->
+                    <div style="display: flex; gap: 10px; margin-bottom: 24px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                        <button id="injury-tab-class" onclick="switchInjuryTab('class')"
+                            style="flex: 1; padding: 14px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; background: #2563eb; color: #fff; font-size: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">부상급수별</button>
+                        <button id="injury-tab-part" onclick="switchInjuryTab('part')"
+                            style="flex: 1; padding: 14px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; background: #e2e8f0; color: #475569; font-size: 15px;">신체부위별</button>
+                        <button id="injury-tab-guide" onclick="switchInjuryTab('guide')"
+                            style="flex: 1; padding: 14px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; background: #e2e8f0; color: #475569; font-size: 15px;">영역별 세부지침</button>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="insurance-search-container" style="max-width: 1200px; margin: 0 auto 24px auto; position: relative;">
+                        <span class="material-icons-round search-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 20px;">search</span>
+                        <input type="text" id="injury-search-input" placeholder="상해내용, 부위, 급수를 검색하세요" onkeyup="filterInjury()" style="width: 100%; padding: 14px 16px 14px 44px; font-size: 15px; border: 1px solid #d1d5db; border-radius: 12px; background: #fff; color: #111827; box-sizing: border-box;">
+                    </div>
+
+                    <!-- View Containers -->
+                    <div id="injury-view-class" style="display: block; max-width: 1200px; margin: 0 auto;" class="accordion-group">
+                    </div>
+                    <div id="injury-view-part" style="display: none; max-width: 1200px; margin: 0 auto;" class="accordion-group">
+                    </div>
+                    <div id="injury-view-guide" style="display: none; max-width: 1200px; margin: 0 auto;" class="accordion-group">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. KCD 질병분류표 View -->
+        <div id="view-kcd" class="page-view hidden">
+            <div class="content-wrapper">
+                <div class="sub-header">
+                    <button class="back-btn" onclick="navigateTo('view-main')">
+                        <span class="material-icons-round">arrow_back</span>
+                    </button>
+                    <h2 class="sub-header-title">KCD-9 질병분류표</h2>
+                </div>
+                
+                <div class="disability-container" style="max-width: 1200px; margin: 0 auto;">
+                    <div class="insurance-search-container" style="max-width: 800px; margin: 0 auto 24px auto;">
+                        <span class="material-icons-round search-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 20px;">search</span>
+                        <input type="text" id="kcd-search-input" placeholder="코드 또는 질병명을 입력하세요." onkeyup="filterKcd()" style="width: 100%; padding: 14px 16px 14px 44px; font-size: 15px; border: 1px solid #d1d5db; border-radius: 12px; background: #fff; color: #111827; box-sizing: border-box;">
+                    </div>
+                    
+                    <div id="kcd-search-results" style="display: none; max-width: 1200px; margin: 0 auto;"></div>
+                    
+                    <div id="kcd-chapters-container" class="kcd-grid" style="max-width: 1200px; margin: 0 auto;"></div>
+                    
+                    <div id="kcd-tree-container" class="accordion-group" style="display: none; max-width: 1200px; margin: 0 auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- 6. 신생물 형태분류표 View -->
+        <div id="view-neo" class="page-view hidden">
+            <div class="content-wrapper">
+                <div class="sub-header">
+                    <button class="back-btn" onclick="navigateTo('view-main')">
+                        <span class="material-icons-round">arrow_back</span>
+                    </button>
+                    <h2 class="sub-header-title">신생물 형태분류표</h2>
+                </div>
+                
+                <div class="disability-container" style="max-width: 1200px; margin: 0 auto;">
+                    <div style="max-width: 800px; margin: 0 auto 24px auto; display: flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <select id="neo-degree-select" onchange="changeNeoDegree(this.value)" style="border: none; padding: 14px 16px 14px 24px; font-size: 15px; background: transparent; color: #475569; font-weight: bold; outline: none; cursor: pointer; border-right: 1px solid #e2e8f0; appearance: none; -webkit-appearance: none; padding-right: 32px; background-image: url('data:image/svg+xml;utf8,<svg fill=%22%2364748b%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/></svg>'); background-repeat: no-repeat; background-position-x: 100%; background-position-y: 50%;">
+                            <option value="08">8차</option>
+                            <option value="07">7차</option>
+                            <option value="06">6차</option>
+                            <option value="05">5차</option>
+                            <option value="04">4차</option>
+                            <option value="03">3차</option>
+                            <option value="02">2차</option>
+                        </select>
+                        <div style="padding-left: 16px; display: flex; align-items: center;">
+                            <span class="material-icons-round" style="color: #9ca3af; font-size: 22px;">search</span>
+                        </div>
+                        <input type="text" id="neo-search-input" placeholder="검색어를 입력하세요." onkeyup="filterNeo()" style="flex: 1; padding: 14px 16px 14px 12px; font-size: 15px; border: none; outline: none; color: #111827;">
+                    </div>
+                    
+                    <div id="neo-search-results" class="neo-table-group" style="display: none; max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); overflow: hidden;"></div>
+                    
+                    <div id="neo-tree-container" class="neo-table-group" style="max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); overflow: hidden;"></div>
+                </div>
+            </div>
+        </div>
+
+        
+            <!-- 7. 등급별 장해표(기타) View -->
+            <div id="view-other-disability" class="page-view hidden">
+                <div class="content-wrapper">
+                    <!-- Title & Back -->
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">등급별 장해표(기타)</h2>
+                    </div>
+                    
+                    <!-- Major Tabs -->
+                    <div class="other-disability-major-tabs" style="display: flex; gap: 10px; margin-bottom: 24px; max-width: 1200px; margin-left: auto; margin-right: auto; justify-content: center; background-color: #f8fafc; padding: 8px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                        <button class="major-tab-btn active" data-major="산재" onclick="setOtherDisabilityMajor('산재')" style="flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; background-color: #3b82f6; color: white; transition: all 0.2s;">산업재해 장해</button>
+                        <button class="major-tab-btn" data-major="자보" onclick="setOtherDisabilityMajor('자보')" style="flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; background-color: transparent; color: #64748b; transition: all 0.2s;">자동차손해배상 장해</button>
+                        <button class="major-tab-btn" data-major="국배" onclick="setOtherDisabilityMajor('국배')" style="flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; background-color: transparent; color: #64748b; transition: all 0.2s;">국가배상 장해</button>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="insurance-search-container" style="max-width: 1200px; margin: 0 auto 24px auto; position: relative;">
+                        <input type="text" id="other-disability-search" placeholder="검색어를 입력하세요..." style="width: 100%; padding: 16px 48px 16px 20px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 16px; outline: none; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                        <span class="material-icons-round" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 24px; pointer-events: none;">search</span>
+                    </div>
+
+                    <!-- Sub Tabs -->
+                    <div class="other-disability-sub-tabs" style="display: flex; gap: 10px; margin-bottom: 24px; max-width: 1200px; margin-left: auto; margin-right: auto; justify-content: center;">
+                        <button class="sub-tab-btn active" data-sub="급수별" onclick="setOtherDisabilitySub('급수별')" style="padding: 10px 24px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: 600; cursor: pointer; background-color: #f1f5f9; color: #1e293b; transition: all 0.2s;">급수별</button>
+                        <button class="sub-tab-btn" data-sub="부위별" onclick="setOtherDisabilitySub('부위별')" style="padding: 10px 24px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: 600; cursor: pointer; background-color: white; color: #64748b; transition: all 0.2s;">부위별</button>
+                    </div>
+
+                    <!-- Accordion Area -->
+                    <div id="other-disability-content" class="accordion-group" style="max-width: 1200px; margin: 0 auto;">
+                        <!-- Content rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. 종 수술분류표 View -->
+            <div id="view-surgery" class="page-view hidden">
+                <div class="content-wrapper">
+                    <!-- Title & Back -->
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">종 수술분류표</h2>
+                    </div>
+                    
+                    <!-- Major Tabs (대분류) -->
+                    <div class="surgery-major-tabs" style="display: flex; gap: 10px; margin-bottom: 24px; max-width: 1600px; width: 95%; margin-left: auto; margin-right: auto; justify-content: center; background-color: #f8fafc; padding: 8px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                        <button class="major-tab-btn active" data-major="search" onclick="setSurgeryMajor('search')" style="flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; background-color: #3b82f6; color: white; transition: all 0.2s;">수술명 검색</button>
+                        <button class="major-tab-btn" data-major="3종" onclick="setSurgeryMajor('3종')" style="flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; background-color: transparent; color: #64748b; transition: all 0.2s;">1~3종 수술분류표</button>
+                        <button class="major-tab-btn" data-major="5종" onclick="setSurgeryMajor('5종')" style="flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; background-color: transparent; color: #64748b; transition: all 0.2s;">1~5종 수술분류표</button>
+                    </div>
+
+                    <!-- Search Input Area -->
+                    <div id="surgery-search-area" class="insurance-search-container" style="max-width: 1600px; width: 95%; margin: 0 auto 24px auto; position: relative; display: block;">
+                        <input type="text" id="surgery-search-input" placeholder="수술명을 입력하세요..." style="width: 100%; padding: 16px 48px 16px 20px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 16px; outline: none; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                        <span class="material-icons-round" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 24px; pointer-events: none;">search</span>
+                    </div>
+
+                    <!-- Sub Tabs (중분류) for 3종 / 5종 -->
+                    <div id="surgery-sub-tabs" class="other-disability-sub-tabs" style="display: none; gap: 10px; margin-bottom: 24px; max-width: 1600px; width: 95%; margin-left: auto; margin-right: auto; justify-content: center;">
+                        <button class="sub-tab-btn active" data-sub="부위별" onclick="setSurgerySub('부위별')" style="padding: 10px 24px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: 600; cursor: pointer; background-color: #f1f5f9; color: #1e293b; transition: all 0.2s;">부위별</button>
+                        <button class="sub-tab-btn" data-sub="종별" onclick="setSurgerySub('종별')" style="padding: 10px 24px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: 600; cursor: pointer; background-color: white; color: #64748b; transition: all 0.2s;">종별</button>
+                    </div>
+
+                    <!-- Content Area -->
+                    <div id="surgery-content" class="accordion-group" style="max-width: 1600px; width: 95%; margin: 0 auto; gap: 10px;">
+                        <!-- Content rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+        <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="맨 위로">
+        <span class="material-icons-round">arrow_upward</span>
+    </button>
+
+    <script src="accident_data.js"></script>
+    <script src="injury_data.js"></script>
+    <script src="surgery_data.js"></script>
+    <script src="script.js?v=16"></script>
+
+    <!-- 메리츠 영업포탈 이동 -->
+    <script>
+        function openMeritzLogin() {
+            // 메리츠 영업포탈 로그인 화면으로 이동
+            var url = 'https://sales.meritzfire.com/salesportal/Layout/MeritzSales.jsp';
+            window.open(url, '_blank');
+        }
+    </script>
+
+    <script src="other_disability_data.js"></script>
+    <script src="other_disability.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+--- VIDEO ---
+
+--- TABS ---
+
+--- CONTENT OF TABS ---
+<div class="cont_state" id="cont_state">
+ <div id="smrizeexplna" style="display:none;">
+  �����멸린��� ������ 援���듭��由ш�� ��대（��댁��怨� ������ 援�李⑤�������� ���濡� ��ㅻⅨ ���濡�瑜� ��댁�⑺����� ��뱀��
+�����몄�� 援�李⑤����� 吏���������� 吏�吏� 以���� A李⑤��怨� �����������몄�� 援�李⑤����� 吏���������� 吏�吏� 以���� B
+李⑤����� 異⑸����� ��ш����대��.
+ </div>
+ <strong class="num">
+  <a onclick="viewSmrizeexplna(); return false;">
+   李�1-1
+  </a>
+ </strong>
+ <div class="range" id="case1">
+  <div class="cont_l">
+   <span class="car">
+    ������李� A
+   </span>
+   <div class="con">
+    ��뱀�� 吏�吏�
+   </div>
+  </div>
+  <div class="cont_r">
+   <span class="car">
+    ������李� B
+   </span>
+   <div class="con">
+    ������ 吏�吏�
+   </div>
+  </div>
+ </div>
+</div>
+
+
+
+--- SCRIPT FOR VIDEO ---

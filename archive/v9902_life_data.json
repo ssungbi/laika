@@ -1,0 +1,513 @@
+{
+    "grades": [
+        {
+            "category": "제1급",
+            "items": [
+                {
+                    "desc": "1. 두눈의 시력을 완전영구히 잃었을 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "2. 말 또는 씹어먹는 기능을 완전영구히 잃었을 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "3. 중추신경계 또는 정신에 뚜렷한 장해를 남겨서 평생토록 항상 간호를 받아야 할 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "4. 흉·복부 장기에 뚜렷한 장해를 남겨서 평생토록 항상 간호를 받아야 할 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "5. 두팔의 손목이상을 잃었거나 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "6. 두다리의 발목이상을 잃었거나 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "7. 한팔의 손목이상을 잃고, 한다리의 발목이상을 잃었을 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "8. 한팔의 손목이상을 잃고, 한다리를 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "1급"
+                },
+                {
+                    "desc": "9. 한다리의 발목이상을 잃고, 한팔을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "1급"
+                }
+            ]
+        },
+        {
+            "category": "제2급",
+            "items": [
+                {
+                    "desc": "1. 중추신경계 또는 정신에 뚜렷한 장해를 남겨서 평생토록 수시 간호를 받아야 할 때",
+                    "rate": "2급"
+                },
+                {
+                    "desc": "2. 흉·복부 장기에 뚜렷한 장해를 남겨서 평생토록 수시 간호를 받아야 할 때",
+                    "rate": "2급"
+                },
+                {
+                    "desc": "3. 한팔 및 한다리를 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "2급"
+                },
+                {
+                    "desc": "4. 10손가락을 잃었거나 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "2급"
+                },
+                {
+                    "desc": "5. 한팔 또는 한다리 중에서 제3급의 2 내지 7중의 신체장해가 생기고 다른 한팔 또는",
+                    "rate": "2급"
+                },
+                {
+                    "desc": "6. 두귀의 청력을 완전영구히 잃었을 때",
+                    "rate": "2급"
+                }
+            ]
+        },
+        {
+            "category": "제3급",
+            "items": [
+                {
+                    "desc": "1. 한눈의 시력을 영구히 잃었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "2. 한팔의 손목이상을 잃었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "3. 한팔 또는 한팔의 3대관절중 2관절을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "4. 한다리의 발목이상을 잃었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "5. 한다리 또는 한다리의 3대관절중 2관절을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "6. 한손의 5손가락을 잃었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "7. 한손의 첫째손가락 및 둘째손가락을 포함하여 4손가락을 잃었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "8. 10발가락을 잃었을 때",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "9. 척추에 고도의 기형 또는 고도의 운동장해를 영구히 남겼을 때 (추간판탈출증은 제외)",
+                    "rate": "3급"
+                },
+                {
+                    "desc": "10. 한팔 또는 한다리중 제4급의 5 또는 6의 신체장해가 있고 다른 한팔 또는 한다리 중",
+                    "rate": "3급"
+                }
+            ]
+        },
+        {
+            "category": "제4급",
+            "items": []
+        },
+        {
+            "category": "제4급",
+            "items": [
+                {
+                    "desc": "3. 중추신경계 또는 정신에 뚜렷한 장해를 남겨서 평생 일상생활 기본동작에 제한을",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "4. 흉·복부 장기에 뚜렷한 장해를 남겨서 평생 일상생활 기본동작에 제한을 받게 되었",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "5. 한팔의 3대관절 중 1관절을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "6. 한다리의 3대관절 중 1관절을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "7. 한다리가 영구히 5cm이상 단축되었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "8. 한손의 첫째손가락 및 둘째손가락을 잃었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "9. 한손의 첫째손가락 또는 둘째손가락 중 1손가락을 포함하여 3손가락 이상을 잃었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "10. 한손의 5손가락을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "11. 한손의 첫째손가락 및 둘째손가락을 포함하여 3손가락 이상을 완전영구히 사용하지",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "12. 10발가락을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "13. 한발의 5발가락을 잃었을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "14. 한귀의 청력을 영구히 잃고 다른 귀의 청력에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "15. 척추에 중도의 기형 또는 중도의 운동장해를 영구히 남겼을 때(추간판탈출증은 제외)",
+                    "rate": "4급"
+                },
+                {
+                    "desc": "16. 고도의 추간판탈출증",
+                    "rate": "4급"
+                }
+            ]
+        },
+        {
+            "category": "제5급",
+            "items": [
+                {
+                    "desc": "1. 비장 또는 한쪽의 신장을 상실한 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "2. 한팔의 3대관절 중 2관절의 기능에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "3. 한다리의 3대관절 중 2관절의 기능에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "4. 한손의 첫째손가락 또는 둘째손가락을 잃었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "5. 한손의 첫째손가락 또는 둘째손가락 중 1손가락을 포함하여 2손가락을 잃었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "6. 한손의 첫째손가락 및 둘째손가락 이외의 3손가락을 잃었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "7. 한손의 첫째손가락 및 둘째손가락을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "8. 한손의 첫째손가락 또는 둘째손가락중 1손가락을 포함하여 3손가락 이상을 완전",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "9. 한발의 5발가락을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "10. 한발의 첫째발가락을 포함하여 2발가락 내지 4발가락을 잃었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "11. 두귀의 청력에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "12. 한귀의 청력을 완전영구히 잃었을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "13. 코가 결손되거나 또는 그 기능에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "14. 척추에 경도의 기형 또는 경도의 운동장해를 영구히 남겼을 때 (추간판탈출증은 제외)",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "15. 두부 및 안면부에 현저한 추상을 남겼을 때",
+                    "rate": "5급"
+                },
+                {
+                    "desc": "16. 중도의 추간판 탈출증",
+                    "rate": "5급"
+                }
+            ]
+        },
+        {
+            "category": "제6급",
+            "items": [
+                {
+                    "desc": "1. 한눈의 시력에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "2. 한팔의 3대관절중 1관절의 기능에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "3. 한다리의 3대관절중 1관절의 기능에 뚜렷한 장해를 영구히 남겼을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "4. 한다리가 영구히 3cm이상 5cm미만 단축되었을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "5. 한손의 첫째손가락 또는 둘째손가락을 완전영구히 사용하지 못하게 되었을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "6. 한손의 첫째손가락 또는 둘째손가락을 포함하여 2손가락을 완전영구히 사용하지 못하",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "7. 한손의 첫째손가락 및 둘째손가락 이외의 2손가락 이상을 완전영구히 사용하지 못하게",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "8. 한손의 첫째손가락 또는 둘째손가락 이외의 1손가락 또는 2손가락을 잃었을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "9. 한발의 첫째발가락 또는 다른 4발가락을 잃었을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "10. 한발의 첫째발가락을 포함하여 3발가락 이상을 완전 영구히 사용하지 못하게 되었을",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "11. 한귀의 청력에 뚜렷한 장해를 남겼을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "12. 두부 및 안면부에 추상을 남겼을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "13. 성기능에 영구적으로 장해가 남았을 때",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "14. 경도의 추간판탈출증",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "1. 장해의 정의 및 평가기준",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "2. \"일상생활 기본동작의 제한\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "3. \"항상 간호\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "4. \"수시간호\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "5. \"시력을 잃은 것\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "6. \"시력의 뚜렷한 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "7. \"말 또는 씹어먹는 기능을 잃은 것\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "8. \"말 또는 씹어먹는 기능의 뚜렷한 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "9. \"청력을 완전 영구히 잃은 것\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "10. \"청력의 뚜렷한 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "11. \"코의 결손 또는 뚜렷한 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "12. \"팔다리를 완전 영구히 사용하지 못하는 것\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "13. \"팔다리 관절의 뚜렷한 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "14. \"척추의 뚜렷한 기형 또는 운동 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "15. \"손가락의 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "16. \"발가락의 장해\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "17. 두부 및 안면부의 추상",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "18. 성기능의 영구적 장해",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "19. 추간판탈출증(신설)",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "20. 신체의 동일 부위",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "21. \"영구히\"",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "1995.02.01 ~ 1999.01.31",
+                    "rate": "6급"
+                },
+                {
+                    "desc": "1983.10.01 ~ 1995.01.31",
+                    "rate": "6급"
+                }
+            ]
+        }
+    ],
+    "explanations": [
+        {
+            "id": "exp1",
+            "title": "1. 장해의 정의 및 평가기준",
+            "content": "가. 장해의 정의<br>장해란 재해로 인한 상해 또는 질병에 대하여 충분한 치료를 하였으나 완전히 회복되지 않고 증상이 고정되어 신체에 남아 있는 영구적인 정신 또는 육체의 훼손상태를 말한다.<br>나. 평가기준<br>- 장해의 평가시 하나의 장해가 두 개 이상의 등급분류에 해당되는 경우에는 그 중 상위등급을 적용한다.<br>- 신체의 제관절 운동의 정상 각도는 미국의사협회(A.M.A)의 영구적 신체장해 평가지침 제4판에서 규정하는 기준을 따르며, 측정방법 또한 이에 따르도록 한다. 다만, 계약자 선택에 따라 그외의 A.M.A지침에 의한 장해진단내용도 인정될 수 있다."
+        },
+        {
+            "id": "exp2",
+            "title": "2. \"일상생활 기본동작의 제한\"",
+            "content": "생명유지를 위한 일상생활의 기본동작 중 하나 이상에 제한은 있으나 타인의 수발이나 보조장구(휠체어, 목발등)가 필요치 않은 상태를 말한다.<br>(1) 이동동작<br>(2) 음식물 섭취동작<br>(3) 옷 입고 벗기 동작<br>(4) 배변, 배뇨 또는 그 뒷처리<br>(5) 목욕"
+        },
+        {
+            "id": "exp3",
+            "title": "3. \"항상 간호\"",
+            "content": "생명유지를 위한 일상생활의 기본적인 동작 중 (1)의 이동동작제한을 포함하고, (2) 내지 (5)의 항목중 2개 이상이 제한되거나, 치매 또는 정신질환등으로 인하여 항상 타인의 수발에 전적으로 의존해야 하는 경우를 말하며, (1)의 이동동작 제한 정도는 침상을 벗어나지 못하는 정도를 말한다."
+        },
+        {
+            "id": "exp4",
+            "title": "4. \"수시간호\"",
+            "content": "\"수시간호\"란 다음의 경우를 말한다.<br>1) 생명유지를 위한 일상생활의 기본적인 동작 중 (1)의 이동동작의 제한을 포함하고, (2) 내지 (5)의 항목 중 1개 이상이 제한되거나, 치매 또는 정신질환등으로 수시로 타인의 수발이 반드시 필요한 경우를 말하며, (1)의 이동동작 제한 정도는 침상을 벗어나는 이동시 타인의 수발이나 보조수단(휠체어등)이 반드시 필요한 정도를 말한다.<br>2) 심장, 신장 또는 간장의 장기이식을 한 경우 또는 장기이식을 하지 않고서는 생명유지가 불가능하여 혈액투석 등 의료처치를 평생토록 받아야 할 때"
+        },
+        {
+            "id": "exp5",
+            "title": "5. \"시력을 잃은 것\"",
+            "content": "국제식 시력검사표에 의하여 한 눈의 교정시력이 0.02 이하로 되어 망막 또는 시신경손상이 증명되고 회복되지 않는 경우를 말한다. 단, 시력장해가 아닌 시야장해, 안구운동장해 등의 눈의 장해는 제외한다."
+        },
+        {
+            "id": "exp6",
+            "title": "6. \"시력의 뚜렷한 장해\"",
+            "content": "국제식 시력검사표에 의하여 한 눈의 교정시력이 0.06 이하로 되어 망막 또는 시신경손상이 증명되고 회복되지 않는 경우를 말한다. 시야장해, 굴절장해, 안구운동장해, 조절장해, 복시 등은 이에 준하여 평가한다."
+        },
+        {
+            "id": "exp7",
+            "title": "7. \"말 또는 씹어먹는 기능을 잃은 것\"",
+            "content": "가. \"말의 기능을 완전 영구히 잃은 것\"이란 다음의 경우를 말한다.<br>1) 말과 소리내는 기능 장해로서 구순음(ㅁ,ㅂ,ㅍ), 치설음(ㄴ.ㄷ.ㄹ), 구개음(ㅈ,ㅊ), 후두음(ㅇ,ㅎ) 중 3종류 이상의 발음이 불가능하고 그 회복이 되지 않는 경우<br>2) 뇌언어 중추의 손상으로 인한 실어증으로서 음성언어에 의한 의사 소통이 불가능하고 그 회복이 되지 않는 경우<br>3) 성대 전부를 떼어 냄으로써 발음이 불가능한 경우<br>나. \"씹어먹는 기능을 완전 영구히 잃은 것\"<br>물이나 유동식(미음등) 이외의 것은 섭취할 수 없는 상태로서 그 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp8",
+            "title": "8. \"말 또는 씹어먹는 기능의 뚜렷한 장해\"",
+            "content": "가. \"말의 기능에 뚜렷한 장해를 영구히 남긴 것\"<br>말과 소리를 내는 기능의 장해로서 구순음, 치설음, 구개음, 후두음중 2종류 이상의 발음이 불가능하고 그 회복이 되지 않는 경우를 말한다.<br>나. \"씹어먹는 기능에 뚜렷한 장해를 영구히 남긴 것\"<br>죽 또는 이에 준하는 음식 이외의 것은 섭취할 수 없는 상태로서 그 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp9",
+            "title": "9. \"청력을 완전 영구히 잃은 것\"",
+            "content": "주파수 500, 1000, 2000, 4000 헬스의 경우에 청력 상실의 정도를 각각 a, b, c, d 데시벨(청력검사 단위)로 했을 때 1/6(a+2b+2c+d)의 값이 80데시벨(청력검사 단위) 이상(귓전에 접하여도 큰소리를 듣지 못하는 것)으로서 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp10",
+            "title": "10. \"청력의 뚜렷한 장해\"",
+            "content": "위의 방법에 따른 값이 60데시벨(청력검사 단위) 이상(40cm 이상의 거리에서 보통의 말소리를 해득하지 못하는 것)으로서 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp11",
+            "title": "11. \"코의 결손 또는 뚜렷한 장해\"",
+            "content": "코뼈가 결손되거나 또는 후각 기능을 잃고 그 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp12",
+            "title": "12. \"팔다리를 완전 영구히 사용하지 못하는 것\"",
+            "content": "팔다리의 운동 기능을 완전히 잃은 것을 말하며, 팔다리의 완전 운동 마비 또는 팔다리 각각의 3대 관절 (팔은 어깨 관절, 팔꿈치 관절, 손목, 다리는 골반 관절, 무릎, 발목)의 완전 강직으로 그 회복이 불가능한 경우를 말한다. 관절을 영구히 쓸 수 없는 경우 ( 인공관절 포함 ) 에도 이에 준한다."
+        },
+        {
+            "id": "exp13",
+            "title": "13. \"팔다리 관절의 뚜렷한 장해\"",
+            "content": "팔다리 각각의 3대 관절의 운동방향이 A.M.A의 영구적 신체장해 평가지침에서 명시한 주운동방향을 기준으로 하여 ½이하로 제한되거나, 한 관절의 운동종류별 정상운동범위에 대한 장해후 운동범위의 값에 비례치를 곱하여 산출한 각 값의 합 (∑×비례치)이 ½이하로 제한된 경우와 고정장구의 장착을 수시로 필요로 하는 정도의 동요관절의 경우를 말한다."
+        },
+        {
+            "id": "exp14",
+            "title": "14. \"척추의 뚜렷한 기형 또는 운동 장해\"",
+            "content": "피보험자의 척추의 기형 정도와 운동가능 영역을 정상인의 운동영역과 비교하여 아래 해당 여부를 판단한다.<br>가. \"척추의 고도의 기형\"<br>엑스선 사진에 명백한 척추의 골절등으로 인하여 35°이상의 후만증 또는 20°이상의 측만(側灣)변형이 있는 자를 말한다.<br>나. \"척추의 중도의 기형\"<br>엑스선 사진에 척추의 골절등으로 인하여 15°이상의 후만증 또는 10°이상의 측만(側灣)변형이 있는 자, 압박골절이 추체높이 50%이상인 자 또는 척추에 엑스선상 불안정성이 확실한 자를 말한다.<br>다. \"척추의 경도의 기형\"<br>엑스선 사진에 척추의 골절등으로 인하여 나체상태에서 후만증 또는 측만변형이 있는 자를 말한다.<br>라. \"척추의 고도의 운동장해\"<br>경추, 흉추 또는 요추 중 어느 한 척추에 대해서 둘 이상의 운동종류가 각각 정상 운동범위의 ¼ 이하로 제한되는 경우를 말한다. 이 때 둘 이상의 운동종류의 범위는 AMA의 영구적 신체장해 평가지침의 각 척추 운동의 종류에 따른 범위를 말한다.<br>마. \"척추의 중도의 운동장해\"<br>경추, 흉추 또는 요추 중 어느 한 척추에 대해서 둘 이상의 운동종류가 각각 정상 운동범위의 ½ 이하로 제한된 경우를 말한다. 이 때 둘 이상의 운동종류의 범위는 AMA의 영구적 신체장해 평가지침의 각 척추 운동의 종류에 따른 범위를 말한다.<br>바. \"척추의 경도의 운동장해\"<br>경추, 흉추 또는 요추 중 어느 한 척추에 대해서 둘 이상의 운동종류가 각각 정상 운동범위의의 ¾ 이하로 제한된 경우를 말한다. 이 때 둘 이상의 운동종류의 범위는 AMA의 영구적 신체장해 평가지침의 각 척추 운동의 종류에 따른 범위를 말한다."
+        },
+        {
+            "id": "exp15",
+            "title": "15. \"손가락의 장해\"",
+            "content": "가. \"손가락을 잃은 것\"<br>첫째 손가락은 지절간관절(끝에서 첫째 마디), 기타의 손가락은 근위지절간관절(끝에서 둘째 마디) 이상을 잃은 것을 말한다.<br>나. \"손가락을 완전 영구히 사용하지 못하는 것\"<br>(1) 첫째 손가락의 경우 지절간관절(끝에서 첫째 마디) 하방의 ½이상을 잃거나 또는 지절간관절 또는 중수지절관절이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다.<br>(2) 기타 손가락의 경우 원위지절간관절(끝에서 첫째 마디) 이상을 잃거나 또는 중수지절관절(끝에서 마지막 마디) 또는 근위지절간관절(끝에서 둘째 마디)이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp16",
+            "title": "16. \"발가락의 장해\"",
+            "content": "가. \"발가락을 잃은 것\"<br>발가락 전부 ( 첫째발가락의 경우 말절골 이상 ) 를 잃은 것을 말한다.<br>나. \"발가락을 완전 영구히 사용하지 못하는 것\"<br>(1) 첫째 발가락의 경우 지절간관절(끝에서 첫째 마디) 하방의 ½이상을 잃거나 또는 지절간관절 또는 중족지절관절(끝에서 마지막 마디)이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다.<br>(2) 기타 발가락의 경우 원위지절간관절(끝에서 첫째 마디) 이상을 잃거나 또는 중족지절관절(끝에서 마지막 마디) 또는 근위지절간관절(끝에서 둘째 마디)이 생리적 운동영역의 ½이하로 제한되어 그 회복이 불가능한 경우를 말한다."
+        },
+        {
+            "id": "exp17",
+            "title": "17. 두부 및 안면부의 추상",
+            "content": "가. 현저한 추상<br>두부 또는 안면부에 최대 길이 10㎝ 이상 또는 직경 5㎝ 이상의 추상반흔 또는 조직함몰이 된 경우로서 성형수술을 하여도 더 이상 반흔이나 함몰이 없어지지 않는다는 의사의 진단이 있는 경우<br>나. 추상<br>두부 또는 안면부에 최대 길이 5㎝ 이상 10㎝ 미만 또는 직경 2㎝ 이상 5㎝ 미만의 추상반흔 또는 조직함몰이 된 경우로서 성형수술을 하여도 더 이상 반흔이나 함몰이 없어지지 않는다는 의사의 진단이 있는 경우"
+        },
+        {
+            "id": "exp18",
+            "title": "18. 성기능의 영구적 장해",
+            "content": "음경의 결손, 반흔 또는 경결 등으로 음위(陰　: 발기부전)가 있거나 반흔으로 인한 질구협착 등으로 성교 불능인 경우를 말한다."
+        },
+        {
+            "id": "exp19",
+            "title": "19. 추간판탈출증(신설)",
+            "content": "추간판탈출증, 팽윤, 파열 등은 의학적 임상증상과 특수검사(CT, MRI, 근전도 등) 소견이 일치하는 경우 그 증상을 인정하며, 수술여부에 관계없이 운동장해는 인정하지 아니하고, 후유증상의 정도에 따라 다음과 같이 구분한다.<br>가. \"고도의 추간판탈출증\"<br>2개 이상의 추체간에 추간판탈출증에 대한 수술을 하거나 하나의 추간판이라도 재수술을 하여 후유증상이 뚜렷한 경우<br>나. \"중도의 추간판탈출증\"<br>- 근위축 또는 근력약화와 같은 임상소견이 뚜렷하고, 특수보조검사에서 이상이 있으며, 척추신경근의 불완전마비가 인정되는 경우<br>- 신경마비로 인하여 사지에 경도의 단마비가 있을 경우. 이 경우 복합된 척추신경근의 완전마비가 있는 경우에는 신경계통의 기능장해정도에 따라 등급을 결정한다.<br>다. \"경도의 추간판탈출증\"<br>- 감각이상·요통·방사통 등의 자각증세가 있고 하지직거상 검사에 의한 양성소견이 있는 경우"
+        },
+        {
+            "id": "exp20",
+            "title": "20. 신체의 동일 부위",
+            "content": "가. 한팔에 대하여는 어깨관절 이하(손가락, 손목 이하, 팔꿈치 이하, 어깨 이하)를 모두 동일 부위라 한다.<br>나. 한 다리에 대하여는 골반관절 이하 (발가락, 발목 이하, 무릎 이하, 골반 이하)를 모두 동일 부위라 한다.<br>다. 눈 또는 귀의 장해에 대하여는 두눈 또는 두귀를 각각 동일 부위라 한다.<br>라. 척추에 대하여는 목뼈 이하를 모두 동일 부위라 한다.<br>마. 장해등급 분류표중 제1급의 5,6,7,8,9, 제2급의 3,4,5, 제3급의 8 또는 제4급의 12의 장해에 해당하는 경우는 두팔, 두다리, 한팔과 한다리, 10손가락 또는 발가락을 각각 동일 부위라 한다."
+        },
+        {
+            "id": "exp21",
+            "title": "21. \"영구히\"",
+            "content": "\"영구히\"란 다음의 경우를 말한다.<br>가. 장래에 더 이상의 호전을 기대할 수 없는 상태인 경우<br>나. 장래에 일정기간 경과후 호전가능성의 유무를 확정할 수 없을 경우<br>다. 장해의 호전가능성이 있다 하여도 장해확정시점까지는 상당한 기간이 소요되는 경우 .<br>function CheckDeleteMemo(url,num)<br>{<br>if(confirm(\"삭제하시겠습니까?\"))<br>{<br>document.location.href=url+num;<br>}<br>}<br>function ShowGSPreviewLayer(url)<br>{<br>var DIVID\t= 'GLOBAL_SEARCH_PREVIEW_LAYER';<br>document.getElementById(DIVID).style.display\t='block';<br>document.getElementById(DIVID).style.left\t\t= document.body.scrollLeft\t  + 178;<br>document.getElementById(DIVID).style.top\t\t= document.body.scrollTop     + event.clientY +10;<br>GetGSData(url,DIVID);<br>}<br>function HideGSPreviewLayer()<br>{<br>var DIVID\t= 'GLOBAL_SEARCH_PREVIEW_LAYER';<br>document.getElementById(DIVID).style.display\t='none';<br>}<br>function GetGSData(dataSource, DIVID)<br>{<br>var XMLHttpRequestObject = false;<br>if (window.XMLHttpRequest)<br>{<br>XMLHttpRequestObject = new XMLHttpRequest();<br>}<br>else if (window.ActiveXObject)<br>{<br>XMLHttpRequestObject = new ActiveXObject(\"Microsoft.XMLHTTP\");<br>}<br>if(XMLHttpRequestObject)<br>{<br>var obj = document.getElementById(DIVID);<br>XMLHttpRequestObject.open(\"POST\", dataSource+'&sago25_preview=preview');<br>XMLHttpRequestObject.onreadystatechange = function()<br>{<br>if (XMLHttpRequestObject.readyState == 4 &&XMLHttpRequestObject.status == 200)<br>{<br>obj.innerHTML = XMLHttpRequestObject.responseText;<br>}<br>}<br>XMLHttpRequestObject.send(null);<br>}<br>}<br>번호<br>날짜<br>조회<br>2649<br><A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2649' title='<br>상해보험 후유장해 (1998.7.1. ~ 2005.3.31)<br>손해보험 장해분류표 (1998.7.1. ~ 2005.3.31) \t   2011-05-06   14040<br>2644<br><A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2644' title='손해보험후유장해 (1998. 7. 1. 이전 )<br>후 유 장 해 의 종 류<br>손해보험 장해분류표 (1998. 7. 1. 이전 ) \t   2011-05-06   3377<br>2634<br><A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2634' title='<br>생명보험 장해분류표  1999.02.01~2005.03.31 생명보험 장해분류표 (1999.02.01~2005.03.31) \t   2011-05-05   9910<br>2633<br><A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2633' title='<br>1995.02.01 ~ 1999.01.31<br>생명보험 장해분류표 (1995.02.01~1999.01.31) \t   2011-05-05   5887<br>2632<br><A href='https://sago25.com/new_page/info/?category_key=data&category_num=204&category_sub_num=33&act=contents_view&start=&num=2632' title='<br>1983.10.01 ~ 1995.01.31<br>생명보험 장해분류표 (1983.10.01~1995.01.31) \t   2011-05-05   6434<br>[이전 10 개]  1&nbsp<br>[이후  10 개]<br>제 목/내 용<br>검색어<br>사무소소개 |<br>개인정보취급방침 |<br>오시는 길 |<br>운영자에게<br>가야손해사정(교통사고.재해.상해.암.질병보험 손해사정)<br>경남 창원시 마산회원구 구암2동 21-18 경성빌딩 201호(마산복음병원 옆)<br>TEL: 055)293-0041, 293-6222<br>보험금 지급 막으려 의료자문 손댔나…전면 조사 필요<br>function ViewGS()<br>{<br>var c_f\t= document.gs_form;<br>var db\t= c_f.kind.value;<br>switch(db)<br>{<br>case 'global'\t\t\t\t\t: \tGetWord('https://sago25.com/new_page/global_search/bbs_keyword_preview.php?sago25_preview=preview&div=gs&search_keyword=','GSDIV');break;<br>case 'sago25_mri_eng'\t\t\t:\tGetWord('https://sago25.com/new_page/global_search/medic_dic.php?search_keyword=','GSDIV');break;<br>case 'dt_disease_classfication'\t:\tGetWord('https://sago25.com/new_page/global_search/medic_dic.php?search_keyword=','GSDIV');break;<br>}<br>}<br>function GetWord(dataSource, DIVID)<br>{<br>var XMLHttpRequestObject = false;<br>if (window.XMLHttpRequest)<br>{<br>XMLHttpRequestObject = new XMLHttpRequest();<br>}<br>else if (window.ActiveXObject)<br>{<br>XMLHttpRequestObject = new ActiveXObject(\"Microsoft.XMLHTTP\");<br>}<br>if(document.gs_form.title.value\t=='')<br>{<br>HideLayer('GSDIV2');<br>}<br>else<br>{<br>ViewLayer('GSDIV2');<br>}<br>if(XMLHttpRequestObject)<br>{<br>var obj = document.getElementById(DIVID);<br>var\tstr\t= document.gs_form.title.value;<br>var str2\t= document.gs_form.kind.value;<br>XMLHttpRequestObject.open(\"POST\", dataSource+str+'&kind='+str2);<br>XMLHttpRequestObject.onreadystatechange = function()<br>{<br>if (XMLHttpRequestObject.readyState == 4 &&XMLHttpRequestObject.status == 200)<br>{<br>obj.innerHTML = XMLHttpRequestObject.responseText;<br>}<br>}<br>XMLHttpRequestObject.send(null);<br>}<br>}<br>function ClearTitle()<br>{<br>document.gs_form.title.value\t='';<br>}<br>function HideLayer(DIVID)<br>{<br>ClearTitle();<br>document.getElementById(DIVID).style.display\t='none';<br>}<br>function ViewLayer(DIVID)<br>{<br>document.getElementById(DIVID).style.display\t='block';<br>}<br>전체검색 Global Search<br>function ChangeKind(move)<br>{<br>var c_f\t= document.gs_form;<br>var db\t= c_f.kind.value;<br>if(move=='left')<br>{<br>switch(db)<br>{<br>case 'global'\t\t\t\t\t: \tc_f.kind.value\t= 'sago25_mri_eng';\t\t\t\tbreak;<br>case 'dt_disease_classfication' :\tc_f.kind.value\t= 'global';\t\t\t\t\t\tbreak;<br>case 'sago25_mri_eng'\t\t\t:\tc_f.kind.value\t= 'dt_disease_classfication';\tbreak;<br>}<br>}<br>else if(move=='right')<br>{<br>switch(db)<br>{<br>case 'global'\t\t\t\t\t: \tc_f.kind.value\t= 'dt_disease_classfication';\tbreak;<br>case 'dt_disease_classfication' :\tc_f.kind.value\t= 'sago25_mri_eng';\t\t\t\tbreak;<br>case 'sago25_mri_eng'\t\t\t:\tc_f.kind.value\t= 'global';\t\t\t\t\t\tbreak;<br>}<br>}<br>switch(c_f.kind.value)<br>{<br>case 'global'\t\t\t\t\t\t:\tdocument.getElementById(\"GS_TITLE\").innerHTML\t= '전체검색 Global Search';break;<br>case 'dt_disease_classfication'\t\t:\tdocument.getElementById(\"GS_TITLE\").innerHTML\t= '상해질병분류';break;<br>case 'sago25_mri_eng'\t\t\t\t:\tdocument.getElementById(\"GS_TITLE\").innerHTML\t= '의학용어';break;<br>}<br>ViewGS();<br>}<br>//<![CDATA[<br>// scroll controler<br>function CheckUIElements()<br>{<br>var yMenuFrom, yMenuTo, yOffset, docBody;<br>docBody = document.body;<br>with(this.style)<br>{<br>return function()<br>{<br>yMenuFrom = parseInt(top, 10);<br>yMenuTo = docBody.scrollTop + 50; //gotop Layer 의 top 위치<br>if (yMenuFrom != yMenuTo)<br>{<br>yOffset = Math.ceil( Math.abs( yMenuTo - yMenuFrom ) / 20 );<br>top = parseInt(top, 10) + (yMenuTo"
+        }
+    ]
+}

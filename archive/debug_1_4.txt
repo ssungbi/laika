@@ -1,0 +1,23 @@
+--- CAR A & B ---
+Class: ['car'] Text: ������李� A
+Class: ['car'] Text: ������李� B
+Class: ['ico_car', 'color1'] Text: A
+Class: ['ico_car', 'color2'] Text: B
+
+--- ALL IDS ---
+ID: cont_state Text: ��� �����멸린��� ������ 援���듭��由ш�� ��대（��댁��怨� ������ 援�李⑤�������� ���濡� ��ㅻⅨ 諛⑺�μ�� ��댁�⑺����� �����
+ID: case1 Text: ������李� A������ 吏�吏�������李� B������ 吏�吏�
+ID: case1 Text: 湲곕낯怨쇱��
+ID: caracdsittn Text: ��ш��������������李�A : ������ 吏�吏�������李�B : ������ 吏�吏�
+ID: case1 Text: A50B50
+ID: applcscore Text: A ��������� 怨쇱��100A 以������� 怨쇱��200B ��������� 怨쇱��010B 以������� 怨쇱��020
+ID: case1 Text: A ��������� 怨쇱��100A 以������� 怨쇱��200B ��������� 怨쇱��010B 以������� 怨쇱��020
+ID: case1 Text: 
+ID: case1 Text: 
+ID: case1 Text: 
+ID: case1 Text: 
+ID: macont03 Text: ������濡�援���듬�� ���5議�(������ ������ 吏������� ��곕�� ���臾�)��� ���濡�瑜� ��듯�������� 蹂댄�����, 李⑤�� ����
+
+--- MACONT03 DIVS ---
+DIV id=relatelrg class=['macont_cont_frm']
+������濡�援���듬�� ���5議�(������ ������ 吏������� ��곕�� ���臾�)��� ���濡�瑜� ��듯�������� 蹂댄�����, 李⑤�� ����

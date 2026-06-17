@@ -1,0 +1,16 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE configuration
+.idea/
+.vscode/
+
+# Archive folder (Uncomment the line below if you DO NOT want to upload the archive folder to GitHub)
+# archive/
