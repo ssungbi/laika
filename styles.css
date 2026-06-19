@@ -1583,6 +1583,49 @@ body {
     color: #cbd5e1;
     font-size: 12px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+/* 반응형 자동차보험 계산기 단계 인디케이터 */
+@media (max-width: 600px) {
+    .auto-step-indicator {
+        padding: 10px 12px;
+        gap: 6px;
+        margin-bottom: 24px;
+        border-radius: 12px;
+        width: 95%;
+    }
+    .auto-step-item {
+        gap: 6px;
+        font-size: 12px;
+    }
+    .auto-step-item .step-num {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    .auto-step-divider {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 450px) {
+    .auto-step-indicator {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+    .auto-step-item {
+        gap: 4px;
+        font-size: 11px;
+    }
+    .auto-step-item .step-text {
+        display: none;
+    }
+    .auto-step-item.active .step-text {
+        display: inline;
+        white-space: nowrap;
+    }
 }
 
 /* 1단계 대분류 선택 카드 */
