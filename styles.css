@@ -1421,13 +1421,13 @@ body {
         aspect-ratio: 16/7 !important;
     }
     .accident-category-card-text {
-        font-size: 1.5rem;
+        font-size: 1.5rem !important;
     }
 }
 
 @media (max-width: 480px) {
     .accident-category-card-text {
-        font-size: 1.25rem;
+        font-size: 1.25rem !important;
     }
 }
 
@@ -1517,6 +1517,695 @@ body {
         gap: 6px;
     }
 }
+
+/* ==========================================================================
+   자동차보험 계산기 스타일
+   ========================================================================== */
+
+/* 단계 인디케이터 */
+.auto-step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 0 auto 32px;
+    background-color: #f8fafc;
+    padding: 14px 24px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    max-width: 500px;
+    width: 90%;
+}
+
+.auto-step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #94a3b8;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auto-step-item .step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.auto-step-item.active {
+    color: #3b82f6;
+}
+
+.auto-step-item.active .step-num {
+    background-color: #3b82f6;
+    color: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.auto-step-item.completed {
+    color: #0f172a;
+}
+
+.auto-step-item.completed .step-num {
+    background-color: #0f172a;
+    color: white;
+}
+
+.auto-step-divider {
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* 1단계 대분류 선택 카드 */
+.auto-section-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 32px;
+}
+
+.auto-category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    width: 95%;
+    margin: 0 auto 40px;
+}
+
+.auto-category-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 36px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.auto-category-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px -8px rgba(59, 130, 246, 0.15);
+}
+
+.auto-category-card .icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    transition: all 0.2s ease;
+}
+
+.auto-category-card.card-injury .icon-box {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.auto-category-card.card-disability .icon-box {
+    background: #fdf2f8;
+    color: #db2777;
+}
+
+.auto-category-card.card-death .icon-box {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.auto-category-card .card-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.auto-category-card .card-desc {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+
+/* 2단계 폼 콘테이너 */
+.auto-form-container {
+    max-width: 600px;
+    width: 95%;
+    margin: 0 auto 40px;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    padding: 32px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+}
+
+.auto-form-group {
+    margin-bottom: 24px;
+}
+
+.auto-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.auto-input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.2s ease;
+    color: #0f172a;
+    font-family: inherit;
+}
+
+.auto-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.auto-input:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+}
+
+.man-age-label {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    border: 1px solid #bbf7d0;
+}
+
+.auto-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 600;
+    user-select: none;
+    margin-top: 8px;
+}
+
+.auto-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    border: 2px solid #cbd5e1;
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+/* 버튼 그룹 */
+.btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+}
+
+.btn-prev {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background-color: white;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-prev:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.btn-next {
+    flex: 2;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+}
+
+.btn-next:hover {
+    background-color: #2563eb;
+    box-shadow: 0 4px 12px -1px rgba(59, 130, 246, 0.3);
+}
+
+/* 요약 정보 테이블 */
+.auto-summary-table td {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* 반응형 최적화 */
+@media (max-width: 768px) {
+    .auto-category-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .auto-category-card {
+        padding: 24px;
+        flex-direction: row;
+        text-align: left;
+        gap: 20px;
+    }
+    
+    .auto-category-card .icon-box {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+        flex-shrink: 0;
+    }
+    
+    .auto-form-container {
+        padding: 20px;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-prev, .btn-next {
+        width: 100%;
+    }
+}
+
+/* 결과 화면 (Step 4) */
+.auto-result-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.05);
+    margin-bottom: 24px;
+}
+
+.auto-result-card-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e40af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.auto-result-price {
+    font-size: 36px;
+    font-weight: 900;
+    color: #1d4ed8;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.auto-result-card-subtitle {
+    display: block;
+    font-size: 12px;
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+/* 둥근 셀렉트 박스 */
+.auto-select {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    outline: none;
+    background-color: white;
+    transition: all 0.2s ease;
+    color: #0f172a;
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 16px;
+}
+
+.auto-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.auto-form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.auto-form-row .auto-form-group {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .auto-form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* 산출 항목 첫번째 열 줄바꿈 금지 */
+.auto-summary-table th:first-child,
+.auto-summary-table td:first-child {
+    white-space: nowrap !important;
+}
+
+/* 부상등급 검색 모달 팝업 스타일 */
+.injury-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.injury-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.injury-modal-container {
+    background: #ffffff;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.injury-modal-overlay.active .injury-modal-container {
+    transform: scale(1);
+}
+
+.injury-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8fafc;
+}
+
+.injury-modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.injury-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.injury-modal-close:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.injury-modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.injury-search-box {
+    position: relative;
+    width: 100%;
+}
+
+.injury-search-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.injury-search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.injury-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 20px;
+}
+
+.injury-search-results {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 200px;
+    max-height: 400px;
+}
+
+.injury-result-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.injury-result-item:hover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.05);
+}
+
+.injury-result-grade-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #3b82f6;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 6px;
+    margin-right: 8px;
+}
+
+.injury-result-amount-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.injury-result-desc {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.injury-result-empty {
+    text-align: center;
+    color: #64748b;
+    padding: 40px 20px;
+    font-size: 14px;
+}
+
+/* 부상등급 검색 버튼 스타일 */
+.btn-search {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    border: 1.5px solid #bfdbfe;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    height: 50px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-search:hover {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+/* 검색 팝업 내의 소형 필터 버튼 */
+.ins-btn-small {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ins-btn-small:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+/* 맥브라이드 적용 버튼별 커스텀 스타일 & 호버 모션 */
+.mcbride-btn-base, .mcbride-btn-outdoor, .mcbride-btn-indoor {
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 6px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border-width: 1px;
+    border-style: solid;
+    display: inline-block;
+    outline: none;
+}
+
+/* 기본율 버튼 */
+.mcbride-btn-base {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+.mcbride-btn-base:hover {
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
+    color: #0f172a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+/* 옥외근로자 버튼 */
+.mcbride-btn-outdoor {
+    background-color: #f0f9ff;
+    border-color: #bae6fd;
+    color: #0369a1;
+}
+.mcbride-btn-outdoor:hover {
+    background-color: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px -1px rgba(2, 132, 199, 0.3);
+}
+.mcbride-btn-outdoor:hover strong {
+    color: #ffffff !important;
+}
+
+/* 옥내근로자 버튼 */
+.mcbride-btn-indoor {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #15803d;
+}
+.mcbride-btn-indoor:hover {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px -1px rgba(22, 163, 74, 0.3);
+}
+.mcbride-btn-indoor:hover strong {
+    color: #ffffff !important;
+}
+
+/* 맥브라이드 결과 카드 아이템 (호버 시 점핑 없음) */
+.mcbride-result-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: left;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+.mcbride-result-item:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+
+
 
 
 

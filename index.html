@@ -31,7 +31,7 @@
                 <!-- 1. 보험금 계산기 -->
                 <div class="nav-section sec-calc">
                     <h3 class="nav-title">보험금 계산기</h3>
-                    <a href="#" class="nav-item">
+                    <a href="#" class="nav-item" onclick="navigateTo('view-auto'); return false;">
                         <span class="nav-icon-box">자보</span>
                         <span class="text">자동차보험</span>
                     </a>
@@ -185,7 +185,7 @@
                         <div class="section">
                             <h2 class="section-title sec-title-calc">🧮 보험금 계산기</h2>
                             <div class="category-grid">
-                                <a href="#" class="category-card card-auto">
+                                <a href="#" class="category-card card-auto" onclick="navigateTo('view-auto'); return false;">
                                     <div class="card-icon-wrap auto">
                                         <span class="material-icons-round">directions_car</span>
                                     </div>
@@ -745,18 +745,224 @@
                 </div>
             </div>
 
+            <!-- 9. 자동차보험 계산기 View -->
+            <div id="view-auto" class="page-view hidden">
+                <div class="content-wrapper">
+                    <!-- Title & Back -->
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="handleAutoBack()">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">자동차보험 계산기</h2>
+                    </div>
+
+                    <!-- Step Progress Bar -->
+                    <div class="auto-step-indicator">
+                        <div class="auto-step-item active" id="auto-step-indicator-1">
+                            <span class="step-num">1</span>
+                            <span class="step-text">분류 선택</span>
+                        </div>
+                        <div class="auto-step-divider">➔</div>
+                        <div class="auto-step-item" id="auto-step-indicator-2">
+                            <span class="step-num">2</span>
+                            <span class="step-text">기본 정보</span>
+                        </div>
+                        <div class="auto-step-divider">➔</div>
+                        <div class="auto-step-item" id="auto-step-indicator-3">
+                            <span class="step-num">3</span>
+                            <span class="step-text">추가 입력</span>
+                        </div>
+                        <div class="auto-step-divider">➔</div>
+                        <div class="auto-step-item" id="auto-step-indicator-4">
+                            <span class="step-num">4</span>
+                            <span class="step-text">결과 확인</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Category Selection -->
+                    <div id="auto-step1" class="auto-step-section">
+                        <div class="auto-category-grid">
+                            <div class="auto-category-card card-injury" onclick="selectAutoCategory('부상')">
+                                <div class="icon-box">
+                                    <span class="material-icons-round">local_hospital</span>
+                                </div>
+                                <span class="card-title">부상</span>
+                                <span class="card-desc">상해 치료비 및 합의금 계산</span>
+                            </div>
+                            <div class="auto-category-card card-disability" onclick="selectAutoCategory('후유장해')">
+                                <div class="icon-box">
+                                    <span class="material-icons-round">accessibility_new</span>
+                                </div>
+                                <span class="card-title">후유장해</span>
+                                <span class="card-desc">맥브라이드 장해율 기준 보상금 계산</span>
+                            </div>
+                            <div class="auto-category-card card-death" onclick="selectAutoCategory('사망')">
+                                <div class="icon-box">
+                                    <span class="material-icons-round">person_off</span>
+                                </div>
+                                <span class="card-title">사망</span>
+                                <span class="card-desc">위자료 및 장례비, 상실수익액 계산</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Basic Info Form -->
+                    <div id="auto-step2" class="auto-step-section hidden">
+                        <div class="auto-form-container">
+                            <h3 class="auto-section-title" id="auto-form-title">사고 기본 정보를 입력해주세요.</h3>
+                            
+                            <div class="auto-form-group">
+                                <label class="auto-label" for="auto-birthdate">대상자 생년월일</label>
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <input type="date" id="auto-birthdate" class="auto-input" style="flex: 1;" max="9999-12-31" onchange="updateManAge()">
+                                    <span id="auto-man-age" class="man-age-label">만 -세</span>
+                                </div>
+                            </div>
+
+                            <div class="auto-form-group">
+                                <label class="auto-label" for="auto-accidentdate">사고발생일</label>
+                                <input type="date" id="auto-accidentdate" class="auto-input" max="9999-12-31" onchange="updateManAge()">
+                            </div>
+
+                            <div class="auto-form-group">
+                                <label class="auto-label" for="auto-faultratio">과실비율 (%)</label>
+                                <input type="number" id="auto-faultratio" class="auto-input" min="0" max="100" placeholder="0 ~ 100 사이의 숫자를 입력하세요">
+                            </div>
+
+                            <div class="auto-form-group">
+                                <label class="auto-label" for="auto-monthlyincome">월 소득 (원)</label>
+                                <input type="text" id="auto-monthlyincome" class="auto-input" placeholder="숫자만 입력해 주세요" style="margin-bottom: 8px;">
+                                <label class="auto-checkbox-label">
+                                    <input type="checkbox" id="auto-is-noincome" onchange="toggleNoIncome(this)">
+                                    <span>소득없음 (무직, 학생, 전업주부 등)</span>
+                                </label>
+                            </div>
+
+                            <div class="btn-group">
+                                <button class="btn-prev" onclick="goToStep(1)">이전단계로</button>
+                                <button class="btn-next" onclick="validateAndGoToStep3()">다음단계로</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Additional Info Form -->
+                    <div id="auto-step3" class="auto-step-section hidden">
+                        <div class="auto-form-container">
+                            <h3 class="auto-section-title" id="auto-step3-title">피해 세부 정보를 입력해주세요.</h3>
+                            
+                            <!-- Dynamic Content Rendered by JS based on Category -->
+                            <div id="auto-step3-dynamic-form">
+                                <!-- JS inserts injury form / disability form / death form here -->
+                            </div>
+
+                            <div class="btn-group">
+                                <button class="btn-prev" onclick="goToStep(2)">이전단계로</button>
+                                <button class="btn-next" onclick="validateAndCalculate()">보험금 계산하기</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Final Results & Detailed Report -->
+                    <div id="auto-step4" class="auto-step-section hidden">
+                        <div class="auto-form-container" style="max-width: 700px;">
+                            <h3 class="auto-section-title">예상 보험금 계산 결과</h3>
+                            
+                            <!-- Result Summary Card -->
+                            <div class="auto-result-card">
+                                <span class="auto-result-card-title">지급 예상 보험금 총액</span>
+                                <h2 class="auto-result-price" id="auto-total-payment">0원</h2>
+                                <span class="auto-result-card-subtitle">(과실상계 및 공제 완료액)</span>
+                            </div>
+
+                            <!-- Detailed Calculation Breakdown Table -->
+                            <div style="margin-top: 32px;">
+                                <h4 style="font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                    <span class="material-icons-round" style="color: #3b82f6; font-size: 20px;">receipt</span>
+                                    보험금 산출 상세 내역
+                                </h4>
+                                
+                                <div style="overflow-x: auto;">
+                                    <table class="auto-summary-table" style="width: 100%; border-collapse: collapse; font-size: 14px; border-top: 2px solid #0f172a; border-bottom: 1px solid #cbd5e1;">
+                                        <thead>
+                                            <tr style="border-bottom: 1px solid #cbd5e1; background-color: #f8fafc; font-weight: 700; color: #475569;">
+                                                <th style="padding: 12px 14px; text-align: left;">산출 항목</th>
+                                                <th style="padding: 12px 14px; text-align: right;">산출 기준 / 상세</th>
+                                                <th style="padding: 12px 14px; text-align: right; width: 130px;">계산 금액</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="auto-breakdown-rows">
+                                            <!-- JS inserts breakdown rows here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Dependents / Fault Deduction Details -->
+                            <div id="auto-result-deduction-info" style="margin-top: 20px; padding: 16px; background-color: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 13px; color: #475569; line-height: 1.6; text-align: left;">
+                                <!-- JS inserts details like fault deduction (-20%), dependents, hospitalization details here -->
+                            </div>
+
+                            <div class="btn-group" style="margin-top: 32px;">
+                                <button class="btn-prev" onclick="goToStep(3)">이전단계로</button>
+                                <button class="btn-next" onclick="initAutoCalc()">처음으로</button>
+                            </div>
+                        </div>
+                    </div>
+
         </main>
     </div>
 
     <!-- Scroll to Top Button -->
-        <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn" class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="맨 위로">
         <span class="material-icons-round">arrow_upward</span>
     </button>
 
+    <!-- 부상등급 검색 모달 팝업 -->
+    <div id="injury-search-modal" class="injury-modal-overlay">
+        <div class="injury-modal-container">
+            <div class="injury-modal-header">
+                <span class="injury-modal-title">부상등급 검색 및 적용</span>
+                <button type="button" class="injury-modal-close" onclick="window.closeInjurySearchPopup()">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <div class="injury-modal-body">
+                <div class="injury-search-box">
+                    <span class="material-icons-round injury-search-icon">search</span>
+                    <input type="text" id="injury-popup-search" class="injury-search-input" placeholder="검색어 입력 (예: 뇌진탕, 염좌, 대퇴골 등)" oninput="window.filterInjuryPopupResults()">
+                </div>
+                <div id="injury-popup-results" class="injury-search-results">
+                    <!-- 검색 결과가 여기에 동적으로 들어갑니다. -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 맥브라이드 장해등급 검색 모달 팝업 -->
+    <div id="mcbride-search-modal" class="injury-modal-overlay">
+        <div class="injury-modal-container" style="max-width: 760px; width: 90%;">
+            <div class="injury-modal-header">
+                <span class="injury-modal-title">맥브라이드 장해 검색 및 적용</span>
+                <button type="button" class="injury-modal-close" onclick="window.closeMcBrideSearchPopup()">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <div class="injury-modal-body">
+                <div class="injury-search-box">
+                    <span class="material-icons-round injury-search-icon">search</span>
+                    <input type="text" id="mcbride-popup-search" class="injury-search-input" placeholder="장해 항목 검색 (예: 척추, 골절, 절단, 관절 등)" oninput="window.filterMcBridePopupResults()">
+                </div>
+                <div id="mcbride-popup-results" class="injury-search-results">
+                    <!-- 검색 결과가 여기에 동적으로 들어갑니다. -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="accident_data.js"></script>
     <script src="injury_data.js"></script>
     <script src="surgery_data.js"></script>
+    <script src="wage_data.js"></script>
     <script src="script.js?v=16"></script>
 
     <!-- 메리츠 영업포탈 이동 -->

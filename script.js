@@ -143,6 +143,9 @@ function navigateTo(viewId) {
     if (viewId === 'view-injury-class' && typeof renderInjuryData === 'function') {
         renderInjuryData();
     }
+    if (viewId === 'view-auto') {
+        if (typeof initAutoCalc === 'function') initAutoCalc();
+    }
 }
 
 function toggleAccordion(index) {
@@ -17002,4 +17005,1222 @@ window.filterSurgerySearch = function() {
     }
     
     container.innerHTML = html;
+};
+
+// ==========================================================================
+// 자동차보험 계산기 3단계 & 4단계 정밀 구현 (표준 약관 및 대인배상 지급 기준 반영)
+// ==========================================================================
+
+window.autoCalcState = {
+    category: '',         // '부상', '후유장해', '사망'
+    birthDate: '',
+    accidentDate: '',
+    faultRatio: 0,
+    monthlyIncome: 0,
+    isNoIncome: false,
+    
+    // 부상 관련
+    injuryGrade: 0,       // 1 ~ 14급
+    hospDays: 0,          // 입원일수
+    outDays: 0,           // 통원일수
+    futureTxCost: 0,      // 향후치료비
+
+    // 후유장해 관련
+    disabilityName: '',   // 장해진단명
+    disabilityRatio: 0,   // 노동능력상실률 (장해율, %)
+    disabilityType: 'permanent', // 'permanent'(영구장해), 'temporary'(한시장해)
+    disabilityYears: 0,   // 한시장해 기간 (년수)
+
+    // 사망 관련
+    funeralCost: 5000000, // 장례비 (기본 500만원)
+    consolationDeath: 80000000 // 사망위자료
+};
+
+window.initAutoCalc = function() {
+    window.autoCalcState = {
+        category: '',
+        birthDate: '',
+        accidentDate: '',
+        faultRatio: 0,
+        monthlyIncome: 0,
+        isNoIncome: false,
+        injuryGrade: 0,
+        hospDays: 0,
+        outDays: 0,
+        futureTxCost: 0,
+        disabilityName: '',
+        disabilityRatio: 0,
+        disabilityType: 'permanent',
+        disabilityYears: 0,
+        funeralCost: 5000000,
+        consolationDeath: 80000000
+    };
+
+    // 폼 입력 요소 리셋
+    const birthInput = document.getElementById('auto-birthdate');
+    if (birthInput) birthInput.value = '';
+    
+    const accInput = document.getElementById('auto-accidentdate');
+    if (accInput) accInput.value = '';
+    
+    const ageLabel = document.getElementById('auto-man-age');
+    if (ageLabel) ageLabel.textContent = '만 -세';
+
+    const faultInput = document.getElementById('auto-faultratio');
+    if (faultInput) faultInput.value = '';
+
+    const incomeInput = document.getElementById('auto-monthlyincome');
+    if (incomeInput) {
+        incomeInput.value = '';
+        incomeInput.disabled = false;
+    }
+
+    const noIncomeCheck = document.getElementById('auto-is-noincome');
+    if (noIncomeCheck) noIncomeCheck.checked = false;
+
+    // 단계 및 화면 숨김/표시 초기화
+    window.goToStep(1);
+    
+    // 이벤트 바인딩
+    window.bindAutoCalcEvents();
+};
+
+window.bindAutoCalcEvents = function() {
+    const incomeInput = document.getElementById('auto-monthlyincome');
+    if (incomeInput && !incomeInput.dataset.bound) {
+        incomeInput.addEventListener('input', window.formatCommaInput);
+        incomeInput.dataset.bound = "true";
+    }
+
+    const birthInput = document.getElementById('auto-birthdate');
+    if (birthInput && !birthInput.dataset.bound) {
+        birthInput.addEventListener('input', window.limitDateYearInput);
+        let birthdateTimeout = null;
+        birthInput.addEventListener('input', function(e) {
+            const val = e.target.value;
+            if (birthdateTimeout) clearTimeout(birthdateTimeout);
+            if (val && val.length === 10) {
+                birthdateTimeout = setTimeout(() => {
+                    const accInput = document.getElementById('auto-accidentdate');
+                    if (accInput) {
+                        accInput.focus();
+                    }
+                }, 600); // 600ms 대기 후 포커스 이동 (DD 입력 도중 Premature Jump 방지)
+            }
+        });
+        birthInput.dataset.bound = "true";
+    }
+
+    const accInput = document.getElementById('auto-accidentdate');
+    if (accInput && !accInput.dataset.bound) {
+        accInput.addEventListener('input', window.limitDateYearInput);
+        let accidentdateTimeout = null;
+        accInput.addEventListener('input', function(e) {
+            const val = e.target.value;
+            if (accidentdateTimeout) clearTimeout(accidentdateTimeout);
+            if (val && val.length === 10) {
+                accidentdateTimeout = setTimeout(() => {
+                    const faultInput = document.getElementById('auto-faultratio');
+                    if (faultInput) {
+                        faultInput.focus();
+                    }
+                }, 600); // 600ms 대기 후 과실비율 입력창으로 포커스 이동
+            }
+        });
+        accInput.dataset.bound = "true";
+    }
+};
+
+window.limitDateYearInput = function(e) {
+    const input = e.target;
+    const val = input.value;
+    if (val) {
+        const parts = val.split('-');
+        if (parts[0] && parts[0].length > 4) {
+            parts[0] = parts[0].slice(0, 4);
+            input.value = parts.join('-');
+            window.updateManAge();
+        }
+    }
+};
+
+window.updateManAge = function() {
+    const age = window.getAutoManAge();
+    const ageLabel = document.getElementById('auto-man-age');
+    if (ageLabel) {
+        if (window.autoCalcState.birthDate && window.autoCalcState.accidentDate) {
+            ageLabel.textContent = `만 ${age}세`;
+        } else {
+            ageLabel.textContent = '만 -세';
+        }
+    }
+    
+    // 생년월일이나 사고일이 변경되면 상태값 업데이트
+    const birthVal = document.getElementById('auto-birthdate')?.value;
+    const accVal = document.getElementById('auto-accidentdate')?.value;
+    if (birthVal) window.autoCalcState.birthDate = birthVal;
+    if (accVal) window.autoCalcState.accidentDate = accVal;
+};
+
+window.toggleNoIncome = function(checkbox) {
+    const incomeInput = document.getElementById('auto-monthlyincome');
+    if (!incomeInput) return;
+    if (checkbox.checked) {
+        incomeInput.value = '0';
+        incomeInput.disabled = true;
+        window.autoCalcState.monthlyIncome = 0;
+        window.autoCalcState.isNoIncome = true;
+    } else {
+        incomeInput.value = '';
+        incomeInput.disabled = false;
+        window.autoCalcState.monthlyIncome = 0;
+        window.autoCalcState.isNoIncome = false;
+    }
+};
+
+window.selectAutoCategory = function(category) {
+    window.autoCalcState.category = category;
+    
+    // 타이틀 수정
+    const formTitle = document.getElementById('auto-form-title');
+    if (formTitle) {
+        formTitle.innerHTML = `사고 기본 정보를 입력해주세요.`;
+    }
+    
+    window.goToStep(2);
+};
+
+window.validateAndGoToStep3 = function() {
+    const birthVal = document.getElementById('auto-birthdate').value;
+    const accVal = document.getElementById('auto-accidentdate').value;
+    const faultVal = document.getElementById('auto-faultratio').value.trim();
+    const incomeVal = document.getElementById('auto-monthlyincome').value.trim();
+    const isNoIncome = document.getElementById('auto-is-noincome').checked;
+
+    if (!birthVal) {
+        alert('대상자의 생년월일을 입력해 주세요.');
+        document.getElementById('auto-birthdate').focus();
+        return;
+    }
+    if (!accVal) {
+        alert('사고발생일을 입력해 주세요.');
+        document.getElementById('auto-accidentdate').focus();
+        return;
+    }
+
+    // 날짜 모순 검증
+    const birthDate = new Date(birthVal);
+    const accidentDate = new Date(accVal);
+    if (birthDate > accidentDate) {
+        alert('생년월일이 사고발생일보다 늦을 수 없습니다.');
+        document.getElementById('auto-birthdate').focus();
+        return;
+    }
+
+    if (!faultVal) {
+        alert('과실비율을 입력해 주세요 (본인 과실이 없는 경우 0 입력).');
+        document.getElementById('auto-faultratio').focus();
+        return;
+    }
+    const faultRatio = parseInt(faultVal, 10);
+    if (isNaN(faultRatio) || faultRatio < 0 || faultRatio > 100) {
+        alert('과실비율은 0%에서 100% 사이의 숫자여야 합니다.');
+        document.getElementById('auto-faultratio').focus();
+        return;
+    }
+
+    let monthlyIncome = 0;
+    if (!isNoIncome) {
+        if (!incomeVal) {
+            alert('월 소득을 입력해 주세요 (소득이 없는 경우 하단 소득없음 체크박스를 선택하세요).');
+            document.getElementById('auto-monthlyincome').focus();
+            return;
+        }
+        monthlyIncome = parseInt(incomeVal.replace(/[^0-9]/g, ''), 10);
+        if (isNaN(monthlyIncome) || monthlyIncome < 0) {
+            alert('월 소득은 0 이상의 숫자여야 합니다.');
+            document.getElementById('auto-monthlyincome').focus();
+            return;
+        }
+    }
+
+    // 상태 저장
+    window.autoCalcState.birthDate = birthVal;
+    window.autoCalcState.accidentDate = accVal;
+    window.autoCalcState.faultRatio = faultRatio;
+    window.autoCalcState.monthlyIncome = monthlyIncome;
+    window.autoCalcState.isNoIncome = isNoIncome;
+
+    // 3단계 추가 입력 양식 동적 렌더링 후 3단계 전환
+    window.renderStep3Form();
+    window.goToStep(3);
+};
+
+window.renderStep3Form = function() {
+    const container = document.getElementById('auto-step3-dynamic-form');
+    if (!container) return;
+
+    const category = window.autoCalcState.category;
+    let html = '';
+
+    if (category === '부상') {
+        html = `
+            <div class="auto-form-group">
+                <label class="auto-label" for="auto-injury-grade">부상급수 선택 (진단 급수)</label>
+                <div style="display: flex; gap: 8px;">
+                    <select id="auto-injury-grade" class="auto-select" style="flex: 1;">
+                        <option value="" disabled selected>부상급수를 선택해 주세요</option>
+                        <option value="1">1급 (뇌손상, 양안 실명 등)</option>
+                        <option value="2">2급</option>
+                        <option value="3">3급</option>
+                        <option value="4">4급</option>
+                        <option value="5">5급</option>
+                        <option value="6">6급</option>
+                        <option value="7">7급</option>
+                        <option value="8">8급</option>
+                        <option value="9">9급</option>
+                        <option value="10">10급</option>
+                        <option value="11">11급</option>
+                        <option value="12">12급</option>
+                        <option value="13">13급</option>
+                        <option value="14">14급 (단순 2주 타박상/염좌 등)</option>
+                    </select>
+                    <button type="button" class="btn-search" onclick="window.openInjurySearchPopup('auto-injury-grade')">부상등급 검색</button>
+                </div>
+            </div>
+            
+            <div class="auto-form-row">
+                <div class="auto-form-group">
+                    <label class="auto-label" for="auto-hosp-days">입원 일수 (일)</label>
+                    <input type="number" id="auto-hosp-days" class="auto-input" min="0" placeholder="0">
+                </div>
+                <div class="auto-form-group">
+                    <label class="auto-label" for="auto-out-days">통원 일수 (일)</label>
+                    <input type="number" id="auto-out-days" class="auto-input" min="0" placeholder="0">
+                </div>
+            </div>
+
+            <div class="auto-form-group">
+                <label class="auto-label" for="auto-future-tx">향후 치료비 (원)</label>
+                <input type="text" id="auto-future-tx" class="auto-input" placeholder="성형 수술비, 임플란트, 미래 치료 비용 (선택)">
+            </div>
+        `;
+    } else if (category === '후유장해') {
+        html = `
+            <div class="auto-form-group">
+                <label class="auto-label" for="auto-disability-name">장해진단명</label>
+                <input type="text" id="auto-disability-name" class="auto-input" placeholder="예: 척추 압박골절, 견관절 탈구 등">
+            </div>
+
+            <div class="auto-form-row">
+                <div class="auto-form-group">
+                    <label class="auto-label" for="auto-disability-ratio">맥브라이드 노동능력상실률 (%)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="auto-disability-ratio" class="auto-input" min="0" max="100" placeholder="0 ~ 100" style="flex: 1;">
+                        <button type="button" class="btn-search" onclick="window.openMcBrideSearchPopup()">장해표 검색</button>
+                    </div>
+                </div>
+                <div class="auto-form-group">
+                    <label class="auto-label" for="auto-disability-injury-grade">부상급수 (선택 / 위자료 비교용)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <select id="auto-disability-injury-grade" class="auto-select" style="flex: 1;">
+                            <option value="" selected>부상급수 선택 안함</option>
+                            <option value="1">1급</option>
+                            <option value="2">2급</option>
+                            <option value="3">3급</option>
+                            <option value="4">4급</option>
+                            <option value="5">5급</option>
+                            <option value="6">6급</option>
+                            <option value="7">7급</option>
+                            <option value="8">8급</option>
+                            <option value="9">9급</option>
+                            <option value="10">10급</option>
+                            <option value="11">11급</option>
+                            <option value="12">12급</option>
+                            <option value="13">13급</option>
+                            <option value="14">14급</option>
+                        </select>
+                        <button type="button" class="btn-search" onclick="window.openInjurySearchPopup('auto-disability-injury-grade')">등급 검색</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auto-form-group">
+                <label class="auto-label">장해 기간</label>
+                <select id="auto-disability-type" class="auto-select" onchange="window.toggleDisabilityPeriod(this)">
+                    <option value="permanent" selected>영구장해 (만 65세 정년까지)</option>
+                    <option value="temporary">한시장해 (일시적 장해)</option>
+                </select>
+            </div>
+
+            <div id="auto-temp-period-group" class="auto-form-group hidden">
+                <label class="auto-label" for="auto-disability-years">장해 년수</label>
+                <select id="auto-disability-years" class="auto-select">
+                    <option value="1">1년 한시장해</option>
+                    <option value="2">2년 한시장해</option>
+                    <option value="3">3년 한시장해</option>
+                    <option value="4">4년 한시장해</option>
+                    <option value="5" selected>5년 한시장해</option>
+                    <option value="6">6년 한시장해</option>
+                    <option value="7">7년 한시장해</option>
+                    <option value="8">8년 한시장해</option>
+                    <option value="9">9년 한시장해</option>
+                    <option value="10">10년 한시장해</option>
+                </select>
+            </div>
+        `;
+    } else if (category === '사망') {
+        html = `
+            <div class="auto-form-group">
+                <label class="auto-label" for="auto-funeral-cost">장례비 (원)</label>
+                <input type="text" id="auto-funeral-cost" class="auto-input" value="5,000,000" placeholder="기본 5,000,000원 설정">
+            </div>
+
+            <div class="auto-form-group">
+                <label class="auto-label" for="auto-consolation-death">사망 위자료 (원)</label>
+                <input type="text" id="auto-consolation-death" class="auto-input" placeholder="사망 당시 연령에 따른 표준 약관 기준">
+            </div>
+        `;
+    }
+
+    container.innerHTML = html;
+
+    // 실시간 인풋 천단위 콤마 포맷터 바인딩
+    const futureTx = document.getElementById('auto-future-tx');
+    if (futureTx) {
+        futureTx.addEventListener('input', window.formatCommaInput);
+    }
+    const funeral = document.getElementById('auto-funeral-cost');
+    if (funeral) {
+        funeral.addEventListener('input', window.formatCommaInput);
+    }
+    const consolation = document.getElementById('auto-consolation-death');
+    if (consolation) {
+        consolation.addEventListener('input', window.formatCommaInput);
+        
+        // 만 65세 미만 8,000,0000원, 만 65세 이상 50,000,000원 기본 세팅
+        const age = window.getAutoManAge();
+        if (age < 65) {
+            consolation.value = '80,000,000';
+        } else {
+            consolation.value = '50,000,000';
+        }
+    }
+};
+
+window.formatCommaInput = function(e) {
+    let val = e.target.value.replace(/[^0-9]/g, '');
+    if (val) {
+        e.target.value = Number(val).toLocaleString('ko-KR');
+    } else {
+        e.target.value = '';
+    }
+};
+
+window.getAutoManAge = function() {
+    const birthVal = window.autoCalcState.birthDate;
+    const accVal = window.autoCalcState.accidentDate;
+    if (!birthVal || !accVal) return 0;
+    const birthDate = new Date(birthVal);
+    const accidentDate = new Date(accVal);
+    let age = accidentDate.getFullYear() - birthDate.getFullYear();
+    const monthDiff = accidentDate.getMonth() - birthDate.getMonth();
+    const dayDiff = accidentDate.getDate() - birthDate.getDate();
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+    return age < 0 ? 0 : age;
+};
+
+window.toggleDisabilityPeriod = function(select) {
+    const periodGroup = document.getElementById('auto-temp-period-group');
+    if (!periodGroup) return;
+    if (select.value === 'temporary') {
+        periodGroup.classList.remove('hidden');
+    } else {
+        periodGroup.classList.add('hidden');
+    }
+};
+
+window.getHoffmanCoefficient = function(months) {
+    let sum = 0;
+    for (let i = 1; i <= months; i++) {
+        sum += 1 / (1 + 0.05 * (i / 12));
+    }
+    return Math.min(sum, 240);
+};
+
+window.getGadongMonths = function(age, type, yearsVal) {
+    if (type === 'temporary') {
+        return yearsVal * 12;
+    }
+    let remainingYears = 65 - age;
+    if (remainingYears <= 0) {
+        // 고령자 취업가능월수 보장 규정
+        if (age >= 62 && age < 67) {
+            return 36;
+        } else if (age >= 67 && age < 76) {
+            return 24;
+        } else {
+            return 12;
+        }
+    }
+    return remainingYears * 12;
+};
+
+window.validateAndCalculate = function() {
+    const category = window.autoCalcState.category;
+    
+    if (category === '부상') {
+        const gradeVal = document.getElementById('auto-injury-grade').value;
+        const hospVal = document.getElementById('auto-hosp-days').value.trim();
+        const outVal = document.getElementById('auto-out-days').value.trim();
+        const futureVal = document.getElementById('auto-future-tx').value.trim();
+
+        if (!gradeVal) {
+            alert('부상급수를 선택해 주세요.');
+            document.getElementById('auto-injury-grade').focus();
+            return;
+        }
+        
+        let hospDays = hospVal ? parseInt(hospVal, 10) : 0;
+        let outDays = outVal ? parseInt(outVal, 10) : 0;
+        
+        if (isNaN(hospDays) || hospDays < 0) {
+            alert('입원 일수는 0 이상의 숫자여야 합니다.');
+            document.getElementById('auto-hosp-days').focus();
+            return;
+        }
+        if (isNaN(outDays) || outDays < 0) {
+            alert('통원 일수는 0 이상의 숫자여야 합니다.');
+            document.getElementById('auto-out-days').focus();
+            return;
+        }
+
+        let futureTxCost = futureVal ? parseInt(futureVal.replace(/[^0-9]/g, ''), 10) : 0;
+        if (isNaN(futureTxCost) || futureTxCost < 0) {
+            alert('향후 치료비는 0 이상의 숫자여야 합니다.');
+            document.getElementById('auto-future-tx').focus();
+            return;
+        }
+
+        window.autoCalcState.injuryGrade = parseInt(gradeVal, 10);
+        window.autoCalcState.hospDays = hospDays;
+        window.autoCalcState.outDays = outDays;
+        window.autoCalcState.futureTxCost = futureTxCost;
+
+    } else if (category === '후유장해') {
+        const diagName = document.getElementById('auto-disability-name').value.trim();
+        const ratioVal = document.getElementById('auto-disability-ratio').value.trim();
+        const disabilityType = document.getElementById('auto-disability-type').value;
+        const tempYearsSelect = document.getElementById('auto-disability-years');
+        const injuryGradeSelect = document.getElementById('auto-disability-injury-grade');
+
+        if (!diagName) {
+            alert('장해진단명을 입력해 주세요 (예: 척추 압박골절).');
+            document.getElementById('auto-disability-name').focus();
+            return;
+        }
+
+        if (!ratioVal) {
+            alert('맥브라이드 노동능력상실률(장해율)을 입력해 주세요.');
+            document.getElementById('auto-disability-ratio').focus();
+            return;
+        }
+
+        const disabilityRatio = parseFloat(ratioVal);
+        if (isNaN(disabilityRatio) || disabilityRatio < 0 || disabilityRatio > 100) {
+            alert('장해율은 0%에서 100% 사이의 숫자여야 합니다.');
+            document.getElementById('auto-disability-ratio').focus();
+            return;
+        }
+
+        let disabilityYears = 0;
+        if (disabilityType === 'temporary') {
+            disabilityYears = parseInt(tempYearsSelect.value, 10);
+        } else {
+            disabilityYears = -1; // 영구장해 표시
+        }
+
+        let parsedInjuryGrade = injuryGradeSelect && injuryGradeSelect.value ? parseInt(injuryGradeSelect.value, 10) : 0;
+
+        window.autoCalcState.disabilityName = diagName;
+        window.autoCalcState.disabilityRatio = disabilityRatio;
+        window.autoCalcState.disabilityType = disabilityType;
+        window.autoCalcState.disabilityYears = disabilityYears;
+        window.autoCalcState.injuryGrade = parsedInjuryGrade;
+
+    } else if (category === '사망') {
+        const funeralVal = document.getElementById('auto-funeral-cost').value.trim();
+        const consolationVal = document.getElementById('auto-consolation-death').value.trim();
+
+        let funeralCost = funeralVal ? parseInt(funeralVal.replace(/[^0-9]/g, ''), 10) : 0;
+        let consolationDeath = consolationVal ? parseInt(consolationVal.replace(/[^0-9]/g, ''), 10) : 0;
+
+        if (isNaN(funeralCost) || funeralCost < 0) {
+            alert('장례비는 0 이상의 숫자여야 합니다.');
+            document.getElementById('auto-funeral-cost').focus();
+            return;
+        }
+        if (isNaN(consolationDeath) || consolationDeath < 0) {
+            alert('사망 위자료는 0 이상의 숫자여야 합니다.');
+            document.getElementById('auto-consolation-death').focus();
+            return;
+        }
+
+        window.autoCalcState.funeralCost = funeralCost;
+        window.autoCalcState.consolationDeath = consolationDeath;
+    }
+
+    window.calculateInsurance();
+};
+
+window.calculateInsurance = function() {
+    const category = window.autoCalcState.category;
+    let baseMonthlyIncome = window.autoCalcState.monthlyIncome;
+    const faultRatio = window.autoCalcState.faultRatio;
+    const age = window.getAutoManAge();
+
+    const DAILY_COMMON_WAGE = (window.WAGE_DATA && window.WAGE_DATA.dailyAverage) ? window.WAGE_DATA.dailyAverage : 131381;
+    const MONTHLY_COMMON_WAGE = (window.WAGE_DATA && window.WAGE_DATA.monthlyCommon) ? window.WAGE_DATA.monthlyCommon : 3284525;
+
+    let incomeLabel = "";
+    if (baseMonthlyIncome === 0) {
+        if (age >= 19 && age < 65) {
+            baseMonthlyIncome = MONTHLY_COMMON_WAGE;
+            incomeLabel = `도시일용노임 적용 (월 ${MONTHLY_COMMON_WAGE.toLocaleString('ko-KR')}원)`;
+        } else {
+            baseMonthlyIncome = 0;
+            incomeLabel = "소득 없음 (0원)";
+        }
+    } else {
+        incomeLabel = baseMonthlyIncome.toLocaleString('ko-KR') + "원";
+    }
+
+    let listHtml = '';
+    let totalBeforeFault = 0;
+    let caregiverFee = 0; // 간병비
+    let caregiverDays = 0; // 간병 인정일수
+    let faultDeduction = 0;
+    let finalPayment = 0;
+    let disType = 'permanent';
+    let years = 0;
+
+    const getInjuryConsolation = (grade) => {
+        const table = {
+            1: 2000000, 2: 1760000, 3: 1520000, 4: 1280000,
+            5: 750000, 6: 500000, 7: 400000, 8: 300000,
+            9: 250000, 10: 200000, 11: 200000, 12: 150000,
+            13: 150000, 14: 150000
+        };
+        return table[grade] || 0;
+    };
+
+    if (category === '부상') {
+        const grade = window.autoCalcState.injuryGrade;
+        const hospDays = window.autoCalcState.hospDays;
+        const outDays = window.autoCalcState.outDays;
+        const futureTxCost = window.autoCalcState.futureTxCost;
+
+        let consolation = getInjuryConsolation(grade);
+
+        let lossOfIncome = 0;
+        let incomeMemo = "";
+        if (age >= 65) {
+            lossOfIncome = 0;
+            incomeMemo = "정년 초과(만 65세 이상)로 휴업손해 제외";
+        } else {
+            lossOfIncome = Math.round((baseMonthlyIncome / 30) * hospDays * 0.85);
+            incomeMemo = `입원일수 ${hospDays}일 (1일당 소득의 85% 보상)`;
+        }
+
+        caregiverDays = 0;
+        if (grade >= 1 && grade <= 2) {
+            caregiverDays = Math.min(hospDays, 60);
+        } else if (grade >= 3 && grade <= 4) {
+            caregiverDays = Math.min(hospDays, 30);
+        } else if (grade === 5) {
+            caregiverDays = Math.min(hospDays, 15);
+        }
+        caregiverFee = caregiverDays * DAILY_COMMON_WAGE;
+
+        let transportCost = outDays * 8000;
+
+        totalBeforeFault = consolation + lossOfIncome + caregiverFee + transportCost + futureTxCost;
+        faultDeduction = Math.round(totalBeforeFault * (faultRatio / 100));
+        finalPayment = totalBeforeFault - faultDeduction;
+
+        listHtml += `
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">부상 위자료</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">부상급수 ${grade}급 표준기준</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${consolation.toLocaleString('ko-KR')}원</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">휴업손해</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${incomeMemo}</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfIncome.toLocaleString('ko-KR')}원</td>
+            </tr>
+        `;
+
+        if (caregiverFee > 0) {
+            listHtml += `
+                <tr style="border-bottom: 1px solid #e2e8f0; background-color: #f0fdf4;">
+                    <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #15803d;">간병비 (개호비)</td>
+                    <td style="padding: 12px 14px; text-align: right; color: #166534;">상해급수 ${grade}급 인정일수 ${caregiverDays}일 (일당 ${DAILY_COMMON_WAGE.toLocaleString('ko-KR')}원)</td>
+                    <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #15803d;">${caregiverFee.toLocaleString('ko-KR')}원</td>
+                </tr>
+            `;
+        }
+
+        listHtml += `
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">기타 손해배상금</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">통원일수 ${outDays}일 (1일당 8,000원)</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${transportCost.toLocaleString('ko-KR')}원</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">향후 치료비</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">합의 조건 조정 추가액</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${futureTxCost.toLocaleString('ko-KR')}원</td>
+            </tr>
+        `;
+
+    } else if (category === '후유장해') {
+        const diagName = window.autoCalcState.disabilityName;
+        const ratio = window.autoCalcState.disabilityRatio;
+        disType = window.autoCalcState.disabilityType;
+        years = window.autoCalcState.disabilityYears;
+        const injuryGrade = window.autoCalcState.injuryGrade;
+
+        let disConsolation = 0;
+        let disConsolationMemo = "";
+
+        if (ratio >= 50) {
+            const baseAmount = age < 65 ? 45000000 : 40000000;
+            disConsolation = Math.round(baseAmount * (ratio / 100) * 0.85);
+            disConsolationMemo = `장해율 ${ratio}% (50% 이상, 연령 만 ${age}세 기준 수식 적용)`;
+        } else {
+            if (ratio >= 45) disConsolation = 4000000;
+            else if (ratio >= 35) disConsolation = 2400000;
+            else if (ratio >= 27) disConsolation = 2000000;
+            else if (ratio >= 20) disConsolation = 1600000;
+            else if (ratio >= 14) disConsolation = 1200000;
+            else if (ratio >= 9) disConsolation = 1000000;
+            else if (ratio >= 5) disConsolation = 800000;
+            else disConsolation = 500000;
+            disConsolationMemo = `장해율 ${ratio}% (50% 미만 구간별 고정 약관고시적용)`;
+        }
+
+        let finalConsolation = disConsolation;
+        let consolationAppliedText = "장해위자료 적용";
+        if (injuryGrade > 0) {
+            let infConsolation = getInjuryConsolation(injuryGrade);
+            if (infConsolation > disConsolation) {
+                finalConsolation = infConsolation;
+                consolationAppliedText = `부상위자료(${injuryGrade}급: ${infConsolation.toLocaleString('ko-KR')}원) 상계 극대화 적용`;
+            }
+        }
+
+        let months = window.getGadongMonths(age, disType, years);
+        let hCoefficient = window.getHoffmanCoefficient(months);
+        let lossOfEarnings = Math.round(baseMonthlyIncome * (ratio / 100) * hCoefficient);
+
+        totalBeforeFault = finalConsolation + lossOfEarnings;
+        faultDeduction = Math.round(finalConsolation * (faultRatio / 100));
+        finalPayment = totalBeforeFault - faultDeduction;
+
+        let periodText = disType === 'temporary' ? `한시장해 ${years}년 (${months}개월)` : `영구장해 (만 65세/보장기간 기준 ${months}개월)`;
+
+        listHtml += `
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">장해 위자료</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${disConsolationMemo} (${consolationAppliedText})</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${finalConsolation.toLocaleString('ko-KR')}원</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">상실수익액</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">장해진단 [${diagName}], ${periodText} (호프만계수: ${hCoefficient.toFixed(4)})</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfEarnings.toLocaleString('ko-KR')}원</td>
+            </tr>
+        `;
+
+    } else if (category === '사망') {
+        const funeral = window.autoCalcState.funeralCost;
+        const consolation = window.autoCalcState.consolationDeath;
+
+        let months = window.getGadongMonths(age, 'permanent');
+        let hCoefficient = window.getHoffmanCoefficient(months);
+        let lossOfLife = Math.round(baseMonthlyIncome * (2 / 3) * hCoefficient);
+
+        totalBeforeFault = consolation + funeral + lossOfLife;
+        faultDeduction = Math.round((consolation + funeral) * (faultRatio / 100));
+        finalPayment = totalBeforeFault - faultDeduction;
+
+        listHtml += `
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">사망 위자료</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">피해자 연령 만 ${age}세 기준 위자료</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${consolation.toLocaleString('ko-KR')}원</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">상실수익액</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">생활비 공제(1/3) 반영, 가동기간 ${months}개월 (호프만계수: ${hCoefficient.toFixed(4)})</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfLife.toLocaleString('ko-KR')}원</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">장례비</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">장례비 기준 고정 정액</td>
+                <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${funeral.toLocaleString('ko-KR')}원</td>
+            </tr>
+        `;
+    }
+
+    if (finalPayment < 0) finalPayment = 0;
+
+    let isCaregiverGuaranteed = false;
+    if (category === '부상' && caregiverFee > 0 && finalPayment < caregiverFee) {
+        finalPayment = caregiverFee;
+        isCaregiverGuaranteed = true;
+    }
+
+    listHtml += `
+        <tr style="border-bottom: 1.5px solid #0f172a; background-color: #f8fafc; font-weight: 700;">
+            <td style="padding: 14px; text-align: left; color: #334155;">산출 총액 (세전)</td>
+            <td style="padding: 14px; text-align: right; color: #64748b;">과실 공제 전 금액 합산</td>
+            <td style="padding: 14px; text-align: right; color: #0f172a;">${totalBeforeFault.toLocaleString('ko-KR')}원</td>
+        </tr>
+    `;
+
+    if (isCaregiverGuaranteed) {
+        listHtml += `
+            <tr style="background-color: #fff9db; color: #e67700; font-weight: 700;">
+                <td style="padding: 14px; text-align: left;">과실상계 반영액</td>
+                <td style="padding: 14px; text-align: right;">과실 ${faultRatio}% 차감 후 금액이 간병비에 미달하여 약관특례로 간병비 전액(${caregiverFee.toLocaleString('ko-KR')}원) 최저보장 지급</td>
+                <td style="padding: 14px; text-align: right;">최저 보장 적용</td>
+            </tr>
+        `;
+    } else {
+        listHtml += `
+            <tr style="background-color: #fef2f2; color: #b91c1c; font-weight: 700;">
+                <td style="padding: 14px; text-align: left;">과실상계 차감액</td>
+                <td style="padding: 14px; text-align: right;">본인 과실비율 ${faultRatio}% 반영 감액</td>
+                <td style="padding: 14px; text-align: right;">-${faultDeduction.toLocaleString('ko-KR')}원</td>
+            </tr>
+        `;
+    }
+
+    const totalPaymentText = document.getElementById('auto-total-payment');
+    const breakdownRows = document.getElementById('auto-breakdown-rows');
+    const deductionInfo = document.getElementById('auto-result-deduction-info');
+
+    if (totalPaymentText) {
+        totalPaymentText.textContent = finalPayment.toLocaleString('ko-KR') + '원';
+    }
+    if (breakdownRows) {
+        breakdownRows.innerHTML = listHtml;
+    }
+
+    if (deductionInfo) {
+        let faultRatioExplanation = "";
+        if (category === '부상') {
+            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (치료비를 제외한 합의금 총액의 ${100 - faultRatio}% 지급)`;
+        } else if (category === '후유장해') {
+            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (장해위자료의 ${100 - faultRatio}% 지급, 상실수익액은 과실상계 비적용)`;
+        } else if (category === '사망') {
+            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (사망위자료 및 장례비의 ${100 - faultRatio}% 지급, 상실수익액은 과실상계 비적용)`;
+        }
+
+        let detailsHtml = '<p style="margin: 0; font-weight: 700; margin-bottom: 6px; color: #1e293b;">📋 계산 조건 요약</p>';
+        detailsHtml += `<ul style="margin: 0; padding-left: 20px;">
+            <li>사고일자 기준 법적 만나이: <strong>만 ${age}세</strong></li>
+            <li>기본 소득 기준: <strong>${incomeLabel}</strong></li>
+            <li>상대방 과실 및 과실상계 적용 비율: ${faultRatioExplanation}</li>`;
+        
+        if (category === '부상') {
+            detailsHtml += `<li>부상 등급 및 치료 기간: <strong>부상급수 ${window.autoCalcState.injuryGrade}급, 입원 ${window.autoCalcState.hospDays}일, 통원 ${window.autoCalcState.outDays}일</strong></li>`;
+            if (caregiverFee > 0) {
+                detailsHtml += `<li>약관상 간병 인정일수: <strong>${caregiverDays}일 (상해 1~5급 한도 적용)</strong></li>`;
+            }
+        } else if (category === '후유장해') {
+            let periodText = disType === 'temporary' ? `한시장해 ${years}년` : `영구장해`;
+            detailsHtml += `<li>장해율 및 진단: <strong>맥브라이드 장해율 ${window.autoCalcState.disabilityRatio}%, 장해진단명: ${window.autoCalcState.disabilityName} (${periodText})</strong></li>`;
+        } else if (category === '사망') {
+            detailsHtml += `<li>사망 위자료 기준액: <strong>사망 위자료 ${window.autoCalcState.consolationDeath.toLocaleString('ko-KR')}원</strong></li>`;
+        }
+        
+        detailsHtml += '</ul>';
+        deductionInfo.innerHTML = detailsHtml;
+    }
+
+    window.goToStep(4);
+};
+
+window.goToStep = function(step) {
+    document.querySelectorAll('.auto-step-section').forEach(sec => {
+        sec.classList.add('hidden');
+    });
+
+    const currentSec = document.getElementById(`auto-step${step}`);
+    if (currentSec) {
+        currentSec.classList.remove('hidden');
+    }
+
+    document.querySelectorAll('.auto-step-item').forEach((item, idx) => {
+        const itemStep = idx + 1;
+        item.classList.remove('active', 'completed');
+        
+        if (itemStep === step) {
+            item.classList.add('active');
+        } else if (itemStep < step) {
+            item.classList.add('completed');
+        }
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.handleAutoBack = function() {
+    const activeSec = document.querySelector('.auto-step-section:not(.hidden)');
+    if (!activeSec) {
+        window.navigateTo('view-main');
+        return;
+    }
+    
+    const id = activeSec.id;
+    if (id === 'auto-step1') {
+        window.navigateTo('view-main');
+    } else if (id === 'auto-step2') {
+        window.goToStep(1);
+    } else if (id === 'auto-step3') {
+        window.goToStep(2);
+    } else if (id === 'auto-step4') {
+        window.goToStep(3);
+    } else {
+        window.navigateTo('view-main');
+    }
+};
+
+// ==========================================
+// 부상등급 검색 레이어 팝업 구현
+// ==========================================
+let currentInjuryTargetId = 'auto-injury-grade';
+
+window.openInjurySearchPopup = function(targetSelectId = 'auto-injury-grade') {
+    currentInjuryTargetId = targetSelectId;
+    const modal = document.getElementById('injury-search-modal');
+    if (!modal) return;
+    
+    modal.classList.add('active');
+    
+    const searchInput = document.getElementById('injury-popup-search');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.focus();
+    }
+    
+    window.filterInjuryPopupResults();
+};
+
+window.closeInjurySearchPopup = function() {
+    const modal = document.getElementById('injury-search-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+};
+
+window.selectInjuryPopupGrade = function(gradeNum) {
+    const select = document.getElementById(currentInjuryTargetId);
+    if (select) {
+        select.value = gradeNum.toString();
+        // Trigger change event to run any calculations/listeners
+        const event = new Event('change', { bubbles: true });
+        select.dispatchEvent(event);
+    }
+    window.closeInjurySearchPopup();
+};
+
+window.filterInjuryPopupResults = function(filterPart = '', filterGrade = '') {
+    const resultsContainer = document.getElementById('injury-popup-results');
+    if (!resultsContainer) return;
+    
+    const queryInput = document.getElementById('injury-popup-search');
+    const query = queryInput ? queryInput.value.trim().toLowerCase() : '';
+    
+    let html = '';
+    
+    // Quick search filters at the top if no search term and no active category filters
+    if (!query && !filterPart && !filterGrade) {
+        html += `
+            <div style="margin-bottom: 12px;">
+                <p style="font-size: 13px; font-weight: 700; color: #475569; margin: 0 0 8px 0;">🔍 부위별 분류로 보기</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    ${['두부', '안과', '이비인후과', '흉복부', '척추', '상지', '하지', '연부조직', '치과', '기타'].map(p => 
+                        `<button type="button" class="ins-btn-small" style="font-size: 12px; padding: 6px 10px;" onclick="window.filterInjuryPopupResults('${p}', '')">${p}</button>`
+                    ).join('')}
+                </div>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <p style="font-size: 13px; font-weight: 700; color: #475569; margin: 0 0 8px 0;">🏷️ 급수별 분류로 보기</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 80px; overflow-y: auto; padding-bottom: 4px;">
+                    ${Array.from({length: 14}, (_, i) => i + 1).map(g => 
+                        `<button type="button" class="ins-btn-small" style="font-size: 12px; padding: 6px 10px;" onclick="window.filterInjuryPopupResults('', '${g}')">${g}급</button>`
+                    ).join('')}
+                </div>
+            </div>
+            <div class="injury-result-empty" style="padding: 20px 0;">
+                <span class="material-icons-round" style="font-size: 48px; color: #cbd5e1; display: block; margin-bottom: 8px;">search</span>
+                상단의 검색창에 단어를 입력하거나<br>부위별/급수별 버튼을 클릭하면 세부 상해 항목이 표시됩니다.
+            </div>
+        `;
+        resultsContainer.innerHTML = html;
+        return;
+    }
+    
+    // Active filters label
+    if (filterPart || filterGrade) {
+        const filterTitle = filterPart ? `부위: ${filterPart}` : `등급: ${filterGrade}급`;
+        html += `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: #f1f5f9; padding: 8px 12px; border-radius: 8px;">
+                <span style="font-size: 13px; font-weight: 700; color: #1e293b;">📌 필터링 조건 - ${filterTitle}</span>
+                <button type="button" class="ins-btn-small" style="padding: 2px 8px; font-size: 11px;" onclick="window.filterInjuryPopupResults('', '')">필터 해제</button>
+            </div>
+        `;
+    }
+    
+    // Filter matching items from global injuryData
+    let matchedItems = [];
+    
+    if (typeof injuryData !== 'undefined' && injuryData.classes) {
+        injuryData.classes.forEach(g => {
+            const gradeNum = parseInt(g.grade.replace('급', ''), 10);
+            const amount = g.amount;
+            
+            g.items.forEach(item => {
+                const desc = item.desc;
+                const part = item.part;
+                
+                let matches = true;
+                if (filterPart && part !== filterPart) matches = false;
+                if (filterGrade && gradeNum !== parseInt(filterGrade, 10)) matches = false;
+                
+                if (query) {
+                    const matchesQuery = desc.toLowerCase().includes(query) || 
+                                         part.toLowerCase().includes(query) || 
+                                         g.grade.toLowerCase().includes(query);
+                    if (!matchesQuery) matches = false;
+                }
+                
+                if (matches) {
+                    matchedItems.push({
+                        gradeNum: gradeNum,
+                        gradeText: g.grade,
+                        amount: amount,
+                        part: part,
+                        desc: desc
+                    });
+                }
+            });
+        });
+    }
+    
+    if (matchedItems.length === 0) {
+        html += `
+            <div class="injury-result-empty">
+                <span class="material-icons-round" style="font-size: 48px; color: #cbd5e1; display: block; margin-bottom: 8px;">info_outline</span>
+                검색 조건에 맞는 상해 항목이 없습니다.
+            </div>
+        `;
+    } else {
+        matchedItems.forEach(item => {
+            let displayDesc = item.desc;
+            if (query) {
+                const regex = new RegExp(`(${query})`, 'gi');
+                displayDesc = item.desc.replace(regex, '<span style="background-color: #fef08a; font-weight: 700;">$1</span>');
+            }
+            
+            html += `
+                <div class="injury-result-item" onclick="window.selectInjuryPopupGrade(${item.gradeNum})">
+                    <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <span class="injury-result-grade-tag">${item.gradeText}</span>
+                        <span class="injury-result-amount-tag">한도액: ${item.amount}</span>
+                        <span class="injury-result-amount-tag" style="background-color: #f0fdf4; color: #166534;">${item.part}</span>
+                    </div>
+                    <div class="injury-result-desc">${displayDesc}</div>
+                </div>
+            `;
+        });
+    }
+    
+    resultsContainer.innerHTML = html;
+};
+
+// overlay click to close
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('injury-search-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                window.closeInjurySearchPopup();
+            }
+        });
+    }
+    
+    const mcbrideModal = document.getElementById('mcbride-search-modal');
+    if (mcbrideModal) {
+        mcbrideModal.addEventListener('click', (e) => {
+            if (e.target === mcbrideModal) {
+                window.closeMcBrideSearchPopup();
+            }
+        });
+    }
+});
+
+// --- McBride Search Popup Functions ---
+let mcbrideFilterMajor = '';
+
+window.openMcBrideSearchPopup = function() {
+    const modal = document.getElementById('mcbride-search-modal');
+    if (!modal) return;
+    
+    modal.classList.add('active');
+    document.getElementById('mcbride-popup-search').value = '';
+    mcbrideFilterMajor = '';
+    window.filterMcBridePopupResults();
+};
+
+window.closeMcBrideSearchPopup = function() {
+    const modal = document.getElementById('mcbride-search-modal');
+    if (!modal) return;
+    modal.classList.remove('active');
+};
+
+window.selectMcBridePopupRate = function(itemName, ratePercent) {
+    const nameInput = document.getElementById('auto-disability-name');
+    const ratioInput = document.getElementById('auto-disability-ratio');
+    
+    if (nameInput) {
+        nameInput.value = itemName;
+    }
+    if (ratioInput) {
+        ratioInput.value = ratePercent;
+        ratioInput.dispatchEvent(new Event('change'));
+    }
+    
+    window.closeMcBrideSearchPopup();
+};
+
+window.filterMcBridePopupResults = function(filterMajor = '') {
+    const query = document.getElementById('mcbride-popup-search').value.trim().toLowerCase();
+    const resultsContainer = document.getElementById('mcbride-popup-results');
+    if (!resultsContainer) return;
+    
+    if (filterMajor !== undefined && filterMajor !== '') {
+        mcbrideFilterMajor = filterMajor;
+    } else if (filterMajor === '') {
+        mcbrideFilterMajor = '';
+    }
+    
+    let html = '';
+    
+    // Quick category filters if no query is present
+    if (!query && !mcbrideFilterMajor) {
+        html += `
+            <div style="margin-bottom: 12px;">
+                <p style="font-size: 13px; font-weight: 700; color: #475569; margin: 0 0 8px 0;">🔍 대분류로 보기</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    ${['절단', '관절강직', '골절', '기타'].map(m => 
+                        `<button type="button" class="ins-btn-small" style="font-size: 12px; padding: 6px 10px;" onclick="window.filterMcBridePopupResults('${m}')">${m}</button>`
+                    ).join('')}
+                </div>
+            </div>
+            <div class="injury-result-empty" style="padding: 20px 0;">
+                <span class="material-icons-round" style="font-size: 48px; color: #cbd5e1; display: block; margin-bottom: 8px;">search</span>
+                상단의 검색창에 단어를 입력하거나<br>대분류 버튼을 클릭하면 장해 항목이 표시됩니다.
+            </div>
+        `;
+        resultsContainer.innerHTML = html;
+        return;
+    }
+    
+    if (mcbrideFilterMajor) {
+        html += `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: #f1f5f9; padding: 8px 12px; border-radius: 8px;">
+                <span style="font-size: 13px; font-weight: 700; color: #1e293b;">📌 필터링 대분류 - ${mcbrideFilterMajor}</span>
+                <button type="button" class="ins-btn-small" style="padding: 2px 8px; font-size: 11px;" onclick="window.filterMcBridePopupResults('')">필터 해제</button>
+            </div>
+        `;
+    }
+    
+    let matchedItems = [];
+    if (typeof mcbrideData !== 'undefined') {
+        mcbrideData.forEach(cat => {
+            const major = cat.major;
+            const minor = cat.minor;
+            
+            cat.items.forEach(item => {
+                let matches = true;
+                if (mcbrideFilterMajor && major !== mcbrideFilterMajor) matches = false;
+                
+                if (query) {
+                    const matchesQuery = item.name.toLowerCase().includes(query) || 
+                                         major.toLowerCase().includes(query) || 
+                                         minor.toLowerCase().includes(query);
+                    if (!matchesQuery) matches = false;
+                }
+                
+                if (matches) {
+                    matchedItems.push({
+                        major: major,
+                        minor: minor,
+                        item: item
+                    });
+                }
+            });
+        });
+    }
+    
+    if (matchedItems.length === 0) {
+        html += `
+            <div class="injury-result-empty">
+                <span class="material-icons-round" style="font-size: 48px; color: #cbd5e1; display: block; margin-bottom: 8px;">info_outline</span>
+                검색 조건에 맞는 장해 항목이 없습니다.
+            </div>
+        `;
+    } else {
+        matchedItems.forEach(match => {
+            const item = match.item;
+            let displayName = item.name;
+            if (query) {
+                const regex = new RegExp(`(${query})`, 'gi');
+                displayName = item.name.replace(regex, '<span style="background-color: #fef08a; font-weight: 700;">$1</span>');
+            }
+            
+            html += `
+                <div class="mcbride-result-item" style="padding: 14px 16px;">
+                    <div style="font-weight: 700; color: #0f172a; margin-bottom: 10px; font-size: 14px; line-height: 1.4;">
+                        <span class="injury-result-grade-tag" style="background: #2563eb; font-size: 11px; margin-right: 6px; padding: 2px 6px;">${match.major}</span>
+                        ${displayName}
+                    </div>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <button type="button" class="mcbride-btn-base"
+                            onclick="window.selectMcBridePopupRate('${item.name.replace(/'/g, "\\'")}', '${item.base_rate}')">
+                            기본율: <strong style="color: #0f172a;">${item.base_rate}%</strong>
+                        </button>
+                        <button type="button" class="mcbride-btn-outdoor"
+                            onclick="window.selectMcBridePopupRate('${item.name.replace(/'/g, "\\'")}', '${item.coef_5}')">
+                            옥외근로자: <strong style="color: #0284c7;">${item.coef_5}%</strong>
+                        </button>
+                        <button type="button" class="mcbride-btn-indoor"
+                            onclick="window.selectMcBridePopupRate('${item.name.replace(/'/g, "\\'")}', '${item.coef_6}')">
+                            옥내근로자: <strong style="color: #166534;">${item.coef_6}%</strong>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    resultsContainer.innerHTML = html;
 };
