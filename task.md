@@ -16,5 +16,5 @@
 - [x] 상세 내역 표의 제목(헤더)을 **가운데 정렬(`text-align: center;`)**로, 행 내용들은 **왼쪽 정렬(`text-align: left;`)**로 통일하여 가독성 강화
 - [x] 상실수익액 산출 내역에서 줄바꿈된 두 번째 줄(월 적용노임 및 H계수 시작 지점)에 **들여쓰기(`&nbsp;&nbsp;&nbsp;&nbsp;`)** 적용
 - [x] 프로젝트 개발 통합 기록 문서(`development_log.md`)를 작성하여 워크스페이스에 통합
-- [x] 사용자의 PC 환경 내 Obsidian 설정(`obsidian.json`)을 자동으로 찾아 활성 볼트(`my_soul`)로 개발 로그를 동적 복사 및 동기화해 주는 **자동 싱크 스크립트(`sync_obsidian.py`)** 구현 및 즉시 동기화 구동
+- [x] 사용자의 PC 환경 내 Obsidian 설정(`obsidian.json`)을 자동으로 찾아 활성 볼트(`my_soul`) 내 **`반중력프로젝트`** 폴더 하위로 개발 로그, 워크스루, 태스크 등 3대 산출물 파일을 동적 복사 및 동기화해 주는 **자동 싱크 스크립트(`sync_obsidian.py`)** 구현 및 즉시 동기화 구동
 - [x] GitHub 원격 리포지토리 최신화 완료 (`git push origin main`)

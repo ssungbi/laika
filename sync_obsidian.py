@@ -41,9 +41,9 @@ def sync():
         ("task.md", "작업_태스크_리스트.md")
     ]
     
-    # Sync to each vault under '역중력프로젝트/laika'
+    # Sync to each vault under '반중력프로젝트/laika'
     for vault in vault_paths:
-        dest_dir = os.path.join(vault, "역중력프로젝트", "laika")
+        dest_dir = os.path.join(vault, "반중력프로젝트", "laika")
         try:
             os.makedirs(dest_dir, exist_ok=True)
             print(f"Ensured target folder exists: {dest_dir}")

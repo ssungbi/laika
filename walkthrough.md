@@ -47,10 +47,10 @@
 
 ### 6. Obsidian 노트 동기화 자동화 추가
 - **요구사항**: 
-  - 관리 중인 개발 로그(`development_log.md`)를 사용자 PC 로컬 환경의 옵시디언 노트 Vault에 손쉽게 업로드하고 동기화할 수 있도록 구현합니다.
+  - 관리 중인 개발 로그 및 산출물 보고서들을 사용자 PC 로컬 환경의 옵시디언 노트 Vault 내 **`반중력프로젝트`** 폴더에 프로젝트별로 정렬하여 모아서 보관하고 동기화할 수 있도록 구현합니다.
 - **구현사항**:
   - **동적 볼트 경로 감지**: Windows 환경의 Obsidian 구성 파일인 `%APPDATA%\obsidian\obsidian.json`을 읽고 분석해, 사용자가 추가하고 활성화해 둔 로컬 볼트(`C:\Users\SB\Documents\my_soul`)의 전체 경로를 동적으로 검출하는 파이썬 스크립트 [sync_obsidian.py](file:///c:/Users/SB/Desktop/연습용/sync_obsidian.py)를 제작하였습니다.
-  - **자동 복사 및 동기화**: `python sync_obsidian.py`를 실행하면 현재 워크스페이스의 `development_log.md` 파일이 대상 볼트의 루트에 `laika_development_log.md` 이름으로 즉시 복사되어, 옵시디언 앱 내에서 바로 읽고 편집할 수 있도록 연동 처리를 완수했습니다.
+  - **자동 복사 및 동기화**: `python sync_obsidian.py`를 실행하면 현재 워크스페이스의 `development_log.md`, `walkthrough.md`, `task.md` 세 파일이 대상 볼트 내의 `반중력프로젝트/laika` 하위에 각각 `개발_기록_업데이트_노트.md`, `변경_보고서_워크스루.md`, `작업_태스크_리스트.md` 이름으로 즉시 복사되어, 옵시디언 앱 내에서 바로 프로젝트별로 묶어 읽고 편집할 수 있도록 연동 처리를 완수했습니다.
 
 ### 7. GitHub 원격 리포지토리 최신화 완료
 - **구현사항**:
@@ -68,8 +68,8 @@
   - 상실수익액 상세 줄바꿈에 `&nbsp;&nbsp;&nbsp;&nbsp;` 들여쓰기 적용.
 - [styles.css](file:///c:/Users/SB/Desktop/연습용/styles.css)
   - `.auto-form-container`의 최대 가로 폭을 `900px`로 변경하여 모든 계산 단계의 컨테이너 크기 일괄 통일.
-- [sync_obsidian.py](file:///c:/Users/SB/Desktop/연습용/sync_obsidian.py) **[NEW]**
-  - 사용자 Obsidian Vault 자동 탐색 및 `development_log.md` -> `laika_development_log.md` 동기화 복사 스크립트.
+- [sync_obsidian.py](file:///c:/Users/SB/Desktop/연습용/sync_obsidian.py)
+  - 사용자 Obsidian Vault 자동 탐색 및 `반중력프로젝트/laika` 하위에 리포트 3종 세트 동기화 복사 스크립트.
 
 ---
 
@@ -77,10 +77,10 @@
 
 ### 1. 자동화 모의 테스트 (Node.js)
 - 구문 검증(`node -c script.js`) 결과 모든 스크립트 파일이 성공적으로 구동 가능함을 보증합니다.
-- `python sync_obsidian.py` 실행 결과 `Successfully synced to Obsidian: C:\Users\SB\Documents\my_soul\laika_development_log.md` 로그와 함께 파일이 복사되었음을 확인했습니다.
+- `python sync_obsidian.py` 실행 결과 `Successfully synced: development_log.md -> C:\Users\SB\Documents\my_soul\반중력프로젝트\laika\개발_기록_업데이트_노트.md` 등의 로그와 함께 파일이 정상 복사되었음을 확인했습니다.
 
 ### 2. 수동 검증 가이드
 1. 브라우저로 `index.html` 파일을 로드합니다.
 2. 2단계(기본 정보 입력) 및 3단계(장해 기입) 단계의 입력 박스가 모두 900px로 일관되게 넓어져 여유롭게 노출되는지 확인합니다.
 3. 터미널 혹은 명령 프롬프트에서 `python sync_obsidian.py`를 실행합니다.
-4. 사용자 Obsidian 앱을 열어 `my_soul` 볼트 목록 안에 `laika_development_log` 노트가 정상적으로 노출되며, 기록이 최신 상태로 동기화되어 있는지 확인합니다.
+4. 사용자 Obsidian 앱을 열어 `my_soul` 볼트 목록 안에 `반중력프로젝트/laika` 폴더가 정상적으로 생성되고, 하위의 3개 한글 리포트 파일들이 최신 상태로 동기화되어 있는지 확인합니다.
