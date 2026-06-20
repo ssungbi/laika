@@ -102,15 +102,17 @@ try {
             });
         } else if (window.currentOtherDisabilitySub === "부위별") {
             majorData.parts.forEach(partObj => {
-                if (!partObj.items || partObj.items.length === 0) return;
-                const filteredItems = partObj.items.filter(item => {
+                const isJinpye = partObj.part === "진폐증";
+                if (!isJinpye && (!partObj.items || partObj.items.length === 0)) return;
+                
+                const filteredItems = partObj.items ? partObj.items.filter(item => {
                     if (!term) return true;
                     return partObj.part.toLowerCase().includes(term) ||
                            item.grade.toLowerCase().includes(term) ||
                            item.desc.toLowerCase().includes(term);
-                });
+                }) : [];
 
-                if (filteredItems.length === 0 && term) return;
+                if (!isJinpye && filteredItems.length === 0 && term) return;
 
                 html += `
                     <div class="accordion-item" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: white;">
@@ -120,7 +122,11 @@ try {
                         </button>
                         <div class="accordion-content">
                             <ul style="list-style: none; padding: 0; margin: 16px 0 0 0;">
-                                ${filteredItems.map(item => `
+                                ${filteredItems.length === 0 ? `
+                                    <li style="margin-bottom: 12px; padding-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; color: #64748b; font-size: 15px;">
+                                        <span>해당 장해 분류(국가배상 또는 자동차손해배상)에는 진폐증 고시 항목이 존재하지 않습니다.</span>
+                                    </li>
+                                ` : filteredItems.map(item => `
                                     <li style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: flex-start; gap: 12px;">
                                         <span style="display: inline-block; padding: 4px 10px; background-color: #ef4444; color: white; border-radius: 6px; font-size: 13px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">${item.grade}</span>
                                         <span style="font-size: 15px; color: #334155; line-height: 1.6; flex: 1;">${window.highlightTextOther(item.desc, term)}</span>

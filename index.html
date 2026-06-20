@@ -421,12 +421,12 @@
                   <!-- Final Detail Container -->
                   <div id="accident-detail-container" style="display: none; max-width: 1200px; margin: 0 auto; border: 1px solid #287df3; background: #fff; border-radius: 8px; overflow: hidden; margin-top: 24px;">
                       <!-- Top Header -->
-                      <div style="background: #4fb1b5; color: white; padding: 20px 30px; display: flex; align-items: center; border-bottom: 2px solid #287df3;">
-                          <div style="background: white; color: #f59e0b; border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; margin-right: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                      <div style="background: #4fb1b5; color: white; padding: 20px 30px; display: flex; align-items: center; border-bottom: 2px solid #287df3; flex-wrap: wrap; gap: 16px;">
+                          <div style="background: white; color: #f59e0b; border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; margin-right: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;">
                               <span id="acc-detail-chart-no" style="font-size: 24px;">차1-1</span>
                               <span style="font-size: 12px; color: #64748b;">사고상황</span>
                           </div>
-                          <div style="flex: 1; display: flex; align-items: center; gap: 40px;">
+                          <div style="flex: 1; display: flex; align-items: center; gap: 40px; min-width: 250px;">
                               <div>
                                   <div style="font-size: 14px; opacity: 0.9;">🚗 자동차 A</div>
                                   <div id="acc-header-car-a" style="font-size: 20px; font-weight: bold;">우회전</div>
@@ -442,27 +442,15 @@
                           </button>
                       </div>
 
-                      <div style="display: flex;">
-                          <!-- Left: Diagram & Situation -->
-                          <div style="flex: 1; border-right: 1px solid #e2e8f0; padding: 20px; display: flex; flex-direction: column;">
-                              <div id="acc-detail-image" style="background: #e2e8f0; height: 400px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                                  <!-- SVG or Image goes here -->
-                                  <span style="color: #94a3b8;">이미지 로딩중...</span>
-                              </div>
-                              <div style="border: 1px solid #cbd5e1;">
-                                  <div style="display: flex; background: #f8fafc; border-bottom: 1px solid #cbd5e1;">
-                                      <button id="acc-tab-situation" onclick="switchAccidentDetailTab('situation')" style="padding: 12px; flex: 1; text-align: center; border: none; border-right: 1px solid #cbd5e1; font-weight: bold; color: #0f766e; background: #fff; cursor: pointer; font-size: 14px;">사고 상황</button>
-                                      <button id="acc-tab-apply" onclick="switchAccidentDetailTab('apply')" style="padding: 12px; flex: 1; text-align: center; border: none; border-right: 1px solid #cbd5e1; color: #64748b; background: transparent; cursor: pointer; font-size: 14px;">적용(비적용)</button>
-                                      <button id="acc-tab-explain" onclick="switchAccidentDetailTab('explain')" style="padding: 12px; flex: 1; text-align: center; border: none; color: #64748b; background: transparent; cursor: pointer; font-size: 14px;">기본과실 해설</button>
-                                  </div>
-                                  <div id="acc-detail-situation" style="padding: 20px; font-size: 15px; color: #334155; line-height: 1.6; min-height: 120px; background: #fff;">
-                                      사고 상황 설명이 이곳에 표시됩니다.
-                                  </div>
-                              </div>
+                      <div class="accident-detail-body">
+                          <!-- 1) Diagram/Video -->
+                          <div id="acc-detail-image" class="accident-detail-image-box" style="background: #e2e8f0; display: flex; align-items: center; justify-content: center;">
+                              <!-- SVG or Image goes here -->
+                              <span style="color: #94a3b8;">이미지 로딩중...</span>
                           </div>
 
-                          <!-- Right: Ratios & Factors -->
-                          <div style="flex: 1; padding: 0;">
+                          <!-- 2) Fault ratio & factors -->
+                          <div class="accident-detail-fault-box">
                               <div id="acc-cases-container" style="display: none; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; overflow-x: auto;">
                                   <!-- Dynamically populated case tabs -->
                               </div>
@@ -496,6 +484,20 @@
                                       </td>
                                   </tr>
                               </table>
+                          </div>
+
+                          <!-- 3) Situation tabs & description -->
+                          <div class="accident-detail-info-box">
+                              <div style="border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;">
+                                  <div style="display: flex; background: #f8fafc; border-bottom: 1px solid #cbd5e1;">
+                                      <button id="acc-tab-situation" onclick="switchAccidentDetailTab('situation')" style="padding: 12px; flex: 1; text-align: center; border: none; border-right: 1px solid #cbd5e1; font-weight: bold; color: #0f766e; background: #fff; cursor: pointer; font-size: 14px;">사고 상황</button>
+                                      <button id="acc-tab-apply" onclick="switchAccidentDetailTab('apply')" style="padding: 12px; flex: 1; text-align: center; border: none; border-right: 1px solid #cbd5e1; color: #64748b; background: transparent; cursor: pointer; font-size: 14px;">적용(비적용)</button>
+                                      <button id="acc-tab-explain" onclick="switchAccidentDetailTab('explain')" style="padding: 12px; flex: 1; text-align: center; border: none; color: #64748b; background: transparent; cursor: pointer; font-size: 14px;">기본과실 해설</button>
+                                  </div>
+                                  <div id="acc-detail-situation" style="padding: 20px; font-size: 15px; color: #334155; line-height: 1.6; min-height: 120px; background: #fff;">
+                                      사고 상황 설명이 이곳에 표시됩니다.
+                                  </div>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -811,6 +813,15 @@
                         <div class="auto-form-container">
                             <h3 class="auto-section-title" id="auto-form-title">사고 기본 정보를 입력해주세요.</h3>
                             
+                            <!-- 계산기 방식 토글 (단순계산 / 상세계산) -->
+                            <div id="auto-calc-type-container" style="display: none; margin-bottom: 24px;">
+                                <label class="auto-label">계산 방식 선택</label>
+                                <div style="display: flex; gap: 12px;">
+                                    <button type="button" class="calc-type-btn active" id="auto-calc-type-simple" onclick="setAutoCalcType('simple')">단순계산</button>
+                                    <button type="button" class="calc-type-btn" id="auto-calc-type-detailed" onclick="setAutoCalcType('detailed')">상세계산</button>
+                                </div>
+                            </div>
+
                             <div class="auto-form-group">
                                 <label class="auto-label" for="auto-birthdate">대상자 생년월일</label>
                                 <div style="display: flex; gap: 12px; align-items: center;">
@@ -822,6 +833,38 @@
                             <div class="auto-form-group">
                                 <label class="auto-label" for="auto-accidentdate">사고발생일</label>
                                 <input type="date" id="auto-accidentdate" class="auto-input" max="9999-12-31" onchange="updateManAge()">
+                            </div>
+
+                            <!-- 입원기간 입력 필드 (상세계산용) -->
+                            <div id="auto-hosp-period-group" class="auto-form-group hidden">
+                                <label class="auto-label">입원기간</label>
+                                <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                                    <label id="label-hosp-type-range" class="auto-radio-label active">
+                                        <input type="radio" name="auto-hosp-input-type" value="range" checked onchange="toggleHospInputType('range')">
+                                        입원기간 입력
+                                    </label>
+                                    <label id="label-hosp-type-days" class="auto-radio-label">
+                                        <input type="radio" name="auto-hosp-input-type" value="days" onchange="toggleHospInputType('days')">
+                                        입원일수 직접입력
+                                    </label>
+                                </div>
+                                
+                                <!-- 1) 입원기간 날짜 선택 -->
+                                <div id="auto-hosp-range-inputs" style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="date" id="auto-hosp-start" class="auto-input" style="flex: 1;" onchange="calculateHospRangeDays()">
+                                    <span style="color: #64748b; font-weight: bold;">~</span>
+                                    <input type="date" id="auto-hosp-end" class="auto-input" style="flex: 1;" onchange="calculateHospRangeDays()">
+                                </div>
+                                
+                                <!-- 자동 계산된 입원일수 표시 -->
+                                <div id="auto-hosp-range-result" style="display: none; margin-top: 8px; font-size: 13px; color: #3b82f6; font-weight: bold; text-align: left;">
+                                    계산된 입원일수: <span id="auto-hosp-range-calculated-days">0</span>일
+                                </div>
+                                
+                                <!-- 2) 총 입원일수 직접 입력 -->
+                                <div id="auto-hosp-days-input" class="hidden">
+                                    <input type="number" id="auto-hosp-days-direct" class="auto-input" min="0" placeholder="총 입원일수를 입력하세요">
+                                </div>
                             </div>
 
                             <div class="auto-form-group">
@@ -887,7 +930,7 @@
                                             <tr style="border-bottom: 1px solid #cbd5e1; background-color: #f8fafc; font-weight: 700; color: #475569;">
                                                 <th style="padding: 12px 14px; text-align: left;">산출 항목</th>
                                                 <th style="padding: 12px 14px; text-align: right;">산출 기준 / 상세</th>
-                                                <th style="padding: 12px 14px; text-align: right; width: 130px;">계산 금액</th>
+                                                <th style="padding: 12px 14px; text-align: right; min-width: 140px;">계산 금액</th>
                                             </tr>
                                         </thead>
                                         <tbody id="auto-breakdown-rows">

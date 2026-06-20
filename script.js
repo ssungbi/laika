@@ -17019,6 +17019,16 @@ window.autoCalcState = {
     monthlyIncome: 0,
     isNoIncome: false,
     
+    // 단순/상세계산 분리
+    calcType: 'simple',   // 'simple', 'detailed'
+    hospPeriod: {
+        type: 'range',    // 'range', 'days'
+        start: '',
+        end: '',
+        days: 0
+    },
+    detailedDisabilities: [], // 상세계산의 복수 장해 목록: { name, ratio, type, years }
+
     // 부상 관련
     injuryGrade: 0,       // 1 ~ 14급
     hospDays: 0,          // 입원일수
@@ -17044,6 +17054,14 @@ window.initAutoCalc = function() {
         faultRatio: 0,
         monthlyIncome: 0,
         isNoIncome: false,
+        calcType: 'simple',
+        hospPeriod: {
+            type: 'range',
+            start: '',
+            end: '',
+            days: 0
+        },
+        detailedDisabilities: [],
         injuryGrade: 0,
         hospDays: 0,
         outDays: 0,
@@ -17077,6 +17095,37 @@ window.initAutoCalc = function() {
 
     const noIncomeCheck = document.getElementById('auto-is-noincome');
     if (noIncomeCheck) noIncomeCheck.checked = false;
+
+    // 단순/상세계산 및 입원기간 필드 초기화
+    const calcTypeContainer = document.getElementById('auto-calc-type-container');
+    if (calcTypeContainer) calcTypeContainer.style.display = 'none';
+
+    const hospPeriodGroup = document.getElementById('auto-hosp-period-group');
+    if (hospPeriodGroup) hospPeriodGroup.classList.add('hidden');
+
+    const hospStart = document.getElementById('auto-hosp-start');
+    if (hospStart) hospStart.value = '';
+
+    const hospEnd = document.getElementById('auto-hosp-end');
+    if (hospEnd) hospEnd.value = '';
+
+    const hospRangeResult = document.getElementById('auto-hosp-range-result');
+    if (hospRangeResult) {
+        hospRangeResult.style.display = 'none';
+        const daysSpan = document.getElementById('auto-hosp-range-calculated-days');
+        if (daysSpan) daysSpan.textContent = '0';
+    }
+
+    const hospDaysDirect = document.getElementById('auto-hosp-days-direct');
+    if (hospDaysDirect) hospDaysDirect.value = '';
+
+    // 라디오 버튼 및 라벨 리셋
+    const rangeRadio = document.querySelector('input[name="auto-hosp-input-type"][value="range"]');
+    if (rangeRadio) rangeRadio.checked = true;
+    const daysRadio = document.querySelector('input[name="auto-hosp-input-type"][value="days"]');
+    if (daysRadio) daysRadio.checked = false;
+
+    window.toggleHospInputType('range');
 
     // 단계 및 화면 숨김/표시 초기화
     window.goToStep(1);
@@ -17120,14 +17169,78 @@ window.bindAutoCalcEvents = function() {
             if (accidentdateTimeout) clearTimeout(accidentdateTimeout);
             if (val && val.length === 10) {
                 accidentdateTimeout = setTimeout(() => {
+                    const hospPeriodGroup = document.getElementById('auto-hosp-period-group');
+                    if (hospPeriodGroup && !hospPeriodGroup.classList.contains('hidden')) {
+                        const hospInputType = document.querySelector('input[name="auto-hosp-input-type"]:checked') ? document.querySelector('input[name="auto-hosp-input-type"]:checked').value : 'range';
+                        if (hospInputType === 'days') {
+                            const directInput = document.getElementById('auto-hosp-days-direct');
+                            if (directInput) directInput.focus();
+                        } else {
+                            const startInput = document.getElementById('auto-hosp-start');
+                            if (startInput) startInput.focus();
+                        }
+                    } else {
+                        const faultInput = document.getElementById('auto-faultratio');
+                        if (faultInput) {
+                            faultInput.focus();
+                        }
+                    }
+                }, 600); // 600ms 대기 후 포커스 이동
+            }
+        });
+        accInput.dataset.bound = "true";
+    }
+
+    const hospStartInput = document.getElementById('auto-hosp-start');
+    if (hospStartInput && !hospStartInput.dataset.bound) {
+        hospStartInput.addEventListener('input', window.limitDateYearInput);
+        let hospStartTimeout = null;
+        hospStartInput.addEventListener('input', function(e) {
+            const val = e.target.value;
+            if (hospStartTimeout) clearTimeout(hospStartTimeout);
+            if (val && val.length === 10) {
+                hospStartTimeout = setTimeout(() => {
+                    const endInput = document.getElementById('auto-hosp-end');
+                    if (endInput) {
+                        endInput.focus();
+                    }
+                }, 600);
+            }
+        });
+        hospStartInput.dataset.bound = "true";
+    }
+
+    const hospEndInput = document.getElementById('auto-hosp-end');
+    if (hospEndInput && !hospEndInput.dataset.bound) {
+        hospEndInput.addEventListener('input', window.limitDateYearInput);
+        let hospEndTimeout = null;
+        hospEndInput.addEventListener('input', function(e) {
+            const val = e.target.value;
+            if (hospEndTimeout) clearTimeout(hospEndTimeout);
+            if (val && val.length === 10) {
+                hospEndTimeout = setTimeout(() => {
                     const faultInput = document.getElementById('auto-faultratio');
                     if (faultInput) {
                         faultInput.focus();
                     }
-                }, 600); // 600ms 대기 후 과실비율 입력창으로 포커스 이동
+                }, 600);
             }
         });
-        accInput.dataset.bound = "true";
+        hospEndInput.dataset.bound = "true";
+    }
+
+    const hospDaysDirect = document.getElementById('auto-hosp-days-direct');
+    if (hospDaysDirect && !hospDaysDirect.dataset.bound) {
+        hospDaysDirect.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const faultInput = document.getElementById('auto-faultratio');
+                if (faultInput) {
+                    faultInput.focus();
+                }
+            }
+        });
+        hospDaysDirect.dataset.bound = "true";
     }
 };
 
@@ -17178,6 +17291,190 @@ window.toggleNoIncome = function(checkbox) {
     }
 };
 
+window.setAutoCalcType = function(type) {
+    window.autoCalcState.calcType = type;
+    
+    if (type === 'detailed' && (!window.autoCalcState.detailedDisabilities || window.autoCalcState.detailedDisabilities.length === 0)) {
+        window.autoCalcState.detailedDisabilities = [{
+            name: '',
+            ratio: '',
+            type: 'permanent',
+            years: 5
+        }];
+    }
+    
+    const btnSimple = document.getElementById('auto-calc-type-simple');
+    const btnDetailed = document.getElementById('auto-calc-type-detailed');
+    
+    if (type === 'simple') {
+        if (btnSimple) btnSimple.classList.add('active');
+        if (btnDetailed) btnDetailed.classList.remove('active');
+    } else {
+        if (btnSimple) btnSimple.classList.remove('active');
+        if (btnDetailed) btnDetailed.classList.add('active');
+    }
+
+    // 단순계산인 경우 입원기간 입력 필드를 숨기고, 상세계산인 경우 보여줌 (후유장해 한정)
+    const category = window.autoCalcState.category;
+    const hospPeriodGroup = document.getElementById('auto-hosp-period-group');
+    if (hospPeriodGroup) {
+        if (category === '후유장해') {
+            if (type === 'simple') {
+                hospPeriodGroup.classList.add('hidden');
+            } else {
+                hospPeriodGroup.classList.remove('hidden');
+            }
+        }
+    }
+};
+
+window.toggleHospInputType = function(inputType) {
+    const labelRange = document.getElementById('label-hosp-type-range');
+    const labelDays = document.getElementById('label-hosp-type-days');
+    const rangeInputs = document.getElementById('auto-hosp-range-inputs');
+    const daysInput = document.getElementById('auto-hosp-days-input');
+    const rangeResult = document.getElementById('auto-hosp-range-result');
+    
+    if (inputType === 'range') {
+        if (labelRange) labelRange.classList.add('active');
+        if (labelDays) labelDays.classList.remove('active');
+        if (rangeInputs) rangeInputs.style.display = 'flex';
+        if (daysInput) daysInput.classList.add('hidden');
+        
+        // 날짜가 이미 채워져 있다면 자동 계산 결과 표시
+        const startVal = document.getElementById('auto-hosp-start')?.value;
+        const endVal = document.getElementById('auto-hosp-end')?.value;
+        if (startVal && endVal && rangeResult) {
+            rangeResult.style.display = 'block';
+        }
+    } else {
+        if (labelRange) labelRange.classList.remove('active');
+        if (labelDays) labelDays.classList.add('active');
+        if (rangeInputs) rangeInputs.style.display = 'none';
+        if (daysInput) daysInput.classList.remove('hidden');
+        if (rangeResult) rangeResult.style.display = 'none';
+    }
+};
+
+window.calculateHospRangeDays = function() {
+    const startVal = document.getElementById('auto-hosp-start')?.value;
+    const endVal = document.getElementById('auto-hosp-end')?.value;
+    const rangeResult = document.getElementById('auto-hosp-range-result');
+    const resultSpan = document.getElementById('auto-hosp-range-calculated-days');
+    
+    if (startVal && endVal) {
+        const startDate = new Date(startVal);
+        const endDate = new Date(endVal);
+        
+        if (startDate <= endDate) {
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            if (resultSpan) resultSpan.textContent = diffDays;
+            if (rangeResult) rangeResult.style.display = 'block';
+        } else {
+            if (resultSpan) resultSpan.textContent = '0';
+            if (rangeResult) rangeResult.style.display = 'block';
+        }
+    } else {
+        if (rangeResult) rangeResult.style.display = 'none';
+    }
+};
+
+window.activeMcBrideRow = null;
+
+window.openMcBrideSearchPopupForRow = function(index) {
+    window.openMcBrideSearchPopup(index);
+};
+
+window.updateDetailedDisabilityField = function(index, field, value) {
+    if (window.autoCalcState.detailedDisabilities && window.autoCalcState.detailedDisabilities[index]) {
+        if (field === 'ratio') {
+            window.autoCalcState.detailedDisabilities[index][field] = value === '' ? '' : parseFloat(value);
+        } else if (field === 'years') {
+            window.autoCalcState.detailedDisabilities[index][field] = parseInt(value, 10);
+        } else {
+            window.autoCalcState.detailedDisabilities[index][field] = value;
+        }
+    }
+};
+
+window.addDetailedDisabilityRow = function() {
+    if (!window.autoCalcState.detailedDisabilities) {
+        window.autoCalcState.detailedDisabilities = [];
+    }
+    window.autoCalcState.detailedDisabilities.push({
+        name: '',
+        ratio: '',
+        type: 'permanent',
+        years: 5
+    });
+    window.renderDetailedDisabilityRows();
+};
+
+window.removeDetailedDisabilityRow = function(index) {
+    if (window.autoCalcState.detailedDisabilities) {
+        window.autoCalcState.detailedDisabilities.splice(index, 1);
+        window.renderDetailedDisabilityRows();
+    }
+};
+
+window.renderDetailedDisabilityRows = function() {
+    const rowsContainer = document.getElementById('detailed-disability-rows-container');
+    if (!rowsContainer) return;
+    
+    let html = '';
+    const disabilities = window.autoCalcState.detailedDisabilities || [];
+    
+    if (disabilities.length === 0) {
+        html = `<div style="text-align: center; color: #64748b; padding: 20px; border: 1px dashed #cbd5e1; border-radius: 12px;">등록된 장해 항목이 없습니다. 추가 버튼을 눌러주세요.</div>`;
+        rowsContainer.innerHTML = html;
+        return;
+    }
+    
+    disabilities.forEach((dis, index) => {
+        html += `
+            <div class="detailed-disability-row" data-index="${index}" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; background-color: #f8fafc; position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="font-weight: 700; color: #2563eb; font-size: 14px;">장해 항목 #${index + 1}</span>
+                    <button type="button" class="ins-btn-small" style="padding: 4px 10px; font-size: 12px; background-color: #fef2f2; color: #ef4444; border-color: #fecaca;" onclick="window.removeDetailedDisabilityRow(${index})">삭제</button>
+                </div>
+                
+                <div class="auto-form-group">
+                    <label class="auto-label">장해진단명</label>
+                    <input type="text" class="auto-input detailed-dis-name" placeholder="예: 척추 압박골절, 견관절 탈구 등" value="${dis.name || ''}" oninput="window.updateDetailedDisabilityField(${index}, 'name', this.value)">
+                </div>
+                
+                <div class="auto-form-row">
+                    <div class="auto-form-group">
+                        <label class="auto-label">노동능력상실률 (%)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="number" class="auto-input detailed-dis-ratio" min="0" max="100" placeholder="0 ~ 100" value="${dis.ratio || ''}" oninput="window.updateDetailedDisabilityField(${index}, 'ratio', this.value)">
+                            <button type="button" class="btn-search" onclick="window.openMcBrideSearchPopupForRow(${index})">장해표 검색</button>
+                        </div>
+                    </div>
+                    
+                    <div class="auto-form-group">
+                        <label class="auto-label">장해 기간</label>
+                        <select class="auto-select detailed-dis-type" onchange="window.updateDetailedDisabilityField(${index}, 'type', this.value); window.renderDetailedDisabilityRows();">
+                            <option value="permanent" ${dis.type === 'permanent' ? 'selected' : ''}>영구장해 (만 65세 정년까지)</option>
+                            <option value="temporary" ${dis.type === 'temporary' ? 'selected' : ''}>한시장해 (일시적 장해)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="auto-form-group detailed-dis-years-container ${dis.type === 'temporary' ? '' : 'hidden'}" style="margin-top: 12px;">
+                    <label class="auto-label">장해 년수</label>
+                    <select class="auto-select detailed-dis-years" onchange="window.updateDetailedDisabilityField(${index}, 'years', this.value)">
+                        ${[1,2,3,4,5,6,7,8,9,10].map(y => `<option value="${y}" ${parseInt(dis.years, 10) === y ? 'selected' : ''}>${y}년 한시장해</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+        `;
+    });
+    
+    rowsContainer.innerHTML = html;
+};
+
 window.selectAutoCategory = function(category) {
     window.autoCalcState.category = category;
     
@@ -17185,6 +17482,18 @@ window.selectAutoCategory = function(category) {
     const formTitle = document.getElementById('auto-form-title');
     if (formTitle) {
         formTitle.innerHTML = `사고 기본 정보를 입력해주세요.`;
+    }
+    
+    const calcTypeContainer = document.getElementById('auto-calc-type-container');
+    const hospPeriodGroup = document.getElementById('auto-hosp-period-group');
+    
+    if (category === '후유장해') {
+        if (calcTypeContainer) calcTypeContainer.style.display = 'block';
+        window.setAutoCalcType('simple'); // 기본값 단순계산
+    } else {
+        if (calcTypeContainer) calcTypeContainer.style.display = 'none';
+        if (hospPeriodGroup) hospPeriodGroup.classList.add('hidden');
+        window.setAutoCalcType('simple');
     }
     
     window.goToStep(2);
@@ -17215,6 +17524,62 @@ window.validateAndGoToStep3 = function() {
         alert('생년월일이 사고발생일보다 늦을 수 없습니다.');
         document.getElementById('auto-birthdate').focus();
         return;
+    }
+
+    // 입원기간 검증 (후유장해 상세계산일 경우)
+    const category = window.autoCalcState.category;
+    const calcType = window.autoCalcState.calcType || 'simple';
+    const hospPeriodGroup = document.getElementById('auto-hosp-period-group');
+    let hospDays = 0;
+
+    if (category === '후유장해' && calcType === 'detailed' && hospPeriodGroup && !hospPeriodGroup.classList.contains('hidden')) {
+        const hospInputType = document.querySelector('input[name="auto-hosp-input-type"]:checked') ? document.querySelector('input[name="auto-hosp-input-type"]:checked').value : 'range';
+        
+        if (hospInputType === 'range') {
+            const startVal = document.getElementById('auto-hosp-start').value;
+            const endVal = document.getElementById('auto-hosp-end').value;
+            
+            if (!startVal) {
+                alert('입원 시작일을 입력해 주세요.');
+                document.getElementById('auto-hosp-start').focus();
+                return;
+            }
+            if (!endVal) {
+                alert('입원 종료일을 입력해 주세요.');
+                document.getElementById('auto-hosp-end').focus();
+                return;
+            }
+            
+            const startDate = new Date(startVal);
+            const endDate = new Date(endVal);
+            
+            if (startDate < accidentDate) {
+                alert('입원 시작일이 사고발생일 이전일 수 없습니다.');
+                document.getElementById('auto-hosp-start').focus();
+                return;
+            }
+            if (endDate < startDate) {
+                alert('입원 종료일이 입원 시작일 이전일 수 없습니다.');
+                document.getElementById('auto-hosp-end').focus();
+                return;
+            }
+            
+            const diffTime = Math.abs(endDate - startDate);
+            hospDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        } else {
+            const directVal = document.getElementById('auto-hosp-days-direct').value.trim();
+            if (!directVal) {
+                alert('총 입원일수를 입력해 주세요.');
+                document.getElementById('auto-hosp-days-direct').focus();
+                return;
+            }
+            hospDays = parseInt(directVal, 10);
+            if (isNaN(hospDays) || hospDays < 0) {
+                alert('총 입원일수는 0 이상의 숫자여야 합니다.');
+                document.getElementById('auto-hosp-days-direct').focus();
+                return;
+            }
+        }
     }
 
     if (!faultVal) {
@@ -17250,6 +17615,7 @@ window.validateAndGoToStep3 = function() {
     window.autoCalcState.faultRatio = faultRatio;
     window.autoCalcState.monthlyIncome = monthlyIncome;
     window.autoCalcState.isNoIncome = isNoIncome;
+    window.autoCalcState.hospDays = hospDays;
 
     // 3단계 추가 입력 양식 동적 렌더링 후 3단계 전환
     window.renderStep3Form();
@@ -17306,69 +17672,71 @@ window.renderStep3Form = function() {
             </div>
         `;
     } else if (category === '후유장해') {
-        html = `
-            <div class="auto-form-group">
-                <label class="auto-label" for="auto-disability-name">장해진단명</label>
-                <input type="text" id="auto-disability-name" class="auto-input" placeholder="예: 척추 압박골절, 견관절 탈구 등">
-            </div>
-
-            <div class="auto-form-row">
+        const calcType = window.autoCalcState.calcType || 'simple';
+        if (calcType === 'simple') {
+            html = `
                 <div class="auto-form-group">
-                    <label class="auto-label" for="auto-disability-ratio">맥브라이드 노동능력상실률 (%)</label>
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="auto-disability-ratio" class="auto-input" min="0" max="100" placeholder="0 ~ 100" style="flex: 1;">
-                        <button type="button" class="btn-search" onclick="window.openMcBrideSearchPopup()">장해표 검색</button>
+                    <label class="auto-label" for="auto-disability-name">장해진단명</label>
+                    <input type="text" id="auto-disability-name" class="auto-input" placeholder="예: 척추 압박골절, 견관절 탈구 등" value="${window.autoCalcState.disabilityName || ''}">
+                </div>
+
+                <div class="auto-form-row">
+                    <div class="auto-form-group">
+                        <label class="auto-label" for="auto-disability-ratio">맥브라이드 노동능력상실률 (%)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="number" id="auto-disability-ratio" class="auto-input" min="0" max="100" placeholder="0 ~ 100" style="flex: 1;" value="${window.autoCalcState.disabilityRatio || ''}">
+                            <button type="button" class="btn-search" onclick="window.openMcBrideSearchPopup()">장해표 검색</button>
+                        </div>
+                    </div>
+                    <div class="auto-form-group">
+                        <label class="auto-label" for="auto-disability-injury-grade">부상급수 (선택 / 위자료 비교용)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <select id="auto-disability-injury-grade" class="auto-select" style="flex: 1;">
+                                <option value="" ${!window.autoCalcState.injuryGrade ? 'selected' : ''}>부상급수 선택 안함</option>
+                                ${[1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(g => `<option value="${g}" ${window.autoCalcState.injuryGrade === g ? 'selected' : ''}>${g}급</option>`).join('')}
+                            </select>
+                            <button type="button" class="btn-search" onclick="window.openInjurySearchPopup('auto-disability-injury-grade')">등급 검색</button>
+                        </div>
                     </div>
                 </div>
+
+                <div class="auto-form-group">
+                    <label class="auto-label">장해 기간</label>
+                    <select id="auto-disability-type" class="auto-select" onchange="window.toggleDisabilityPeriod(this)">
+                        <option value="permanent" ${window.autoCalcState.disabilityType === 'permanent' ? 'selected' : ''}>영구장해 (만 65세 정년까지)</option>
+                        <option value="temporary" ${window.autoCalcState.disabilityType === 'temporary' ? 'selected' : ''}>한시장해 (일시적 장해)</option>
+                    </select>
+                </div>
+
+                <div id="auto-temp-period-group" class="auto-form-group ${window.autoCalcState.disabilityType === 'temporary' ? '' : 'hidden'}">
+                    <label class="auto-label" for="auto-disability-years">장해 년수</label>
+                    <select id="auto-disability-years" class="auto-select">
+                        ${[1,2,3,4,5,6,7,8,9,10].map(y => `<option value="${y}" ${window.autoCalcState.disabilityYears === y ? 'selected' : ''}>${y}년 한시장해</option>`).join('')}
+                    </select>
+                </div>
+            `;
+        } else {
+            html = `
                 <div class="auto-form-group">
                     <label class="auto-label" for="auto-disability-injury-grade">부상급수 (선택 / 위자료 비교용)</label>
                     <div style="display: flex; gap: 8px;">
-                        <select id="auto-disability-injury-grade" class="auto-select" style="flex: 1;">
-                            <option value="" selected>부상급수 선택 안함</option>
-                            <option value="1">1급</option>
-                            <option value="2">2급</option>
-                            <option value="3">3급</option>
-                            <option value="4">4급</option>
-                            <option value="5">5급</option>
-                            <option value="6">6급</option>
-                            <option value="7">7급</option>
-                            <option value="8">8급</option>
-                            <option value="9">9급</option>
-                            <option value="10">10급</option>
-                            <option value="11">11급</option>
-                            <option value="12">12급</option>
-                            <option value="13">13급</option>
-                            <option value="14">14급</option>
+                        <select id="auto-disability-injury-grade" class="auto-select" style="flex: 1;" onchange="window.autoCalcState.injuryGrade = this.value ? parseInt(this.value, 10) : 0;">
+                            <option value="" ${!window.autoCalcState.injuryGrade ? 'selected' : ''}>부상급수 선택 안함</option>
+                            ${[1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(g => `<option value="${g}" ${window.autoCalcState.injuryGrade === g ? 'selected' : ''}>${g}급</option>`).join('')}
                         </select>
                         <button type="button" class="btn-search" onclick="window.openInjurySearchPopup('auto-disability-injury-grade')">등급 검색</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="auto-form-group">
-                <label class="auto-label">장해 기간</label>
-                <select id="auto-disability-type" class="auto-select" onchange="window.toggleDisabilityPeriod(this)">
-                    <option value="permanent" selected>영구장해 (만 65세 정년까지)</option>
-                    <option value="temporary">한시장해 (일시적 장해)</option>
-                </select>
-            </div>
-
-            <div id="auto-temp-period-group" class="auto-form-group hidden">
-                <label class="auto-label" for="auto-disability-years">장해 년수</label>
-                <select id="auto-disability-years" class="auto-select">
-                    <option value="1">1년 한시장해</option>
-                    <option value="2">2년 한시장해</option>
-                    <option value="3">3년 한시장해</option>
-                    <option value="4">4년 한시장해</option>
-                    <option value="5" selected>5년 한시장해</option>
-                    <option value="6">6년 한시장해</option>
-                    <option value="7">7년 한시장해</option>
-                    <option value="8">8년 한시장해</option>
-                    <option value="9">9년 한시장해</option>
-                    <option value="10">10년 한시장해</option>
-                </select>
-            </div>
-        `;
+                
+                <div id="detailed-disability-rows-container" style="margin-bottom: 24px;">
+                    <!-- Rows will be injected here -->
+                </div>
+                
+                <div style="margin-bottom: 32px; text-align: center;">
+                    <button type="button" class="btn-search" style="width: auto; padding: 10px 24px; font-size: 14px; background-color: #eff6ff; color: #2563eb; border-color: #bfdbfe;" onclick="window.addDetailedDisabilityRow()">+ 장해 항목 추가</button>
+                </div>
+            `;
+        }
     } else if (category === '사망') {
         html = `
             <div class="auto-form-group">
@@ -17384,6 +17752,10 @@ window.renderStep3Form = function() {
     }
 
     container.innerHTML = html;
+
+    if (category === '후유장해' && window.autoCalcState.calcType === 'detailed') {
+        window.renderDetailedDisabilityRows();
+    }
 
     // 실시간 인풋 천단위 콤마 포맷터 바인딩
     const futureTx = document.getElementById('auto-future-tx');
@@ -17440,6 +17812,18 @@ window.toggleDisabilityPeriod = function(select) {
     } else {
         periodGroup.classList.add('hidden');
     }
+};
+
+window.combineDisabilityRates = function(rates) {
+    if (!rates || rates.length === 0) return 0;
+    const sorted = [...rates].map(r => parseFloat(r)).filter(r => !isNaN(r) && r > 0).sort((a, b) => b - a);
+    if (sorted.length === 0) return 0;
+    
+    let combined = sorted[0];
+    for (let i = 1; i < sorted.length; i++) {
+        combined = combined + sorted[i] * (1 - combined / 100);
+    }
+    return Math.round(combined * 100) / 100;
 };
 
 window.getHoffmanCoefficient = function(months) {
@@ -17508,47 +17892,145 @@ window.validateAndCalculate = function() {
         window.autoCalcState.hospDays = hospDays;
         window.autoCalcState.outDays = outDays;
         window.autoCalcState.futureTxCost = futureTxCost;
+        window.autoCalcState.hospStartDate = null;
+        window.autoCalcState.hospEndDate = null;
 
     } else if (category === '후유장해') {
-        const diagName = document.getElementById('auto-disability-name').value.trim();
-        const ratioVal = document.getElementById('auto-disability-ratio').value.trim();
-        const disabilityType = document.getElementById('auto-disability-type').value;
-        const tempYearsSelect = document.getElementById('auto-disability-years');
+        let parsedInjuryGrade = 0;
         const injuryGradeSelect = document.getElementById('auto-disability-injury-grade');
-
-        if (!diagName) {
-            alert('장해진단명을 입력해 주세요 (예: 척추 압박골절).');
-            document.getElementById('auto-disability-name').focus();
-            return;
+        if (injuryGradeSelect && injuryGradeSelect.value) {
+            parsedInjuryGrade = parseInt(injuryGradeSelect.value, 10);
         }
 
-        if (!ratioVal) {
-            alert('맥브라이드 노동능력상실률(장해율)을 입력해 주세요.');
-            document.getElementById('auto-disability-ratio').focus();
-            return;
-        }
-
-        const disabilityRatio = parseFloat(ratioVal);
-        if (isNaN(disabilityRatio) || disabilityRatio < 0 || disabilityRatio > 100) {
-            alert('장해율은 0%에서 100% 사이의 숫자여야 합니다.');
-            document.getElementById('auto-disability-ratio').focus();
-            return;
-        }
-
-        let disabilityYears = 0;
-        if (disabilityType === 'temporary') {
-            disabilityYears = parseInt(tempYearsSelect.value, 10);
+        let hospDays = 0;
+        const hospPeriodGroup = document.getElementById('auto-hosp-period-group');
+        if (hospPeriodGroup && !hospPeriodGroup.classList.contains('hidden')) {
+            const hospInputType = document.querySelector('input[name="auto-hosp-input-type"]:checked') ? document.querySelector('input[name="auto-hosp-input-type"]:checked').value : 'range';
+            
+            if (hospInputType === 'days') {
+                const hospVal = document.getElementById('auto-hosp-days-direct').value.trim();
+                if (!hospVal) {
+                    alert('총 입원일수를 입력해 주세요.');
+                    document.getElementById('auto-hosp-days-direct').focus();
+                    return;
+                }
+                hospDays = parseInt(hospVal, 10);
+                if (isNaN(hospDays) || hospDays < 0) {
+                    alert('입원 일수는 0 이상의 숫자여야 합니다.');
+                    document.getElementById('auto-hosp-days-direct').focus();
+                    return;
+                }
+                window.autoCalcState.hospStartDate = null;
+                window.autoCalcState.hospEndDate = null;
+            } else {
+                const startVal = document.getElementById('auto-hosp-start').value;
+                const endVal = document.getElementById('auto-hosp-end').value;
+                if (!startVal) {
+                    alert('입원 시작일을 입력해 주세요.');
+                    document.getElementById('auto-hosp-start').focus();
+                    return;
+                }
+                if (!endVal) {
+                    alert('입원 종료일을 입력해 주세요.');
+                    document.getElementById('auto-hosp-end').focus();
+                    return;
+                }
+                const accidentDate = new Date(window.autoCalcState.accidentDate);
+                const startDate = new Date(startVal);
+                const endDate = new Date(endVal);
+                if (startDate < accidentDate) {
+                    alert('입원 시작일이 사고발생일 이전일 수 없습니다.');
+                    document.getElementById('auto-hosp-start').focus();
+                    return;
+                }
+                if (startDate > endDate) {
+                    alert('입원 종료일이 입원 시작일 이전일 수 없습니다.');
+                    document.getElementById('auto-hosp-end').focus();
+                    return;
+                }
+                const diffTime = Math.abs(endDate - startDate);
+                hospDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                window.autoCalcState.hospStartDate = startVal;
+                window.autoCalcState.hospEndDate = endVal;
+            }
         } else {
-            disabilityYears = -1; // 영구장해 표시
+            window.autoCalcState.hospStartDate = null;
+            window.autoCalcState.hospEndDate = null;
         }
 
-        let parsedInjuryGrade = injuryGradeSelect && injuryGradeSelect.value ? parseInt(injuryGradeSelect.value, 10) : 0;
+        if (window.autoCalcState.calcType === 'detailed') {
+            const list = window.autoCalcState.detailedDisabilities || [];
+            if (list.length === 0) {
+                alert('장해 항목을 최소 1개 이상 추가해 주세요.');
+                return;
+            }
+            for (let i = 0; i < list.length; i++) {
+                const item = list[i];
+                if (!item.name || !item.name.trim()) {
+                    alert(`${i + 1}번째 장해의 장해진단명을 입력해 주세요.`);
+                    return;
+                }
+                if (item.ratio === undefined || item.ratio === null || String(item.ratio).trim() === '') {
+                    alert(`${i + 1}번째 장해의 장해율을 입력해 주세요.`);
+                    return;
+                }
+                const ratio = parseFloat(item.ratio);
+                if (isNaN(ratio) || ratio < 0 || ratio > 100) {
+                    alert(`${i + 1}번째 장해의 장해율은 0%에서 100% 사이의 숫자여야 합니다.`);
+                    return;
+                }
+            }
+            
+            window.autoCalcState.detailedDisabilities = list.map(item => {
+                return {
+                    name: item.name.trim(),
+                    ratio: parseFloat(item.ratio),
+                    type: item.type,
+                    years: item.type === 'temporary' ? parseInt(item.years, 10) : -1
+                };
+            });
+            window.autoCalcState.injuryGrade = parsedInjuryGrade;
+            window.autoCalcState.hospDays = hospDays;
+            
+        } else {
+            const diagName = document.getElementById('auto-disability-name').value.trim();
+            const ratioVal = document.getElementById('auto-disability-ratio').value.trim();
+            const disabilityType = document.getElementById('auto-disability-type').value;
+            const tempYearsSelect = document.getElementById('auto-disability-years');
 
-        window.autoCalcState.disabilityName = diagName;
-        window.autoCalcState.disabilityRatio = disabilityRatio;
-        window.autoCalcState.disabilityType = disabilityType;
-        window.autoCalcState.disabilityYears = disabilityYears;
-        window.autoCalcState.injuryGrade = parsedInjuryGrade;
+            if (!diagName) {
+                alert('장해진단명을 입력해 주세요 (예: 척추 압박골절).');
+                document.getElementById('auto-disability-name').focus();
+                return;
+            }
+
+            if (!ratioVal) {
+                alert('맥브라이드 노동능력상실률(장해율)을 입력해 주세요.');
+                document.getElementById('auto-disability-ratio').focus();
+                return;
+            }
+
+            const disabilityRatio = parseFloat(ratioVal);
+            if (isNaN(disabilityRatio) || disabilityRatio < 0 || disabilityRatio > 100) {
+                alert('장해율은 0%에서 100% 사이의 숫자여야 합니다.');
+                document.getElementById('auto-disability-ratio').focus();
+                return;
+            }
+
+            let disabilityYears = 0;
+            if (disabilityType === 'temporary') {
+                disabilityYears = parseInt(tempYearsSelect.value, 10);
+            } else {
+                disabilityYears = -1; // 영구장해 표시
+            }
+
+            window.autoCalcState.disabilityName = diagName;
+            window.autoCalcState.disabilityRatio = disabilityRatio;
+            window.autoCalcState.disabilityType = disabilityType;
+            window.autoCalcState.disabilityYears = disabilityYears;
+            window.autoCalcState.injuryGrade = parsedInjuryGrade;
+            window.autoCalcState.hospDays = hospDays;
+        }
 
     } else if (category === '사망') {
         const funeralVal = document.getElementById('auto-funeral-cost').value.trim();
@@ -17571,8 +18053,56 @@ window.validateAndCalculate = function() {
         window.autoCalcState.funeralCost = funeralCost;
         window.autoCalcState.consolationDeath = consolationDeath;
     }
-
     window.calculateInsurance();
+};
+
+window.WAGE_HISTORY = {
+    2023: {
+        상반기: { construction: 157068, manufacturing: 84618 },
+        하반기: { construction: 161858, manufacturing: 84618 }
+    },
+    2024: {
+        상반기: { construction: 165545, manufacturing: 86008 },
+        하반기: { construction: 167081, manufacturing: 90085 }
+    },
+    2025: {
+        상반기: { construction: 169804, manufacturing: 90830 },
+        하반기: { construction: 171037, manufacturing: 90694 }
+    },
+    2026: {
+        상반기: { construction: 172068, manufacturing: 90694 },
+        하반기: { construction: 172068, manufacturing: 90694 }
+    }
+};
+
+window.getWagesForDate = function(date) {
+    if (!date || isNaN(date.getTime())) {
+        date = new Date();
+    }
+    let y = date.getFullYear();
+    if (y < 2023) y = 2023;
+    if (y > 2026) y = 2026;
+    
+    const yearData = window.WAGE_HISTORY[y];
+    const month = date.getMonth() + 1; // 1-indexed
+    
+    // Manufacturing: Second Half is from July 1st
+    const mHalf = (month >= 7) ? '하반기' : '상반기';
+    // Construction: Second Half is from Sept 1st
+    const cHalf = (month >= 9) ? '하반기' : '상반기';
+    
+    const construction = yearData[cHalf].construction;
+    const manufacturing = yearData[mHalf].manufacturing;
+    
+    const dailyAverage = Math.round((construction + manufacturing) / 2);
+    const monthlyCommon = dailyAverage * 25;
+    
+    return {
+        construction,
+        manufacturing,
+        dailyAverage,
+        monthlyCommon
+    };
 };
 
 window.calculateInsurance = function() {
@@ -17581,8 +18111,10 @@ window.calculateInsurance = function() {
     const faultRatio = window.autoCalcState.faultRatio;
     const age = window.getAutoManAge();
 
-    const DAILY_COMMON_WAGE = (window.WAGE_DATA && window.WAGE_DATA.dailyAverage) ? window.WAGE_DATA.dailyAverage : 131381;
-    const MONTHLY_COMMON_WAGE = (window.WAGE_DATA && window.WAGE_DATA.monthlyCommon) ? window.WAGE_DATA.monthlyCommon : 3284525;
+    const accidentDate = new Date(window.autoCalcState.accidentDate);
+    const accidentWageInfo = window.getWagesForDate(accidentDate);
+    const DAILY_COMMON_WAGE = accidentWageInfo.dailyAverage;
+    const MONTHLY_COMMON_WAGE = accidentWageInfo.monthlyCommon;
 
     let incomeLabel = "";
     if (baseMonthlyIncome === 0) {
@@ -17594,7 +18126,11 @@ window.calculateInsurance = function() {
             incomeLabel = "소득 없음 (0원)";
         }
     } else {
-        incomeLabel = baseMonthlyIncome.toLocaleString('ko-KR') + "원";
+        if (baseMonthlyIncome < MONTHLY_COMMON_WAGE) {
+            incomeLabel = `월 소득 기입 (${baseMonthlyIncome.toLocaleString('ko-KR')}원) / 도시일용노임 하한선 적용 (월 ${MONTHLY_COMMON_WAGE.toLocaleString('ko-KR')}원)`;
+        } else {
+            incomeLabel = baseMonthlyIncome.toLocaleString('ko-KR') + "원";
+        }
     }
 
     let listHtml = '';
@@ -17626,14 +18162,7 @@ window.calculateInsurance = function() {
 
         let lossOfIncome = 0;
         let incomeMemo = "";
-        if (age >= 65) {
-            lossOfIncome = 0;
-            incomeMemo = "정년 초과(만 65세 이상)로 휴업손해 제외";
-        } else {
-            lossOfIncome = Math.round((baseMonthlyIncome / 30) * hospDays * 0.85);
-            incomeMemo = `입원일수 ${hospDays}일 (1일당 소득의 85% 보상)`;
-        }
-
+        
         caregiverDays = 0;
         if (grade >= 1 && grade <= 2) {
             caregiverDays = Math.min(hospDays, 60);
@@ -17642,7 +18171,112 @@ window.calculateInsurance = function() {
         } else if (grade === 5) {
             caregiverDays = Math.min(hospDays, 15);
         }
-        caregiverFee = caregiverDays * DAILY_COMMON_WAGE;
+
+        const startDateVal = window.autoCalcState.hospStartDate ? new Date(window.autoCalcState.hospStartDate) : new Date(window.autoCalcState.accidentDate);
+
+        if (age >= 65) {
+            lossOfIncome = 0;
+            incomeMemo = "정년 초과(만 65세 이상)로 휴업손해 제외";
+        } else {
+            let totalLoss = 0;
+            let hospGroups = [];
+            for (let d = 0; d < hospDays; d++) {
+                let currentDate = new Date(startDateVal.getTime() + d * 24 * 60 * 60 * 1000);
+                let wages = window.getWagesForDate(currentDate);
+                
+                let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+                let dailyRate = activeMonthlyWage / 30;
+                let dayLoss = dailyRate * 0.85;
+                totalLoss += dayLoss;
+                
+                if (hospGroups.length > 0) {
+                    let lastGroup = hospGroups[hospGroups.length - 1];
+                    if (lastGroup.monthlyWage === activeMonthlyWage) {
+                        lastGroup.endDate = currentDate;
+                        lastGroup.days += 1;
+                        lastGroup.lossSum += dayLoss;
+                    } else {
+                        hospGroups.push({
+                            startDate: currentDate,
+                            endDate: currentDate,
+                            days: 1,
+                            monthlyWage: activeMonthlyWage,
+                            lossSum: dayLoss
+                        });
+                    }
+                } else {
+                    hospGroups.push({
+                        startDate: currentDate,
+                        endDate: currentDate,
+                        days: 1,
+                        monthlyWage: activeMonthlyWage,
+                        lossSum: dayLoss
+                    });
+                }
+            }
+            lossOfIncome = Math.round(totalLoss);
+            
+            let breakdownLines = [];
+            hospGroups.forEach(g => {
+                const startStr = g.startDate.toLocaleDateString('ko-KR');
+                const endStr = g.endDate.toLocaleDateString('ko-KR');
+                breakdownLines.push(
+                    `• ${startStr} ~ ${endStr} (${g.days}일, 월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원): ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
+                );
+            });
+            incomeMemo = `입원일수 ${hospDays}일 휴업손해 산출 (1일당 소득의 85% 보상)<div style="text-align: left; font-size: 0.85rem; color: #64748b; margin-top: 4.5px; border-top: 1px dashed #e2e8f0; padding-top: 4.5px;">
+                ${breakdownLines.join('<br>')}
+            </div>`;
+        }
+
+        let caregiverMemo = "";
+        if (caregiverDays > 0) {
+            let totalCaregiver = 0;
+            let caregiverGroups = [];
+            for (let d = 0; d < caregiverDays; d++) {
+                let currentDate = new Date(startDateVal.getTime() + d * 24 * 60 * 60 * 1000);
+                let wages = window.getWagesForDate(currentDate);
+                totalCaregiver += wages.dailyAverage;
+                
+                if (caregiverGroups.length > 0) {
+                    let lastGroup = caregiverGroups[caregiverGroups.length - 1];
+                    if (lastGroup.dailyAverage === wages.dailyAverage) {
+                        lastGroup.endDate = currentDate;
+                        lastGroup.days += 1;
+                        lastGroup.feeSum += wages.dailyAverage;
+                    } else {
+                        caregiverGroups.push({
+                            startDate: currentDate,
+                            endDate: currentDate,
+                            days: 1,
+                            dailyAverage: wages.dailyAverage,
+                            feeSum: wages.dailyAverage
+                        });
+                    }
+                } else {
+                    caregiverGroups.push({
+                        startDate: currentDate,
+                        endDate: currentDate,
+                        days: 1,
+                        dailyAverage: wages.dailyAverage,
+                        feeSum: wages.dailyAverage
+                    });
+                }
+            }
+            caregiverFee = Math.round(totalCaregiver);
+
+            let caregiverBreakdown = [];
+            caregiverGroups.forEach(g => {
+                const startStr = g.startDate.toLocaleDateString('ko-KR');
+                const endStr = g.endDate.toLocaleDateString('ko-KR');
+                caregiverBreakdown.push(
+                    `• ${startStr} ~ ${endStr} (${g.days}일, 일당 노임: ${g.dailyAverage.toLocaleString('ko-KR')}원): ${Math.round(g.feeSum).toLocaleString('ko-KR')}원`
+                );
+            });
+            caregiverMemo = `상해급수 ${grade}급 인정일수 ${caregiverDays}일 (간병비 지급)<div style="text-align: left; font-size: 0.85rem; color: #166534; margin-top: 4.5px; border-top: 1px dashed #bbf7d0; padding-top: 4.5px;">
+                ${caregiverBreakdown.join('<br>')}
+            </div>`;
+        }
 
         let transportCost = outDays * 8000;
 
@@ -17667,7 +18301,7 @@ window.calculateInsurance = function() {
             listHtml += `
                 <tr style="border-bottom: 1px solid #e2e8f0; background-color: #f0fdf4;">
                     <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #15803d;">간병비 (개호비)</td>
-                    <td style="padding: 12px 14px; text-align: right; color: #166534;">상해급수 ${grade}급 인정일수 ${caregiverDays}일 (일당 ${DAILY_COMMON_WAGE.toLocaleString('ko-KR')}원)</td>
+                    <td style="padding: 12px 14px; text-align: right; color: #166534;">${caregiverMemo}</td>
                     <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #15803d;">${caregiverFee.toLocaleString('ko-KR')}원</td>
                 </tr>
             `;
@@ -17687,50 +18321,260 @@ window.calculateInsurance = function() {
         `;
 
     } else if (category === '후유장해') {
-        const diagName = window.autoCalcState.disabilityName;
-        const ratio = window.autoCalcState.disabilityRatio;
-        disType = window.autoCalcState.disabilityType;
-        years = window.autoCalcState.disabilityYears;
+        let diagName = "";
+        let ratio = 0;
         const injuryGrade = window.autoCalcState.injuryGrade;
+        const hospDays = window.autoCalcState.hospDays || 0;
 
         let disConsolation = 0;
         let disConsolationMemo = "";
+        let finalConsolation = 0;
+        let consolationAppliedText = "";
+        let lossOfEarnings = 0;
+        let lossOfEarningsExplanation = "";
+        let periodText = "";
 
-        if (ratio >= 50) {
-            const baseAmount = age < 65 ? 45000000 : 40000000;
-            disConsolation = Math.round(baseAmount * (ratio / 100) * 0.85);
-            disConsolationMemo = `장해율 ${ratio}% (50% 이상, 연령 만 ${age}세 기준 수식 적용)`;
-        } else {
-            if (ratio >= 45) disConsolation = 4000000;
-            else if (ratio >= 35) disConsolation = 2400000;
-            else if (ratio >= 27) disConsolation = 2000000;
-            else if (ratio >= 20) disConsolation = 1600000;
-            else if (ratio >= 14) disConsolation = 1200000;
-            else if (ratio >= 9) disConsolation = 1000000;
-            else if (ratio >= 5) disConsolation = 800000;
-            else disConsolation = 500000;
-            disConsolationMemo = `장해율 ${ratio}% (50% 미만 구간별 고정 약관고시적용)`;
-        }
+        if (window.autoCalcState.calcType === 'detailed') {
+            const list = window.autoCalcState.detailedDisabilities || [];
+            diagName = list.map(item => item.name).join(', ');
+            
+            const initialRates = list.map(item => item.ratio);
+            const maxCombinedRate = window.combineDisabilityRates(initialRates);
+            ratio = maxCombinedRate;
+            
+            const isCombined = list.length >= 2;
+            const wagePrefix = isCombined ? "중복 장해율" : "장해율";
 
-        let finalConsolation = disConsolation;
-        let consolationAppliedText = "장해위자료 적용";
-        if (injuryGrade > 0) {
-            let infConsolation = getInjuryConsolation(injuryGrade);
-            if (infConsolation > disConsolation) {
-                finalConsolation = infConsolation;
-                consolationAppliedText = `부상위자료(${injuryGrade}급: ${infConsolation.toLocaleString('ko-KR')}원) 상계 극대화 적용`;
+            if (maxCombinedRate >= 50) {
+                const baseAmount = age < 65 ? 45000000 : 40000000;
+                disConsolation = Math.round(baseAmount * (maxCombinedRate / 100) * 0.85);
+                disConsolationMemo = `${wagePrefix} ${maxCombinedRate}% (50% 이상, 연령 만 ${age}세 기준 수식 적용)`;
+            } else {
+                if (maxCombinedRate >= 45) disConsolation = 4000000;
+                else if (maxCombinedRate >= 35) disConsolation = 2400000;
+                else if (maxCombinedRate >= 27) disConsolation = 2000000;
+                else if (maxCombinedRate >= 20) disConsolation = 1600000;
+                else if (maxCombinedRate >= 14) disConsolation = 1200000;
+                else if (maxCombinedRate >= 9) disConsolation = 1000000;
+                else if (maxCombinedRate >= 5) disConsolation = 800000;
+                else disConsolation = 500000;
+                disConsolationMemo = `${wagePrefix} ${maxCombinedRate}% (50% 미만 구간별 고정 약관고시적용)`;
             }
-        }
 
-        let months = window.getGadongMonths(age, disType, years);
-        let hCoefficient = window.getHoffmanCoefficient(months);
-        let lossOfEarnings = Math.round(baseMonthlyIncome * (ratio / 100) * hCoefficient);
+            finalConsolation = disConsolation;
+            consolationAppliedText = "장해위자료 적용";
+            if (injuryGrade > 0) {
+                let infConsolation = getInjuryConsolation(injuryGrade);
+                if (infConsolation > disConsolation) {
+                    finalConsolation = infConsolation;
+                    consolationAppliedText = `부상위자료(${injuryGrade}급: ${infConsolation.toLocaleString('ko-KR')}원) 상계 극대화 적용`;
+                }
+            }
+
+            const itemsWithDurations = list.map(item => {
+                let dur = 0;
+                if (item.type === 'temporary') {
+                    dur = item.years * 12;
+                } else {
+                    dur = window.getGadongMonths(age, 'permanent');
+                }
+                return { ...item, duration: dur };
+            });
+
+            const hospMonths = Math.round(hospDays / 30);
+            
+            let durationsSet = new Set(itemsWithDurations.map(item => item.duration));
+            if (hospMonths > 0) {
+                durationsSet.add(hospMonths);
+            }
+            
+            let lastMilestone = 0;
+            let breakdownLines = [];
+            lossOfEarnings = 0;
+            let periodGroups = [];
+
+            let maxDuration = 0;
+            itemsWithDurations.forEach(item => {
+                if (item.duration > maxDuration) maxDuration = item.duration;
+            });
+            if (hospMonths > maxDuration) maxDuration = hospMonths;
+
+            const totalDays = maxDuration * 30;
+
+            for (let d = 1; d <= totalDays; d++) {
+                let currentDate = new Date(accidentDate.getTime() + (d - 1) * 24 * 60 * 60 * 1000);
+                let wages = window.getWagesForDate(currentDate);
+                let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+                
+                let m = Math.ceil(d / 30);
+                let rate = 0;
+                if (m <= hospMonths) {
+                    rate = 100;
+                } else {
+                    const activeItems = itemsWithDurations.filter(item => item.duration >= m);
+                    const activeRates = activeItems.map(item => item.ratio);
+                    rate = window.combineDisabilityRates(activeRates);
+                }
+                
+                let hCurrent = window.getHoffmanCoefficient(m);
+                let hLast = window.getHoffmanCoefficient(m - 1);
+                let diffH = (hCurrent - hLast) / 30;
+                
+                let dayLoss = activeMonthlyWage * (rate / 100) * diffH;
+                lossOfEarnings += dayLoss;
+                
+                if (periodGroups.length > 0) {
+                    let lastGroup = periodGroups[periodGroups.length - 1];
+                    if (lastGroup.rate === rate && lastGroup.monthlyWage === activeMonthlyWage) {
+                        lastGroup.endDate = currentDate;
+                        lastGroup.hSum += diffH;
+                        lastGroup.lossSum += dayLoss;
+                    } else {
+                        periodGroups.push({
+                            startDate: currentDate,
+                            endDate: currentDate,
+                            rate: rate,
+                            monthlyWage: activeMonthlyWage,
+                            hSum: diffH,
+                            lossSum: dayLoss
+                        });
+                    }
+                } else {
+                    periodGroups.push({
+                        startDate: currentDate,
+                        endDate: currentDate,
+                        rate: rate,
+                        monthlyWage: activeMonthlyWage,
+                        hSum: diffH,
+                        lossSum: dayLoss
+                    });
+                }
+            }
+            lossOfEarnings = Math.round(lossOfEarnings);
+
+            periodGroups.forEach(g => {
+                const startStr = g.startDate.toLocaleDateString('ko-KR');
+                const endStr = g.endDate.toLocaleDateString('ko-KR');
+                
+                let label = g.rate === 100 ? "입원기간 (상실률 100%)" : `장해율: ${g.rate}%`;
+                breakdownLines.push(
+                    `• ${startStr} ~ ${endStr} (${label},<br>월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, H계수: ${g.hSum.toFixed(4)}) : ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
+                );
+            });
+            lastMilestone = maxDuration;
+
+            const explanationTitle = isCombined ? "중복 장해 상실수익액 산출" : "장해 상실수익액 산출";
+            const periodLabel = isCombined ? "중복 장해" : "장해";
+
+            lossOfEarningsExplanation = `${explanationTitle} (최대 가동기간 ${lastMilestone}개월)<div style="text-align: left; font-size: 0.85rem; color: #64748b; margin-top: 4.5px; border-top: 1px dashed #e2e8f0; padding-top: 4.5px;">
+                ${breakdownLines.join('<br>')}
+            </div>`;
+            periodText = `${periodLabel} (최대 가동기간 ${lastMilestone}개월)`;
+
+            window.autoCalcState.disabilityRatio = maxCombinedRate;
+            window.autoCalcState.disabilityName = diagName;
+        } else {
+            diagName = window.autoCalcState.disabilityName;
+            ratio = window.autoCalcState.disabilityRatio;
+            disType = window.autoCalcState.disabilityType;
+            years = window.autoCalcState.disabilityYears;
+
+            if (ratio >= 50) {
+                const baseAmount = age < 65 ? 45000000 : 40000000;
+                disConsolation = Math.round(baseAmount * (ratio / 100) * 0.85);
+                disConsolationMemo = `장해율 ${ratio}% (50% 이상, 연령 만 ${age}세 기준 수식 적용)`;
+            } else {
+                if (ratio >= 45) disConsolation = 4000000;
+                else if (ratio >= 35) disConsolation = 2400000;
+                else if (ratio >= 27) disConsolation = 2000000;
+                else if (ratio >= 20) disConsolation = 1600000;
+                else if (ratio >= 14) disConsolation = 1200000;
+                else if (ratio >= 9) disConsolation = 1000000;
+                else if (ratio >= 5) disConsolation = 800000;
+                else disConsolation = 500000;
+                disConsolationMemo = `장해율 ${ratio}% (50% 미만 구간별 고정 약관고시적용)`;
+            }
+
+            finalConsolation = disConsolation;
+            consolationAppliedText = "장해위자료 적용";
+            if (injuryGrade > 0) {
+                let infConsolation = getInjuryConsolation(injuryGrade);
+                if (infConsolation > disConsolation) {
+                    finalConsolation = infConsolation;
+                    consolationAppliedText = `부상위자료(${injuryGrade}급: ${infConsolation.toLocaleString('ko-KR')}원) 상계 극대화 적용`;
+                }
+            }
+
+            let months = window.getGadongMonths(age, disType, years);
+            const hospMonths = Math.round(hospDays / 30);
+            
+            lossOfEarnings = 0;
+            let periodGroups = [];
+            const totalDays = months * 30;
+
+            for (let d = 1; d <= totalDays; d++) {
+                let currentDate = new Date(accidentDate.getTime() + (d - 1) * 24 * 60 * 60 * 1000);
+                let wages = window.getWagesForDate(currentDate);
+                let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+                
+                let m = Math.ceil(d / 30);
+                let rate = (m <= hospMonths) ? 100 : ratio;
+                
+                let hCurrent = window.getHoffmanCoefficient(m);
+                let hLast = window.getHoffmanCoefficient(m - 1);
+                let diffH = (hCurrent - hLast) / 30;
+                
+                let dayLoss = activeMonthlyWage * (rate / 100) * diffH;
+                lossOfEarnings += dayLoss;
+                
+                if (periodGroups.length > 0) {
+                    let lastGroup = periodGroups[periodGroups.length - 1];
+                    if (lastGroup.rate === rate && lastGroup.monthlyWage === activeMonthlyWage) {
+                        lastGroup.endDate = currentDate;
+                        lastGroup.hSum += diffH;
+                        lastGroup.lossSum += dayLoss;
+                    } else {
+                        periodGroups.push({
+                            startDate: currentDate,
+                            endDate: currentDate,
+                            rate: rate,
+                            monthlyWage: activeMonthlyWage,
+                            hSum: diffH,
+                            lossSum: dayLoss
+                        });
+                    }
+                } else {
+                    periodGroups.push({
+                        startDate: currentDate,
+                        endDate: currentDate,
+                        rate: rate,
+                        monthlyWage: activeMonthlyWage,
+                        hSum: diffH,
+                        lossSum: dayLoss
+                    });
+                }
+            }
+            lossOfEarnings = Math.round(lossOfEarnings);
+
+            let breakdownLines = [];
+            periodGroups.forEach(g => {
+                const startStr = g.startDate.toLocaleDateString('ko-KR');
+                const endStr = g.endDate.toLocaleDateString('ko-KR');
+                
+                let label = g.rate === 100 ? "입원기간 (상실률 100%)" : `장해율: ${g.rate}%`;
+                breakdownLines.push(
+                    `• ${startStr} ~ ${endStr} (${label},<br>월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, H계수: ${g.hSum.toFixed(4)}) : ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
+                );
+            });
+            lossOfEarningsExplanation = `단순 장해 상실수익액 산출 (최대 가동기간 ${months}개월)<div style="text-align: left; font-size: 0.85rem; color: #64748b; margin-top: 4.5px; border-top: 1px dashed #e2e8f0; padding-top: 4.5px;">
+                ${breakdownLines.join('<br>')}
+            </div>`;
+            periodText = disType === 'temporary' ? `한시장해 ${years}년 (${months}개월)` : `영구장해 (만 65세/보장기간 기준 ${months}개월)`;
+        }
 
         totalBeforeFault = finalConsolation + lossOfEarnings;
-        faultDeduction = Math.round(finalConsolation * (faultRatio / 100));
+        faultDeduction = Math.round(totalBeforeFault * (faultRatio / 100));
         finalPayment = totalBeforeFault - faultDeduction;
-
-        let periodText = disType === 'temporary' ? `한시장해 ${years}년 (${months}개월)` : `영구장해 (만 65세/보장기간 기준 ${months}개월)`;
 
         listHtml += `
             <tr style="border-bottom: 1px solid #e2e8f0;">
@@ -17740,7 +18584,7 @@ window.calculateInsurance = function() {
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">상실수익액</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">장해진단 [${diagName}], ${periodText} (호프만계수: ${hCoefficient.toFixed(4)})</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${lossOfEarningsExplanation}</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfEarnings.toLocaleString('ko-KR')}원</td>
             </tr>
         `;
@@ -17750,11 +18594,72 @@ window.calculateInsurance = function() {
         const consolation = window.autoCalcState.consolationDeath;
 
         let months = window.getGadongMonths(age, 'permanent');
-        let hCoefficient = window.getHoffmanCoefficient(months);
-        let lossOfLife = Math.round(baseMonthlyIncome * (2 / 3) * hCoefficient);
+        
+        let totalLossOfLife = 0;
+        let deathGroups = [];
+        for (let m = 1; m <= months; m++) {
+            let currentDate = new Date(accidentDate.getTime());
+            currentDate.setMonth(accidentDate.getMonth() + m - 1);
+            
+            let wages = window.getWagesForDate(currentDate);
+            let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+            
+            let hCurrent = window.getHoffmanCoefficient(m);
+            let hLast = window.getHoffmanCoefficient(m - 1);
+            let diffH = hCurrent - hLast;
+            
+            let monthLoss = Math.round(activeMonthlyWage * (2 / 3) * diffH);
+            totalLossOfLife += monthLoss;
+            
+            if (deathGroups.length > 0) {
+                let lastGroup = deathGroups[deathGroups.length - 1];
+                if (lastGroup.monthlyWage === activeMonthlyWage) {
+                    lastGroup.endMonth = m;
+                    lastGroup.hSum += diffH;
+                    lastGroup.lossSum += monthLoss;
+                } else {
+                    deathGroups.push({
+                        startMonth: m - 1,
+                        endMonth: m,
+                        monthlyWage: activeMonthlyWage,
+                        hSum: diffH,
+                        lossSum: monthLoss
+                    });
+                }
+            } else {
+                deathGroups.push({
+                    startMonth: 0,
+                    endMonth: m,
+                    monthlyWage: activeMonthlyWage,
+                    hSum: diffH,
+                    lossSum: monthLoss
+                });
+            }
+        }
+        let lossOfLife = totalLossOfLife;
+
+        let deathBreakdown = [];
+        deathGroups.forEach(g => {
+            let startDateOfPeriod = new Date(accidentDate.getTime());
+            startDateOfPeriod.setMonth(accidentDate.getMonth() + g.startMonth);
+            let endDateOfPeriod = new Date(accidentDate.getTime());
+            endDateOfPeriod.setMonth(accidentDate.getMonth() + g.endMonth);
+            endDateOfPeriod.setDate(endDateOfPeriod.getDate() - 1);
+            
+            const startStr = startDateOfPeriod.toLocaleDateString('ko-KR');
+            const endStr = endDateOfPeriod.toLocaleDateString('ko-KR');
+            
+            deathBreakdown.push(
+                `• ${startStr} ~ ${endStr} (월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, 호프만 계수 차이: ${g.hSum.toFixed(4)}): ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
+            );
+        });
+        
+        let lossOfLifeExplanation = `사망 상실수익액 산출 (보장기간 ${months}개월, 생활비 1/3 공제)<div style="text-align: left; font-size: 0.85rem; color: #64748b; margin-top: 4.5px; border-top: 1px dashed #e2e8f0; padding-top: 4.5px;">
+            ${deathBreakdown.join('<br>')}
+        </div>`;
 
         totalBeforeFault = consolation + funeral + lossOfLife;
-        faultDeduction = Math.round((consolation + funeral) * (faultRatio / 100));
+        faultDeduction = Math.round(totalBeforeFault * (faultRatio / 100)); // 수정: 전체 손해액에 본인 과실 비율 적용
         finalPayment = totalBeforeFault - faultDeduction;
 
         listHtml += `
@@ -17765,7 +18670,7 @@ window.calculateInsurance = function() {
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">상실수익액</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">생활비 공제(1/3) 반영, 가동기간 ${months}개월 (호프만계수: ${hCoefficient.toFixed(4)})</td>
+                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${lossOfLifeExplanation}</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfLife.toLocaleString('ko-KR')}원</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
@@ -17826,9 +18731,9 @@ window.calculateInsurance = function() {
         if (category === '부상') {
             faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (치료비를 제외한 합의금 총액의 ${100 - faultRatio}% 지급)`;
         } else if (category === '후유장해') {
-            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (장해위자료의 ${100 - faultRatio}% 지급, 상실수익액은 과실상계 비적용)`;
+            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (총 손해액[위자료 + 상실수익액]의 ${100 - faultRatio}% 지급)`;
         } else if (category === '사망') {
-            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (사망위자료 및 장례비의 ${100 - faultRatio}% 지급, 상실수익액은 과실상계 비적용)`;
+            faultRatioExplanation = `본인 과실 <strong>${faultRatio}%</strong> (총 손해액[위자료 + 상실수익액 + 장례비]의 ${100 - faultRatio}% 지급)`;
         }
 
         let detailsHtml = '<p style="margin: 0; font-weight: 700; margin-bottom: 6px; color: #1e293b;">📋 계산 조건 요약</p>';
@@ -17843,8 +18748,15 @@ window.calculateInsurance = function() {
                 detailsHtml += `<li>약관상 간병 인정일수: <strong>${caregiverDays}일 (상해 1~5급 한도 적용)</strong></li>`;
             }
         } else if (category === '후유장해') {
-            let periodText = disType === 'temporary' ? `한시장해 ${years}년` : `영구장해`;
+            const detailedList = window.autoCalcState.detailedDisabilities || [];
+            let periodText = window.autoCalcState.calcType === 'detailed' 
+                ? (detailedList.length >= 2 ? `중복장해` : `장해`) 
+                : (disType === 'temporary' ? `한시장해 ${years}년` : `영구장해`);
             detailsHtml += `<li>장해율 및 진단: <strong>맥브라이드 장해율 ${window.autoCalcState.disabilityRatio}%, 장해진단명: ${window.autoCalcState.disabilityName} (${periodText})</strong></li>`;
+            const finalHospDays = window.autoCalcState.hospDays || 0;
+            if (finalHospDays > 0) {
+                detailsHtml += `<li>입원 기간 : <strong>${finalHospDays}일</strong></li>`;
+            }
         } else if (category === '사망') {
             detailsHtml += `<li>사망 위자료 기준액: <strong>사망 위자료 ${window.autoCalcState.consolationDeath.toLocaleString('ko-KR')}원</strong></li>`;
         }
@@ -18079,10 +18991,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- McBride Search Popup Functions ---
 let mcbrideFilterMajor = '';
 
-window.openMcBrideSearchPopup = function() {
+window.openMcBrideSearchPopup = function(rowIndex = null) {
     const modal = document.getElementById('mcbride-search-modal');
     if (!modal) return;
     
+    window.activeMcBrideRow = rowIndex;
     modal.classList.add('active');
     document.getElementById('mcbride-popup-search').value = '';
     mcbrideFilterMajor = '';
@@ -18096,15 +19009,23 @@ window.closeMcBrideSearchPopup = function() {
 };
 
 window.selectMcBridePopupRate = function(itemName, ratePercent) {
-    const nameInput = document.getElementById('auto-disability-name');
-    const ratioInput = document.getElementById('auto-disability-ratio');
-    
-    if (nameInput) {
-        nameInput.value = itemName;
-    }
-    if (ratioInput) {
-        ratioInput.value = ratePercent;
-        ratioInput.dispatchEvent(new Event('change'));
+    if (window.activeMcBrideRow !== null && window.activeMcBrideRow !== undefined) {
+        const index = window.activeMcBrideRow;
+        window.updateDetailedDisabilityField(index, 'name', itemName);
+        window.updateDetailedDisabilityField(index, 'ratio', ratePercent);
+        window.activeMcBrideRow = null;
+        window.renderDetailedDisabilityRows();
+    } else {
+        const nameInput = document.getElementById('auto-disability-name');
+        const ratioInput = document.getElementById('auto-disability-ratio');
+        
+        if (nameInput) {
+            nameInput.value = itemName;
+        }
+        if (ratioInput) {
+            ratioInput.value = ratePercent;
+            ratioInput.dispatchEvent(new Event('change'));
+        }
     }
     
     window.closeMcBrideSearchPopup();

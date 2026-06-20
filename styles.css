@@ -1953,6 +1953,17 @@ body {
     white-space: nowrap !important;
 }
 
+/* 산출 기준 / 상세 열 줄바꿈 금지 */
+.auto-summary-table td:nth-child(2) {
+    white-space: nowrap !important;
+}
+
+/* 계산 금액 열 줄바꿈 금지 */
+.auto-summary-table th:last-child,
+.auto-summary-table td:last-child {
+    white-space: nowrap !important;
+}
+
 /* 부상등급 검색 모달 팝업 스타일 */
 .injury-modal-overlay {
     position: fixed;
@@ -2245,6 +2256,137 @@ body {
 .mcbride-result-item:hover {
     border-color: #cbd5e1;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* 계산기 타입 토글 버튼 */
+.calc-type-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+.calc-type-btn.active {
+    background-color: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.15);
+}
+.calc-type-btn:hover:not(.active) {
+    background-color: #f1f5f9;
+    color: #334155;
+}
+
+/* 라디오 토글 라벨 스타일 */
+.auto-radio-label {
+    flex: 1;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.auto-radio-label:has(input:checked), .auto-radio-label.active {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 700;
+}
+.auto-radio-label input[type="radio"] {
+    margin-right: 6px;
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+/* 상세 복합장해 추가행 스타일 */
+.detailed-disability-row {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+/* Accident Detail Layout (CSS Grid) */
+.accident-detail-body {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    grid-template-rows: auto auto;
+    background: #fff;
+    width: 100%;
+}
+
+.accident-detail-image-box {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    padding: 20px;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.accident-detail-info-box {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    padding: 20px;
+    border-right: 1px solid #e2e8f0;
+}
+
+.accident-detail-fault-box {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    padding: 0;
+}
+
+/* Height styling for accident diagram box */
+#acc-detail-image {
+    height: 400px;
+}
+
+@media (max-width: 768px) {
+    .accident-detail-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    
+    .accident-detail-image-box {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px;
+    }
+    
+    .accident-detail-fault-box {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 0;
+    }
+    
+    .accident-detail-info-box {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+        border-right: none;
+        padding: 16px;
+    }
+    
+    #acc-detail-image {
+        height: 250px;
+    }
 }
 
 
