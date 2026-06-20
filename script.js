@@ -18287,12 +18287,12 @@ window.calculateInsurance = function() {
         listHtml += `
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">부상 위자료</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">부상급수 ${grade}급 표준기준</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">부상급수 ${grade}급 표준기준</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${consolation.toLocaleString('ko-KR')}원</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">휴업손해</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${incomeMemo}</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">${incomeMemo}</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfIncome.toLocaleString('ko-KR')}원</td>
             </tr>
         `;
@@ -18301,7 +18301,7 @@ window.calculateInsurance = function() {
             listHtml += `
                 <tr style="border-bottom: 1px solid #e2e8f0; background-color: #f0fdf4;">
                     <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #15803d;">간병비 (개호비)</td>
-                    <td style="padding: 12px 14px; text-align: right; color: #166534;">${caregiverMemo}</td>
+                    <td style="padding: 12px 14px; text-align: left; color: #166534;">${caregiverMemo}</td>
                     <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #15803d;">${caregiverFee.toLocaleString('ko-KR')}원</td>
                 </tr>
             `;
@@ -18310,12 +18310,12 @@ window.calculateInsurance = function() {
         listHtml += `
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">기타 손해배상금</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">통원일수 ${outDays}일 (1일당 8,000원)</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">통원일수 ${outDays}일 (1일당 8,000원)</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${transportCost.toLocaleString('ko-KR')}원</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">향후 치료비</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">합의 조건 조정 추가액</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">합의 조건 조정 추가액</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${futureTxCost.toLocaleString('ko-KR')}원</td>
             </tr>
         `;
@@ -18458,7 +18458,7 @@ window.calculateInsurance = function() {
                 
                 let label = g.rate === 100 ? "입원기간 (상실률 100%)" : `장해율: ${g.rate}%`;
                 breakdownLines.push(
-                    `• ${startStr} ~ ${endStr} (${label},<br>월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, H계수: ${g.hSum.toFixed(4)}) : ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
+                    `• ${startStr} ~ ${endStr} (${label},<br>&nbsp;&nbsp;&nbsp;&nbsp;월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, H계수: ${g.hSum.toFixed(4)}) : ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
                 );
             });
             lastMilestone = maxDuration;
@@ -18563,7 +18563,7 @@ window.calculateInsurance = function() {
                 
                 let label = g.rate === 100 ? "입원기간 (상실률 100%)" : `장해율: ${g.rate}%`;
                 breakdownLines.push(
-                    `• ${startStr} ~ ${endStr} (${label},<br>월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, H계수: ${g.hSum.toFixed(4)}) : ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
+                    `• ${startStr} ~ ${endStr} (${label},<br>&nbsp;&nbsp;&nbsp;&nbsp;월 적용노임: ${g.monthlyWage.toLocaleString('ko-KR')}원, H계수: ${g.hSum.toFixed(4)}) : ${Math.round(g.lossSum).toLocaleString('ko-KR')}원`
                 );
             });
             lossOfEarningsExplanation = `단순 장해 상실수익액 산출 (최대 가동기간 ${months}개월)<div style="text-align: left; font-size: 0.85rem; color: #64748b; margin-top: 4.5px; border-top: 1px dashed #e2e8f0; padding-top: 4.5px;">
@@ -18579,12 +18579,12 @@ window.calculateInsurance = function() {
         listHtml += `
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">장해 위자료</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${disConsolationMemo} (${consolationAppliedText})</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">${disConsolationMemo} (${consolationAppliedText})</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${finalConsolation.toLocaleString('ko-KR')}원</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">상실수익액</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${lossOfEarningsExplanation}</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">${lossOfEarningsExplanation}</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfEarnings.toLocaleString('ko-KR')}원</td>
             </tr>
         `;
@@ -18665,17 +18665,17 @@ window.calculateInsurance = function() {
         listHtml += `
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">사망 위자료</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">피해자 연령 만 ${age}세 기준 위자료</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">피해자 연령 만 ${age}세 기준 위자료</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${consolation.toLocaleString('ko-KR')}원</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">상실수익액</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">${lossOfLifeExplanation}</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">${lossOfLifeExplanation}</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${lossOfLife.toLocaleString('ko-KR')}원</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
                 <td style="padding: 12px 14px; text-align: left; font-weight: 600; color: #1e293b;">장례비</td>
-                <td style="padding: 12px 14px; text-align: right; color: #64748b;">장례비 기준 고정 정액</td>
+                <td style="padding: 12px 14px; text-align: left; color: #64748b;">장례비 기준 고정 정액</td>
                 <td style="padding: 12px 14px; text-align: right; font-weight: 700; color: #0f172a;">${funeral.toLocaleString('ko-KR')}원</td>
             </tr>
         `;
@@ -18692,7 +18692,7 @@ window.calculateInsurance = function() {
     listHtml += `
         <tr style="border-bottom: 1.5px solid #0f172a; background-color: #f8fafc; font-weight: 700;">
             <td style="padding: 14px; text-align: left; color: #334155;">산출 총액 (세전)</td>
-            <td style="padding: 14px; text-align: right; color: #64748b;">과실 공제 전 금액 합산</td>
+            <td style="padding: 14px; text-align: left; color: #64748b;">과실 공제 전 금액 합산</td>
             <td style="padding: 14px; text-align: right; color: #0f172a;">${totalBeforeFault.toLocaleString('ko-KR')}원</td>
         </tr>
     `;
@@ -18701,7 +18701,7 @@ window.calculateInsurance = function() {
         listHtml += `
             <tr style="background-color: #fff9db; color: #e67700; font-weight: 700;">
                 <td style="padding: 14px; text-align: left;">과실상계 반영액</td>
-                <td style="padding: 14px; text-align: right;">과실 ${faultRatio}% 차감 후 금액이 간병비에 미달하여 약관특례로 간병비 전액(${caregiverFee.toLocaleString('ko-KR')}원) 최저보장 지급</td>
+                <td style="padding: 14px; text-align: left;">과실 ${faultRatio}% 차감 후 금액이 간병비에 미달하여 약관특례로 간병비 전액(${caregiverFee.toLocaleString('ko-KR')}원) 최저보장 지급</td>
                 <td style="padding: 14px; text-align: right;">최저 보장 적용</td>
             </tr>
         `;
@@ -18709,7 +18709,7 @@ window.calculateInsurance = function() {
         listHtml += `
             <tr style="background-color: #fef2f2; color: #b91c1c; font-weight: 700;">
                 <td style="padding: 14px; text-align: left;">과실상계 차감액</td>
-                <td style="padding: 14px; text-align: right;">본인 과실비율 ${faultRatio}% 반영 감액</td>
+                <td style="padding: 14px; text-align: left;">본인 과실비율 ${faultRatio}% 반영 감액</td>
                 <td style="padding: 14px; text-align: right;">-${faultDeduction.toLocaleString('ko-KR')}원</td>
             </tr>
         `;
