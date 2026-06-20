@@ -17838,18 +17838,34 @@ window.getGadongMonths = function(age, type, yearsVal) {
     if (type === 'temporary') {
         return yearsVal * 12;
     }
-    let remainingYears = 65 - age;
-    if (remainingYears <= 0) {
-        // 고령자 취업가능월수 보장 규정
-        if (age >= 62 && age < 67) {
+    // 62세 이상 고령자 취업가능월수 보장 규정 우선 적용
+    if (age >= 62) {
+        if (age < 67) {
             return 36;
-        } else if (age >= 67 && age < 76) {
+        } else if (age < 76) {
             return 24;
         } else {
             return 12;
         }
     }
+    let remainingYears = 65 - age;
+    if (remainingYears <= 0) {
+        return 0; // 65세 이상은 위의 age >= 62 조건에서 이미 처리됨
+    }
     return remainingYears * 12;
+};
+
+window.getAutoManAgeAtDate = function(currentDate) {
+    const birthVal = window.autoCalcState.birthDate;
+    if (!birthVal || !currentDate) return 0;
+    const birthDate = new Date(birthVal);
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    const monthDiff = currentDate.getMonth() - birthDate.getMonth();
+    const dayDiff = currentDate.getDate() - birthDate.getDate();
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+    return age < 0 ? 0 : age;
 };
 
 window.validateAndCalculate = function() {
@@ -18405,6 +18421,10 @@ window.calculateInsurance = function() {
                 let currentDate = new Date(accidentDate.getTime() + (d - 1) * 24 * 60 * 60 * 1000);
                 let wages = window.getWagesForDate(currentDate);
                 let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+                let ageAtDate = window.getAutoManAgeAtDate(currentDate);
+                if (age >= 62 && ageAtDate >= 65) {
+                    activeMonthlyWage = wages.monthlyCommon;
+                }
                 
                 let m = Math.ceil(d / 30);
                 let rate = 0;
@@ -18516,6 +18536,10 @@ window.calculateInsurance = function() {
                 let currentDate = new Date(accidentDate.getTime() + (d - 1) * 24 * 60 * 60 * 1000);
                 let wages = window.getWagesForDate(currentDate);
                 let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+                let ageAtDate = window.getAutoManAgeAtDate(currentDate);
+                if (age >= 62 && ageAtDate >= 65) {
+                    activeMonthlyWage = wages.monthlyCommon;
+                }
                 
                 let m = Math.ceil(d / 30);
                 let rate = (m <= hospMonths) ? 100 : ratio;
@@ -18603,6 +18627,10 @@ window.calculateInsurance = function() {
             
             let wages = window.getWagesForDate(currentDate);
             let activeMonthlyWage = Math.max(window.autoCalcState.monthlyIncome, wages.monthlyCommon);
+            let ageAtDate = window.getAutoManAgeAtDate(currentDate);
+            if (age >= 62 && ageAtDate >= 65) {
+                activeMonthlyWage = wages.monthlyCommon;
+            }
             
             let hCurrent = window.getHoffmanCoefficient(m);
             let hLast = window.getHoffmanCoefficient(m - 1);
