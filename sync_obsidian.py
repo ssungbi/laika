@@ -32,23 +32,39 @@ def sync():
         print("No Obsidian vaults found.")
         return
         
-    src_log = "development_log.md"
-    if not os.path.exists(src_log):
-        # Fallback if run from another subfolder
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        src_log = os.path.join(script_dir, "development_log.md")
-        if not os.path.exists(src_log):
-            print("Source development_log.md file not found.")
-            return
-        
-    # Copy log to each vault
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Files to sync: (local_file_name, obsidian_file_name)
+    files_to_sync = [
+        ("development_log.md", "개발_기록_업데이트_노트.md"),
+        ("walkthrough.md", "변경_보고서_워크스루.md"),
+        ("task.md", "작업_태스크_리스트.md")
+    ]
+    
+    # Sync to each vault under '역중력프로젝트/laika'
     for vault in vault_paths:
-        dest_log = os.path.join(vault, "laika_development_log.md")
+        dest_dir = os.path.join(vault, "역중력프로젝트", "laika")
         try:
-            shutil.copy2(src_log, dest_log)
-            print(f"Successfully synced to Obsidian: {dest_log}")
+            os.makedirs(dest_dir, exist_ok=True)
+            print(f"Ensured target folder exists: {dest_dir}")
         except Exception as e:
-            print(f"Failed to sync to {dest_log}: {e}")
+            print(f"Failed to create directory {dest_dir}: {e}")
+            continue
+            
+        for src_name, dest_name in files_to_sync:
+            src_path = os.path.join(script_dir, src_name)
+            if not os.path.exists(src_path):
+                src_path = src_name # try current working directory
+                if not os.path.exists(src_path):
+                    print(f"Source file {src_name} not found.")
+                    continue
+                    
+            dest_path = os.path.join(dest_dir, dest_name)
+            try:
+                shutil.copy2(src_path, dest_path)
+                print(f"Successfully synced: {src_name} -> {dest_path}")
+            except Exception as e:
+                print(f"Failed to sync {src_name} to {dest_path}: {e}")
 
 if __name__ == "__main__":
     sync()
