@@ -1002,6 +1002,56 @@
         </div>
     </div>
 
+    <!-- 개발자용 서버날짜 시뮬레이션 패널 -->
+    <div id="dev-simulator-panel" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: rgba(30, 41, 59, 0.95); border: 1px solid #334155; border-radius: 12px; padding: 15px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); color: #f8fafc; font-family: sans-serif; font-size: 13px; max-width: 280px; backdrop-filter: blur(8px); transition: all 0.3s ease;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+            <strong style="color: #38bdf8; display: flex; align-items: center; gap: 5px;">
+                <span class="material-icons-round" style="font-size: 16px;">terminal</span>
+                서버날짜 시뮬레이터
+            </strong>
+            <button onclick="toggleDevPanel()" style="background: none; border: none; color: #94a3b8; cursor: pointer; display: flex; align-items: center; padding: 2px;">
+                <span id="dev-toggle-icon" class="material-icons-round" style="font-size: 18px;">keyboard_arrow_down</span>
+            </button>
+        </div>
+        <div id="dev-panel-content">
+            <div style="margin-bottom: 10px;">
+                <label style="display: block; margin-bottom: 5px; color: #94a3b8;">가상 서버 날짜 (YYYY-MM-DD):</label>
+                <input type="date" id="sim-server-date" style="width: 100%; padding: 6px; border: 1px solid #475569; border-radius: 6px; background: #0f172a; color: #f8fafc; outline: none; box-sizing: border-box;" value="2026-07-07">
+            </div>
+            <button onclick="runSimulatedWageUpdate()" style="width: 100%; padding: 8px; border: none; border-radius: 6px; background: #0284c7; color: #ffffff; font-weight: bold; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#0369a1'" onmouseout="this.style.background='#0284c7'">
+                자동 감지 & 업데이트 실행
+            </button>
+            <div id="sim-status" style="margin-top: 8px; font-size: 11px; color: #38bdf8; text-align: center;"></div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleDevPanel() {
+            var content = document.getElementById('dev-panel-content');
+            var icon = document.getElementById('dev-toggle-icon');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.textContent = 'keyboard_arrow_down';
+            } else {
+                content.style.display = 'none';
+                icon.textContent = 'keyboard_arrow_up';
+            }
+        }
+        async function runSimulatedWageUpdate() {
+            var dateStr = document.getElementById('sim-server-date').value;
+            var statusDiv = document.getElementById('sim-status');
+            statusDiv.textContent = '네이버 임금 데이터 감지 중...';
+            try {
+                await window.simulateWageUpdate(dateStr);
+                statusDiv.textContent = '동적 노임 업데이트 완료!';
+                setTimeout(function() { statusDiv.textContent = ''; }, 3000);
+            } catch(e) {
+                statusDiv.textContent = '업데이트 실패';
+                setTimeout(function() { statusDiv.textContent = ''; }, 3000);
+            }
+        }
+    </script>
+
     <script src="accident_data.js"></script>
     <script src="injury_data.js"></script>
     <script src="surgery_data.js"></script>
