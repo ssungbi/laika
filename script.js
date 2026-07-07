@@ -18075,7 +18075,7 @@ window.validateAndCalculate = function() {
 window.WAGE_HISTORY = {
     2023: {
         상반기: { construction: 157068, manufacturing: 84618 },
-        하반기: { construction: 161858, manufacturing: 86008 }
+        하반기: { construction: 161858, manufacturing: 86303 }
     },
     2024: {
         상반기: { construction: 165545, manufacturing: 86008 },
@@ -18127,8 +18127,11 @@ window.getWagesForDate = function(date) {
     const y = date.getFullYear();
     const month = date.getMonth() + 1; // 1-indexed
     
-    function getWageWithFallback(category, targetYear, half) {
-        let currentYear = targetYear;
+    let targetYear = y;
+    if (targetYear < 2023) targetYear = 2023;
+    
+    function getWageWithFallback(category, yearVal, half) {
+        let currentYear = yearVal;
         let currentHalf = half;
         
         while (currentYear >= 2023) {
@@ -18150,11 +18153,14 @@ window.getWagesForDate = function(date) {
         return 0;
     }
     
-    const mHalf = (month >= 7) ? '하반기' : '상반기';
+    let mHalf;
+    if (targetYear === 2024) {
+        // In 2024, the second half manufacturing wage was exceptionally applied from October 1st.
+        mHalf = (month >= 10) ? '하반기' : '상반기';
+    } else {
+        mHalf = (month >= 7) ? '하반기' : '상반기';
+    }
     const cHalf = (month >= 9) ? '하반기' : '상반기';
-    
-    let targetYear = y;
-    if (targetYear < 2023) targetYear = 2023;
     
     const construction = getWageWithFallback('construction', targetYear, cHalf);
     const manufacturing = getWageWithFallback('manufacturing', targetYear, mHalf);
