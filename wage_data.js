@@ -5,8 +5,8 @@ window.WAGE_DATA = {
     year: 2026,
     period: "중반기",
     constructionDaily: 172068,
-    manufacturingDaily: 90694,
-    dailyAverage: 131381,
-    monthlyCommon: 3284525,
+    manufacturingDaily: 95767,
+    dailyAverage: 133918,
+    monthlyCommon: 3347950,
     monthlyCourt: 3441360
 };

@@ -18087,7 +18087,7 @@ window.WAGE_HISTORY = {
     },
     2026: {
         상반기: { construction: 172068, manufacturing: 90694 },
-        하반기: { construction: 172068, manufacturing: 90694 }
+        하반기: { construction: 172068, manufacturing: 95767 }
     }
 };
 
@@ -18168,110 +18168,6 @@ window.getWagesForDate = function(date) {
         dailyAverage,
         monthlyCommon
     };
-};
-
-window.simulateWageUpdate = async function(simulatedDateStr) {
-    const date = new Date(simulatedDateStr);
-    if (isNaN(date.getTime())) {
-        alert("올바른 날짜를 입력해주세요 (예: 2026-07-07).");
-        return;
-    }
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    
-    let period = "상반기";
-    let c_half = "상반기";
-    let m_half = "상반기";
-    if (month < 7) {
-        period = "상반기";
-    } else if (month < 9) {
-        period = "중반기";
-        m_half = "하반기";
-    } else {
-        period = "하반기";
-        c_half = "하반기";
-        m_half = "하반기";
-    }
-    
-    let query;
-    if (period === "상반기") {
-        query = `${year}년 상반기 도시일용노임`;
-    } else if (period === "중반기") {
-        query = `${year}년 7월 도시일용노임`;
-    } else {
-        query = `${year}년 하반기 도시일용노임`;
-    }
-    
-    try {
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://search.naver.com/search.naver?query=' + encodeURIComponent(query))}`;
-        const response = await fetch(proxyUrl);
-        const data = await response.json();
-        const html = data.contents;
-        
-        const formulaPattern = /(\d{3}[,\.]\d{3})\s*원?\s*\+\s*(\d{2,3}[,\.]\d{3})\s*원?\s*\)?\s*[\/÷]\s*2/;
-        const match = html.match(formulaPattern);
-        
-        let constructionDaily = 0;
-        let manufacturingDaily = 0;
-        
-        if (match) {
-            constructionDaily = parseInt(match[1].replace(/\D/g, ''), 10);
-            manufacturingDaily = parseInt(match[2].replace(/\D/g, ''), 10);
-        } else {
-            const baseYearDiff = year - 2026;
-            const multiplier = 1 + (baseYearDiff * 0.02);
-            constructionDaily = Math.round(172068 * multiplier);
-            manufacturingDaily = Math.round(90694 * multiplier);
-        }
-        
-        const dailyAverage = Math.round((constructionDaily + manufacturingDaily) / 2);
-        const monthlyCommon = dailyAverage * 25;
-        const monthlyCourt = constructionDaily * 20;
-        
-        window.WAGE_DATA = {
-            lastUpdated: simulatedDateStr,
-            year: year,
-            period: period,
-            constructionDaily,
-            manufacturingDaily,
-            dailyAverage,
-            monthlyCommon,
-            monthlyCourt
-        };
-        
-        window.mergeWageData();
-        alert(`시뮬레이션 노임 업데이트 완료!\n적용 연도: ${year}년 (${period})\n건설 노임: ${constructionDaily.toLocaleString()}원\n제조 노임: ${manufacturingDaily.toLocaleString()}원\n평균 일용노임: ${dailyAverage.toLocaleString()}원`);
-        
-        if (window.autoCalcState && window.autoCalcState.accidentDate) {
-            window.calculateInsurance();
-        }
-    } catch (e) {
-        const baseYearDiff = year - 2026;
-        const multiplier = 1 + (baseYearDiff * 0.02);
-        const constructionDaily = Math.round(172068 * multiplier);
-        const manufacturingDaily = Math.round(90694 * multiplier);
-        const dailyAverage = Math.round((constructionDaily + manufacturingDaily) / 2);
-        const monthlyCommon = dailyAverage * 25;
-        const monthlyCourt = constructionDaily * 20;
-        
-        window.WAGE_DATA = {
-            lastUpdated: simulatedDateStr,
-            year: year,
-            period: period,
-            constructionDaily,
-            manufacturingDaily,
-            dailyAverage,
-            monthlyCommon,
-            monthlyCourt
-        };
-        
-        window.mergeWageData();
-        alert(`[오프라인 시뮬레이션 적용]\n적용 연도: ${year}년 (${period})\n건설 노임: ${constructionDaily.toLocaleString()}원\n제조 노임: ${manufacturingDaily.toLocaleString()}원\n평균 일용노임: ${dailyAverage.toLocaleString()}원`);
-        
-        if (window.autoCalcState && window.autoCalcState.accidentDate) {
-            window.calculateInsurance();
-        }
-    }
 };
 
 window.calculateInsurance = function() {
