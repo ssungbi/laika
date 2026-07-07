@@ -11,15 +11,15 @@ headers = {
 WAGE_HISTORY = {
     2023: {
         "상반기": { "construction": 157068, "manufacturing": 84618 },
-        "하반기": { "construction": 161858, "manufacturing": 84618 }
+        "하반기": { "construction": 161858, "manufacturing": 86008 }
     },
     2024: {
         "상반기": { "construction": 165545, "manufacturing": 86008 },
         "하반기": { "construction": 167081, "manufacturing": 90085 }
     },
     2025: {
-        "상반기": { "construction": 169804, "manufacturing": 90830 },
-        "하반기": { "construction": 171037, "manufacturing": 90694 }
+        "상반기": { "construction": 169804, "manufacturing": 90085 },
+        "하반기": { "construction": 171037, "manufacturing": 90830 }
     },
     2026: {
         "상반기": { "construction": 172068, "manufacturing": 90694 },
