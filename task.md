@@ -53,3 +53,10 @@
 - [x] **테스트 및 최종 동기화 완료**:
   - [x] 2026-07-07 기준 중반기 제조업 노임 정상 감지 및 일자별 차등 연산 결과 검증 완료
   - [x] Obsidian 노트 자동 동기화 및 Git Push 최신화
+
+## 📅 2026-07-12 (일)
+- [x] **임금 자동 업데이트 워크플로우(GitHub Actions) 오류 해결**:
+  - [x] `.github/workflows/update_wages.yml` 내 `GITHUB_TOKEN`에 `contents: write` 쓰기 권한 명시 부여.
+  - [x] Detached HEAD 상태에서 안전하게 푸시될 수 있도록 `git push origin HEAD:${{ github.ref_name }}`으로 푸시 명령어 보완.
+  - [x] 로컬 스크래퍼 실행 테스트 완료 및 원격 저장소 최신화.
+

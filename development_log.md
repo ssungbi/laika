@@ -87,3 +87,10 @@
     *   네이버 검색 결과 내에서 오래된 글에 기재된 과거 노임(예: 2026년 상반기 기준 `90,694`원)의 출현 빈도가 높아 생기는 오류를 방지하기 위해, `WAGE_HISTORY`를 참조하는 expected wage 선호 매칭 및 baseline 노임 초과분 필터링 로직을 개발해 신뢰도를 대폭 향상.
 *   **비주얼 서버날짜 시뮬레이터 제거 및 코드 정리**:
     *   사용자 요구사항에 따라 웹 브라우저 우측 하단의 플로팅 개발자용 시뮬레이터를 영구히 제거하고, `script.js` 내의 가상 모킹 및 시뮬레이션 이벤트 모듈을 완전히 덜어냄.
+
+### Phase 8: GitHub Actions 자동 임금 스크래퍼 권한 이슈 해결 (2026-07-12)
+*   **GitHub Actions 쓰기 권한 복구 및 Detached HEAD 푸시 문제 해결**:
+    *   자동 업데이트 스케줄 워크플로우(`.github/workflows/update_wages.yml`)에서 `git push`가 권한 부족(exit code 128)으로 인해 실패하던 현상 해결.
+    *   워크플로우 파일 상단에 `permissions: { contents: write }` 권한을 명시하여 GITHUB_TOKEN이 쓰기 작업을 수행할 수 있도록 조치.
+    *   `git push` 명령 시 Detached HEAD 상태에서도 타겟 브랜치로 확실하게 업로드될 수 있도록 `git push origin HEAD:${{ github.ref_name }}` 형태로 명령을 수정하여 배포의 안정성 확보.
+
