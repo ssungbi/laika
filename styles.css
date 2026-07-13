@@ -2389,6 +2389,151 @@ body {
     }
 }
 
+/* ==========================================
+   Precedent & FSS Search View Styles
+   ========================================== */
+.search-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    max-width: 600px;
+    align-items: center;
+    position: relative;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    left: 16px;
+    color: #64748b;
+    font-size: 22px;
+    pointer-events: none;
+    line-height: 1;
+}
+
+.search-bar input {
+    width: 100%;
+    height: 52px;
+    padding: 14px 16px 14px 48px;
+    font-size: 15px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.search-bar button {
+    height: 52px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.search-bar button:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+.search-bar button:active {
+    transform: translateY(0);
+}
+
+/* Precedent Cards */
+.precedent-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border: 1px solid #f1f5f9;
+    transition: all 0.25s ease;
+}
+
+.precedent-card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    border-color: #e2e8f0;
+}
+
+.precedent-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 19px;
+    color: #0f172a;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.precedent-card .core-issue-box {
+    font-size: 15px;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    background: #f8fafc;
+    padding: 14px 16px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+}
+
+.precedent-card .btn-details-toggle {
+    background: #f1f5f9;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #475569;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.precedent-card .btn-details-toggle:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.precedent-card .precedent-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.precedent-card .tag-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #dbeafe;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.precedent-card .tag-badge:hover {
+    background: #dbeafe;
+    transform: translateY(-1px);
+}
+
+
 
 
 

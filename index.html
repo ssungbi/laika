@@ -962,7 +962,7 @@
                     <div class="section">
                         <div class="search-bar">
                             <span class="search-icon material-icons-round">search</span>
-                            <input type="text" id="court-search-input" placeholder="사건번호, 병명, 키워드로 검색 (예: 뇌하수체, 2023나)" onkeyup="if(event.key==='Enter') filterPrecedents('court')">
+                            <input type="text" id="court-search-input" placeholder="사건번호, 병명, 키워드로 검색 (예: 뇌하수체, 2023나)" oninput="filterPrecedents('court')">
                             <button class="btn btn-primary" onclick="filterPrecedents('court')">검색</button>
                         </div>
                         <div id="court-results-container" class="results-container" style="margin-top: 30px;">
@@ -982,7 +982,7 @@
                     <div class="section">
                         <div class="search-bar">
                             <span class="search-icon material-icons-round">search</span>
-                            <input type="text" id="fss-search-input" placeholder="조정번호, 질병, 키워드로 검색" onkeyup="if(event.key==='Enter') filterPrecedents('fss')">
+                            <input type="text" id="fss-search-input" placeholder="조정번호, 질병, 키워드로 검색" oninput="filterPrecedents('fss')">
                             <button class="btn btn-primary" onclick="filterPrecedents('fss')">검색</button>
                         </div>
                         <div id="fss-results-container" class="results-container" style="margin-top: 30px;">

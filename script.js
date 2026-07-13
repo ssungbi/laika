@@ -125,6 +125,16 @@ function navigateTo(viewId) {
         targetView.classList.add('active');
     }
 
+    // 3. 네비게이션 아이템 활성화 상태 업데이트
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        const onclickAttr = item.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes(viewId)) {
+            item.classList.add('active');
+        }
+    });
+
+
     // KCD 데이터 지연 로딩
         if (viewId === 'view-accident') {
         if(typeof initAccidentView === 'function') initAccidentView();
