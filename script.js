@@ -19238,3 +19238,17 @@ window.filterMcBridePopupResults = function(filterMajor = '') {
     
     resultsContainer.innerHTML = html;
 };
+
+// --- 탭 유지 로직 ---
+document.addEventListener('DOMContentLoaded', () => {
+    const activeTab = sessionStorage.getItem('activeTab');
+    if (activeTab) {
+        // 약간의 지연 후 탭 이동 (다른 초기화 로직 덮어쓰기 방지)
+        setTimeout(() => {
+            if (typeof navigateTo === 'function') {
+                navigateTo(activeTab);
+            }
+            sessionStorage.removeItem('activeTab');
+        }, 100);
+    }
+});

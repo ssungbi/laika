@@ -219,6 +219,7 @@ async function syncObsidianData() {
         
         if (response.ok && result.success) {
             alert(`동기화 성공! 총 ${result.count}개의 판례가 확인되었습니다.\n${result.changed ? '새로운 변경사항이 GitHub에 푸시되었습니다.' : '새로운 변경사항이 없습니다.'}`);
+            sessionStorage.setItem('activeTab', 'view-precedent-court');
             window.location.reload(); // Reload to fetch the updated JS file
         } else {
             alert('동기화 실패: ' + (result.error || '알 수 없는 오류'));
