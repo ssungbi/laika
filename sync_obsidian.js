@@ -77,8 +77,13 @@ function parseMarkdown(content) {
         const typeMatch = basicInfo.match(/사건유형:\s*(.+)/);
         if (typeMatch) data.case_type = typeMatch[1].trim();
 
-        const resultMatch = basicInfo.match(/소비자 유불리:\s*(.+)/);
-        if (resultMatch) data.consumer_result = resultMatch[1].trim();
+        const resultMatch = basicInfo.match(/소비자 유불리.*?:\s*(.+)/);
+        if (resultMatch) {
+            let res = resultMatch[1].trim();
+            // Remove markdown bold if present
+            res = res.replace(/^\*\*|\*\*$/g, '');
+            data.consumer_result = res;
+        }
     }
 
     // Parse other sections

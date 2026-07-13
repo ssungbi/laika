@@ -135,7 +135,7 @@ function renderPrecedents(type, data, query = '') {
         const subInfo = [item.court, item.case_no, item.case_type].filter(Boolean).join(' | ');
         
         let consumerBadge = '';
-        if (item.consumer_result) {
+        if (item.consumer_result && ['유리', '불리', '중립'].includes(item.consumer_result)) {
             let badgeBg = '#f1f5f9';
             let badgeColor = '#475569';
             if (item.consumer_result === '유리') { badgeBg = '#dcfce7'; badgeColor = '#166534'; }
