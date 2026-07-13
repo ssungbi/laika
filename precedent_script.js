@@ -24,6 +24,15 @@ function initPrecedents() {
     }
 }
 
+// 검색어 지우기 함수
+function clearPrecedentSearch(type) {
+    const input = document.getElementById(`${type}-search-input`);
+    if (input) {
+        input.value = '';
+        filterPrecedents(type);
+    }
+}
+
 // 필터링 함수
 function filterPrecedents(type) {
     const query = document.getElementById(`${type}-search-input`).value;

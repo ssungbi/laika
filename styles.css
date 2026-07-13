@@ -2452,6 +2452,17 @@ body {
     transform: translateY(0);
 }
 
+.search-bar .btn-clear {
+    background-color: #f8fafc;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.search-bar .btn-clear:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
 /* Precedent Cards */
 .precedent-card {
     background: white;
