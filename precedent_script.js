@@ -15,11 +15,15 @@ function initPrecedents() {
     // court_precedents 와 fss_precedents 는 해당 _data.js 파일에서 로드됨
     if (typeof court_precedents !== 'undefined') {
         courtFuse = new Fuse(court_precedents, fuseOptions);
+        const courtBadge = document.getElementById('court-precedent-count-badge');
+        if (courtBadge) courtBadge.innerText = court_precedents.length;
         renderPrecedents('court', court_precedents);
     }
     
     if (typeof fss_precedents !== 'undefined') {
         fssFuse = new Fuse(fss_precedents, fuseOptions);
+        const fssBadge = document.getElementById('fss-precedent-count-badge');
+        if (fssBadge) fssBadge.innerText = fss_precedents.length;
         renderPrecedents('fss', fss_precedents);
     }
 }
