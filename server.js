@@ -1,5 +1,5 @@
 const http = require('http');
-const { syncObsidian } = require('./sync_obsidian');
+// Removed global require for sync_obsidian to avoid cache issues
 
 const PORT = 3123;
 
@@ -17,6 +17,9 @@ const server = http.createServer((req, res) => {
 
     if (req.method === 'POST' && req.url === '/api/sync') {
         try {
+            // Delete cache so it always runs the latest version of sync_obsidian.js
+            delete require.cache[require.resolve('./sync_obsidian')];
+            const { syncObsidian } = require('./sync_obsidian');
             const result = syncObsidian();
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(result));
