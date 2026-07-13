@@ -21,7 +21,8 @@ function parseMarkdown(content) {
         practical_points: [],
         expected_rebuttals: [],
         counter_logic: [],
-        keywords: []
+        keywords: [],
+        consumer_result: ""
     };
 
     // Extract frontmatter
@@ -75,6 +76,9 @@ function parseMarkdown(content) {
 
         const typeMatch = basicInfo.match(/사건유형:\s*(.+)/);
         if (typeMatch) data.case_type = typeMatch[1].trim();
+
+        const resultMatch = basicInfo.match(/소비자 유불리:\s*(.+)/);
+        if (resultMatch) data.consumer_result = resultMatch[1].trim();
     }
 
     // Parse other sections
