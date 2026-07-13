@@ -135,14 +135,21 @@ function renderPrecedents(type, data, query = '') {
         const subInfo = [item.court, item.case_no, item.case_type].filter(Boolean).join(' | ');
         
         let consumerBadge = '';
-        if (item.consumer_result && ['유리', '불리', '중립'].includes(item.consumer_result)) {
-            let badgeBg = '#f1f5f9';
-            let badgeColor = '#475569';
-            if (item.consumer_result === '유리') { badgeBg = '#dcfce7'; badgeColor = '#166534'; }
-            else if (item.consumer_result === '불리') { badgeBg = '#fee2e2'; badgeColor = '#991b1b'; }
-            else if (item.consumer_result === '중립') { badgeBg = '#fef9c3'; badgeColor = '#854d0e'; }
+        if (item.consumer_result) {
+            let badgeType = '';
+            if (item.consumer_result.startsWith('유리')) badgeType = '유리';
+            else if (item.consumer_result.startsWith('불리')) badgeType = '불리';
+            else if (item.consumer_result.startsWith('중립')) badgeType = '중립';
             
-            consumerBadge = `<span style="display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; background-color: ${badgeBg}; color: ${badgeColor}; vertical-align: middle;">${item.consumer_result}</span>`;
+            if (badgeType) {
+                let badgeBg = '#f1f5f9';
+                let badgeColor = '#475569';
+                if (badgeType === '유리') { badgeBg = '#dcfce7'; badgeColor = '#166534'; }
+                else if (badgeType === '불리') { badgeBg = '#fee2e2'; badgeColor = '#991b1b'; }
+                else if (badgeType === '중립') { badgeBg = '#fef9c3'; badgeColor = '#854d0e'; }
+                
+                consumerBadge = `<span style="display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; background-color: ${badgeBg}; color: ${badgeColor}; vertical-align: middle;">${badgeType}</span>`;
+            }
         }
         
         const subInfoHtml = subInfo ? `<div style="display: flex; align-items: center; margin-bottom: 8px;"><div style="font-size: 13px; color: #e67e22; font-weight: 600;">[${highlightText(subInfo, query)}]</div>${consumerBadge}</div>` : '';
