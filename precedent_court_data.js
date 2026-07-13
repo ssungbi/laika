@@ -76,10 +76,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "사우나 고온 환경에서 심장마비가 발생한 경우 기왕증이 있더라도 외부요인과 사망 사이의 상당인과관계를 인정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "음주, 고온, 운동, 과로 등 외부 환경이 단순 경미한 요인을 넘어 중대한 유인으로 작용했을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "외부요인이 경미하고 기왕질환만으로 사망한 것으로 평가되는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -112,10 +112,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "에어컨을 켜둔 폐쇄된 방에서 사망한 피보험자에 대해 부검 없이 저체온증에 의한 상해사망을 인정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "저체온증 등 외부 환경에 의한 사망이라는 객관적 의학자료가 확보될 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "부검 미실시 등으로 사인이 불명확하고 다른 사망 원인을 배제하지 못하는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -148,10 +148,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "협착률이 38%에 불과해 협심증 인정은 어렵더라도 I25.1 만성허혈성심질환이 약관상 허혈성심질환 진단비 지급대상인지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관상 허혈성심질환의 질병분류표에 만성 허혈성심장질환(I25)이 포함되어 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관상 I25 계열 질병이 보장범위에서 제외되어 있거나 별도 제한 문언이 명확한 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -184,10 +184,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "척추 유합 상태가 약관상 장해분류표 문언에 직접 맞지 않을 때 준용 규정으로 후유장해보험금을 인정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 장해분류표 외 후유장해를 신체 장해정도에 따라 준용한다는 규정이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 준용 규정이 없거나 해당 담보가 질병/상해 원인을 보장하지 않는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -220,10 +220,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "척수손상으로 4개 척추체가 유합된 경우 골절·탈구가 없더라도 준용 규정에 따라 척추 심한 운동장해 40%를 적용할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 장해분류표 외 후유장해를 신체 장해정도에 따라 준용한다는 규정이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 준용 규정이 없거나 해당 담보가 질병/상해 원인을 보장하지 않는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -256,10 +256,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "경도 관상동맥질환 I25.1 진단이 심근허혈 또는 특이소견 부족 주장에도 약관상 허혈성심질환 진단비 지급사유가 되는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관상 허혈성심질환의 질병분류표에 만성 허혈성심장질환(I25)이 포함되어 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관상 I25 계열 질병이 보장범위에서 제외되어 있거나 별도 제한 문언이 명확한 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -292,10 +292,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "장해분류표의 형식적 원인요건과 실제 신체 장해상태가 어긋나는 경우 준용 규정으로 보험금을 산정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 장해분류표 외 후유장해를 신체 장해정도에 따라 준용한다는 규정이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 준용 규정이 없거나 해당 담보가 질병/상해 원인을 보장하지 않는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -328,10 +328,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "수술 중 발생한 사망이 보험약관상 '상해'에 해당하는지 여부",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "수술 과정 또는 수술 전후 처치 중 급격하고 우연한 외래적 사고가 확인될 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "기저질환의 자연경과 또는 통상적 수술 위험만으로 사망한 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -362,10 +362,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "골절·탈구가 없는 척추 유합에도 약관 준용 규정상 척추 운동장해 보험금을 인정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 장해분류표 외 후유장해를 신체 장해정도에 따라 준용한다는 규정이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 준용 규정이 없거나 해당 담보가 질병/상해 원인을 보장하지 않는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -398,10 +398,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "질병 또는 비골절 원인으로 척추가 유합된 경우에도 약관 준용 규정에 따라 척추 운동장해를 인정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 장해분류표 외 후유장해를 신체 장해정도에 따라 준용한다는 규정이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 준용 규정이 없거나 해당 담보가 질병/상해 원인을 보장하지 않는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -501,10 +501,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "코로나19 백신 접종 후 심근염으로 사망한 경우 백신 부작용을 보험약관상 상해로 볼 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "예방접종과 증상 발생 사이 시간적 근접성이 강할 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "접종과 발병 사이 시간 간격이 길거나 다른 원인이 더 명확한 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -537,10 +537,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "무증상 뇌동정맥기형이 코로나19 백신 접종 직후 파열되어 사망한 경우 예방접종 피해보상 인과관계를 인정할 수 있는지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "예방접종과 증상 발생 사이 시간적 근접성이 강할 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "접종과 발병 사이 시간 간격이 길거나 다른 원인이 더 명확한 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -614,10 +614,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "3개 척추체 유합 상태에 대해 뚜렷한 운동장해 지급률을 준용하고 기왕증 기여도를 어떻게 반영할지가 핵심 쟁점이다.",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 장해분류표 외 후유장해를 신체 장해정도에 따라 준용한다는 규정이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "약관에 준용 규정이 없거나 해당 담보가 질병/상해 원인을 보장하지 않는 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -650,10 +650,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "줄기세포 시술 후 입원 치료의 의학적 필요성 인정 여부",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "줄기세포치료 또는 관련 처치가 의학적으로 필요한 입원치료로 인정될 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "치료의 의학적 필요성이나 입원 필요성이 의무기록상 부족한 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -684,10 +684,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "건강검진 결과표상의 '추가검사 권장'이라는 문구가 상법 제651조 및 보험약관상 고지의무 대상인 '질병의심소견'에 해당하는지 여부",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "질문표상 고지 대상 사실이 명확하고 보험계약자 또는 피보험자가 이를 알고도 고지하지 않았을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "질문표가 불명확하거나 평균적 계약자가 고지대상으로 인식하기 어려운 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -719,10 +719,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "고지의무 위반 계약에서 제척기간 경과 후 청구 시 보험금 지급 의무 존부",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "질문표상 고지 대상 사실이 명확하고 보험계약자 또는 피보험자가 이를 알고도 고지하지 않았을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "질문표가 불명확하거나 평균적 계약자가 고지대상으로 인식하기 어려운 경우"
         ],
         "fact_summary": [],
         "court_decision": [
@@ -790,10 +790,10 @@ const court_precedents = [
         "case_type": "",
         "core_issue": "백내장 수술 후 입원치료가 약관상 '입원'에 해당하는지 여부",
         "acceptance_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "입원 필요성이 의학적으로 인정되고 실제 입원치료에 해당하는 실질이 있을 것"
         ],
         "rejection_criteria": [
-            "기존 노트에 별도 기재 없음"
+            "실질적으로 통원 가능한 수술인데 형식상 입원으로만 처리된 경우"
         ],
         "fact_summary": [],
         "court_decision": [
