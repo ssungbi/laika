@@ -183,8 +183,53 @@ function toggleDetails(btn) {
 
 // DOM Load 시 초기화
 document.addEventListener('DOMContentLoaded', () => {
-    // 혹시 script.js 등 다른 곳에서 navigateTo 될 때 렌더링이 안될 수 있으니
-    // 0.5초 딜레이 후 초기화 (데이터 로딩 대기)
+    // 혹시 script.js 등 다른 곳에서 navigateTo 호출로 렌더링이 안될 수 있으므로
+    // 0.5초 딜레이 후 초기화 (페이지 로딩 훅)
     setTimeout(initPrecedents, 500);
 });
 
+async function syncObsidianData() {
+    const btn = document.getElementById('sync-obsidian-btn');
+    const icon = btn.querySelector('.sync-icon');
+    
+    // Add spinning animation style if not exists
+    if (!document.getElementById('sync-spin-style')) {
+        const style = document.createElement('style');
+        style.id = 'sync-spin-style';
+        style.innerHTML = `
+            @keyframes spin { 100% { transform: rotate(360deg); } }
+            .spinning { animation: spin 1s linear infinite; }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Set loading state
+    icon.classList.add('spinning');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = `<span class="material-icons-round sync-icon spinning" style="font-size: 18px;">sync</span> 동기화 중...`;
+    btn.disabled = true;
+
+    try {
+        const response = await fetch('http://localhost:3123/api/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            alert(`동기화 성공! 총 ${result.count}개의 판례가 확인되었습니다.\n${result.changed ? '새로운 변경사항이 GitHub에 푸시되었습니다.' : '새로운 변경사항이 없습니다.'}`);
+            window.location.reload(); // Reload to fetch the updated JS file
+        } else {
+            alert('동기화 실패: ' + (result.error || '알 수 없는 오류'));
+        }
+    } catch (e) {
+        alert('서버 연결 실패: 로컬 동기화 서버(server.js)가 실행 중인지 확인해주세요.\n실행 방법: cmd에서 start_server.bat 실행');
+        console.error(e);
+    } finally {
+        // Restore button state
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        btn.querySelector('.sync-icon').classList.remove('spinning');
+    }
+}
