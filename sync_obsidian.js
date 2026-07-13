@@ -48,7 +48,7 @@ function parseMarkdown(content) {
 
     // Regex to extract content between ## headings
     const extractSection = (heading) => {
-        const regex = new RegExp(`^##\\s+${heading}\\s*\\n([\\s\\S]*?)(?=\\n## |$)`, 'm');
+        const regex = new RegExp(`(?:^|\\n)##\\s+${heading}\\s*\\n([\\s\\S]*?)(?=\\n## |$)`);
         const match = content.match(regex);
         return match ? match[1].trim() : '';
     };
@@ -61,6 +61,9 @@ function parseMarkdown(content) {
 
     // Parse '기본 정보'
     const basicInfo = extractSection('기본 정보');
+    if (data.title && data.title.includes('2003나84240')) {
+        console.log("basicInfo extracted:", basicInfo);
+    }
     if (basicInfo) {
         const noMatch = basicInfo.match(/사건번호:\s*(.+)/);
         if (noMatch) data.case_no = noMatch[1].trim();
