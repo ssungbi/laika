@@ -957,11 +957,15 @@
             <!-- Precedent: Court -->
             <div id="view-precedent-court" class="page-view hidden">
                 <div class="content-wrapper">
-                    <div class="page-header">
-                        <h2>법원 판례 검색</h2>
-                        <p class="header-subtitle">법원 판례 데이터를 검색하고 핵심 요약, 인정 요건, 실무 포인트를 확인하세요.</p>
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">법원 판례 검색</h2>
                     </div>
-                    <div class="section">
+                    
+                    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                        <p style="font-size: 15px; color: #64748b; margin-bottom: 24px;">법원 판례 데이터를 검색하고 핵심 요약, 인정 요건, 실무 포인트를 확인하세요.</p>
                         <div class="search-bar">
                             <span class="search-icon material-icons-round">search</span>
                             <input type="text" id="court-search-input" placeholder="사건번호, 병명, 키워드로 검색 (예: 뇌하수체, 2023나)" oninput="filterPrecedents('court')">
@@ -977,11 +981,15 @@
             <!-- Precedent: FSS -->
             <div id="view-precedent-fss" class="page-view hidden">
                 <div class="content-wrapper">
-                    <div class="page-header">
-                        <h2>금융감독원 조정례 검색</h2>
-                        <p class="header-subtitle">금융감독원 조정례 데이터를 검색하고 상세 내역을 확인하세요.</p>
+                    <div class="sub-header">
+                        <button class="back-btn" onclick="navigateTo('view-main')">
+                            <span class="material-icons-round">arrow_back</span>
+                        </button>
+                        <h2 class="sub-header-title">금융감독원 조정례 검색</h2>
                     </div>
-                    <div class="section">
+                    
+                    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                        <p style="font-size: 15px; color: #64748b; margin-bottom: 24px;">금융감독원 조정례 데이터를 검색하고 상세 내역을 확인하세요.</p>
                         <div class="search-bar">
                             <span class="search-icon material-icons-round">search</span>
                             <input type="text" id="fss-search-input" placeholder="조정번호, 질병, 키워드로 검색" oninput="filterPrecedents('fss')">
