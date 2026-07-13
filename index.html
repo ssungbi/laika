@@ -89,11 +89,11 @@
                 <!-- 3. 판례 / 조정례 -->
                 <div class="nav-section sec-cases">
                     <h3 class="nav-title">판례 / 조정례</h3>
-                    <a href="#" class="nav-item">
+                    <a href="#" class="nav-item" onclick="navigateTo('view-precedent-court'); return false;">
                         <span class="nav-icon-box">법원</span>
                         <span class="text">법원 판례</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="#" class="nav-item" onclick="navigateTo('view-precedent-fss'); return false;">
                         <span class="nav-icon-box">금감</span>
                         <span class="text">금융감독원 조정례</span>
                     </a>
@@ -269,7 +269,7 @@
                         <div class="section">
                             <h2 class="section-title sec-title-cases">⚖️ 판례 / 조정례</h2>
                             <div class="category-grid">
-                                <a href="#" class="category-card card-cases-court">
+                                <a href="#" class="category-card card-cases-court" onclick="navigateTo('view-precedent-court'); return false;">
                                     <div class="card-icon-wrap cases-court">
                                         <span class="material-icons-round">account_balance</span>
                                     </div>
@@ -278,7 +278,7 @@
                                         <span>보험·손해배상 관련 판례</span>
                                     </div>
                                 </a>
-                                <a href="#" class="category-card card-cases-fss">
+                                <a href="#" class="category-card card-cases-fss" onclick="navigateTo('view-precedent-fss'); return false;">
                                     <div class="card-icon-wrap cases-fss">
                                         <span class="material-icons-round">policy</span>
                                     </div>
@@ -952,6 +952,45 @@
                         </div>
                     </div>
 
+            <!-- Precedent: Court -->
+            <div id="view-precedent-court" class="page-view hidden">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h2>법원 판례 검색</h2>
+                        <p class="header-subtitle">법원 판례 데이터를 검색하고 핵심 요약, 인정 요건, 실무 포인트를 확인하세요.</p>
+                    </div>
+                    <div class="section">
+                        <div class="search-bar">
+                            <span class="search-icon material-icons-round">search</span>
+                            <input type="text" id="court-search-input" placeholder="사건번호, 병명, 키워드로 검색 (예: 뇌하수체, 2023나)" onkeyup="if(event.key==='Enter') filterPrecedents('court')">
+                            <button class="btn btn-primary" onclick="filterPrecedents('court')">검색</button>
+                        </div>
+                        <div id="court-results-container" class="results-container" style="margin-top: 30px;">
+                            <!-- Results will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Precedent: FSS -->
+            <div id="view-precedent-fss" class="page-view hidden">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h2>금융감독원 조정례 검색</h2>
+                        <p class="header-subtitle">금융감독원 조정례 데이터를 검색하고 상세 내역을 확인하세요.</p>
+                    </div>
+                    <div class="section">
+                        <div class="search-bar">
+                            <span class="search-icon material-icons-round">search</span>
+                            <input type="text" id="fss-search-input" placeholder="조정번호, 질병, 키워드로 검색" onkeyup="if(event.key==='Enter') filterPrecedents('fss')">
+                            <button class="btn btn-primary" onclick="filterPrecedents('fss')">검색</button>
+                        </div>
+                        <div id="fss-results-container" class="results-container" style="margin-top: 30px;">
+                            <!-- Results will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -1008,6 +1047,7 @@
     <script src="injury_data.js"></script>
     <script src="surgery_data.js"></script>
     <script src="wage_data.js"></script>
+    <script src="precedent_script.js"></script>
     <script src="script.js?v=16"></script>
 
     <!-- 메리츠 영업포탈 이동 -->
