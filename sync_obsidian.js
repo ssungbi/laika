@@ -2,12 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Find the correct Vault Path dynamically to avoid encoding issues
-const docPath = 'C:\\Users\\SB\\Documents';
-const dirs = fs.readdirSync(docPath, { withFileTypes: true });
-const targetDir = dirs.find(d => d.isDirectory() && Buffer.byteLength(d.name, 'utf8') !== d.name.length && d.name.length > 4);
-const VAULT_PATH = targetDir ? path.join(docPath, targetDir.name, '20_Precedents') : '';
-
+const VAULT_PATH = 'C:\\Users\\SB\\Documents\\손사봇볼트\\20_Precedents';
 const DATA_FILE_PATH = path.join(__dirname, 'precedent_court_data.js');
 
 function parseMarkdown(content) {
@@ -115,7 +110,6 @@ function syncObsidian() {
         }
     }
 
-    // Read existing file to preserve format if needed, but we'll just rewrite it
     const jsContent = `const court_precedents = ${JSON.stringify(precedents, null, 4)};\n`;
     fs.writeFileSync(DATA_FILE_PATH, jsContent, 'utf8');
     console.log(`Updated ${DATA_FILE_PATH} with ${precedents.length} precedents.`);
@@ -124,10 +118,9 @@ function syncObsidian() {
         console.log('Committing to GitHub...');
         execSync('git add precedent_court_data.js', { cwd: __dirname });
         
-        // Check if there are changes
         const status = execSync('git status --porcelain', { cwd: __dirname }).toString();
         if (status.includes('precedent_court_data.js')) {
-            execSync('git commit -m "feat: 옵시디언 동기화 (법원 판례 데이터 업데이트)"', { cwd: __dirname });
+            execSync('git commit -m "feat: 옵시디언 동기화 (손사봇볼트 판례 데이터 업데이트)"', { cwd: __dirname });
             console.log('Pushing to GitHub...');
             execSync('git push origin main', { cwd: __dirname });
             console.log('Sync and push successful!');
