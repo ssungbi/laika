@@ -156,7 +156,7 @@ function renderPrecedents(type, data, query = '') {
             }
         }
         
-        const subInfoHtml = subInfo ? `<div style="display: flex; align-items: center; margin-bottom: 8px;"><div style="font-size: 13px; color: #e67e22; font-weight: 600;">[${highlightText(subInfo, query)}]</div>${consumerBadge}</div>` : '';
+        const subInfoHtml = subInfo ? `<div style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;"><div style="font-size: 13px; color: #e67e22; font-weight: 600;">[${highlightText(subInfo, query)}]</div>${consumerBadge}</div>` : '';
         
         // 디테일 영역 구성 (신/구 데이터 모두 대응)
         let detailsHtml = '';
