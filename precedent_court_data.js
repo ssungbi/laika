@@ -13,9 +13,7 @@ const court_precedents = [
         "rejection_criteria": [
             "수술을 통해 종양이 완전히 제거되어 추가적인 치료 없이 완치된 경우"
         ],
-        "fact_summary": [
-            "피고(피보험자)는 1999년 11월 보험 가입 후, 2000년 7월 두통, 시력감퇴 등의 증상으로 뇌하수체 종양 진단을 받음"
-        ],
+        "fact_summary": [],
         "court_decision": [
             "비록 조직학적으로 악성에 해당하지 않더라도, 임상학적으로 볼 때 악성이라면 이는 보험 약관에서 담보하는 '암'에 해당한다고 보아야 함"
         ],
@@ -36,7 +34,8 @@ const court_precedents = [
             "C75.1",
             "조직학적양성",
             "대법원2002다19940"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2003나84240_뇌수막종_임상적악성_암진단비인정",
@@ -52,9 +51,7 @@ const court_precedents = [
         "rejection_criteria": [
             "종양이 주위 조직을 침범하지 않고 완전히 절제되어 재발 가능성이 극히 낮은 경우"
         ],
-        "fact_summary": [
-            "원고는 피고 보험사들과 암 보장이 포함된 건강보험 및 암보험 계약을 체결함"
-        ],
+        "fact_summary": [],
         "court_decision": [
             "보험약관상 암 진단확정 시 일차적으로 조직학적 소견에 따르되 임상학적 진단을 보조적 수단으로 인정한 취지상, 조직학적으로 악성이 아니더라도 임상학적으로 악성이라면 암에 해당함"
         ],
@@ -67,7 +64,8 @@ const court_precedents = [
         "counter_logic": [
             "대법원 판례(2002다19940 등)의 취지에 따르면, 약관의 보충적 인정 조항은 조직학적 양성이라 하더라도 임상학적으로 악성인 경우까지 암의 범주에서 배제하려는 취지가 아님"
         ],
-        "keywords": []
+        "keywords": [],
+        "consumer_result": ""
     },
     {
         "title": "2006다72734_사우나_심장마비_기왕증_외부요인",
@@ -77,8 +75,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "사우나 고온 환경에서 심장마비가 발생한 경우 기왕증이 있더라도 외부요인과 사망 사이의 상당인과관계를 인정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "사우나 고온 환경에서 심장마비가 발생한 경우 기왕증이 있더라도 외부요인과 사망 사이의 상당인과관계를 인정할 수 있는지가 핵심 쟁점이다."
@@ -98,7 +100,8 @@ const court_precedents = [
             "심장마비",
             "기왕증",
             "상당인과관계"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2010다12241_에어컨_저체온증_부검미실시",
@@ -108,8 +111,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "에어컨을 켜둔 폐쇄된 방에서 사망한 피보험자에 대해 부검 없이 저체온증에 의한 상해사망을 인정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "에어컨을 켜둔 폐쇄된 방에서 사망한 피보험자에 대해 부검 없이 저체온증에 의한 상해사망을 인정할 수 있는지가 핵심 쟁점이다."
@@ -129,7 +136,8 @@ const court_precedents = [
             "저체온증",
             "부검미실시",
             "입증책임"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2016나56713_협심증_만성허혈성심질환_I25.1_인정",
@@ -139,8 +147,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "협착률이 38%에 불과해 협심증 인정은 어렵더라도 I25.1 만성허혈성심질환이 약관상 허혈성심질환 진단비 지급대상인지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "협착률이 38%에 불과해 협심증 인정은 어렵더라도 I25.1 만성허혈성심질환이 약관상 허혈성심질환 진단비 지급대상인지가 핵심 쟁점이다."
@@ -160,7 +172,8 @@ const court_precedents = [
             "협심증",
             "만성허혈성심질환",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2018나2019024_척추유합_준용장해_후유장해",
@@ -170,8 +183,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "척추 유합 상태가 약관상 장해분류표 문언에 직접 맞지 않을 때 준용 규정으로 후유장해보험금을 인정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "척추 유합 상태가 약관상 장해분류표 문언에 직접 맞지 않을 때 준용 규정으로 후유장해보험금을 인정할 수 있는지가 핵심 쟁점이다."
@@ -191,7 +208,8 @@ const court_precedents = [
             "후유장해",
             "약관해석",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2019가단329979_척수손상_4개척추체유합_준용장해",
@@ -201,8 +219,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "척수손상으로 4개 척추체가 유합된 경우 골절·탈구가 없더라도 준용 규정에 따라 척추 심한 운동장해 40%를 적용할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "척수손상으로 4개 척추체가 유합된 경우 골절·탈구가 없더라도 준용 규정에 따라 척추 심한 운동장해 40%를 적용할 수 있는지가 핵심 쟁점이다."
@@ -222,7 +244,8 @@ const court_precedents = [
             "준용장해",
             "후유장해",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2019나1633_경도관상동맥질환_I25.1_허혈성심질환",
@@ -232,8 +255,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "경도 관상동맥질환 I25.1 진단이 심근허혈 또는 특이소견 부족 주장에도 약관상 허혈성심질환 진단비 지급사유가 되는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "경도 관상동맥질환 I25.1 진단이 심근허혈 또는 특이소견 부족 주장에도 약관상 허혈성심질환 진단비 지급사유가 되는지가 핵심 쟁점이다."
@@ -253,7 +280,8 @@ const court_precedents = [
             "경도관상동맥질환",
             "약관해석",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2020가합560751_척추장해_파생장해_합산제한",
@@ -263,8 +291,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "장해분류표의 형식적 원인요건과 실제 신체 장해상태가 어긋나는 경우 준용 규정으로 보험금을 산정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "장해분류표의 형식적 원인요건과 실제 신체 장해상태가 어긋나는 경우 준용 규정으로 보험금을 산정할 수 있는지가 핵심 쟁점이다."
@@ -284,18 +316,23 @@ const court_precedents = [
             "후유장해",
             "기왕증",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2021가단30890_수술사망_상해사고해당여부",
-        "case_no": "",
+        "case_no": "2021가단30890",
         "court": "",
         "year": "",
         "date": "",
         "case_type": "",
         "core_issue": "수술 중 발생한 사망이 보험약관상 '상해'에 해당하는지 여부",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "수술은 환자의 동의를 전제로 하는 의도된 의료행위임"
@@ -313,7 +350,8 @@ const court_precedents = [
             "상해사망보험금",
             "수술 중 사망",
             "급격성_우연성_외래성"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2022나54825_비골절척추유합_준용장해",
@@ -323,8 +361,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "골절·탈구가 없는 척추 유합에도 약관 준용 규정상 척추 운동장해 보험금을 인정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "골절·탈구가 없는 척추 유합에도 약관 준용 규정상 척추 운동장해 보험금을 인정할 수 있는지가 핵심 쟁점이다."
@@ -344,7 +386,8 @@ const court_precedents = [
             "준용장해",
             "후유장해",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2023가단215050_질병기원_척추유합_질병후유장해",
@@ -354,8 +397,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "질병 또는 비골절 원인으로 척추가 유합된 경우에도 약관 준용 규정에 따라 척추 운동장해를 인정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "질병 또는 비골절 원인으로 척추가 유합된 경우에도 약관 준용 규정에 따라 척추 운동장해를 인정할 수 있는지가 핵심 쟁점이다."
@@ -375,7 +422,8 @@ const court_precedents = [
             "준용장해",
             "운동장해",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2023가단215_뇌하수체종양_임상적악성",
@@ -391,9 +439,7 @@ const court_precedents = [
         "rejection_criteria": [
             "병리학적 양성 표기만 있고 임상경과 자료가 부족한 경우"
         ],
-        "fact_summary": [
-            "2002년경 첫 수술 후 20년 이상 뇌하수체 종양 경과가 이어짐"
-        ],
+        "fact_summary": [],
         "court_decision": [
             "병리학적 검사 결과와 최종 진단은 동일하지 않다고 봄"
         ],
@@ -406,7 +452,8 @@ const court_precedents = [
         "counter_logic": [
             "병리 결과는 현미경 소견일 뿐 최종 임상 진단과 동일하지 않다"
         ],
-        "keywords": []
+        "keywords": [],
+        "consumer_result": ""
     },
     {
         "title": "2023가단513825_선천성비신생물모반_레이저치료_수술해당성",
@@ -422,9 +469,7 @@ const court_precedents = [
         "rejection_criteria": [
             "치료 목적이 아닌 단순 외모 개선 목적의 미용 시술임이 입증되는 경우"
         ],
-        "fact_summary": [
-            "피보험자(소아)는 선천성 비신생물 모반(Q코드) 진단을 받고 병원에서 수차례에 걸쳐 레이저 치료를 받음"
-        ],
+        "fact_summary": [],
         "court_decision": [
             "의학 기술의 발달로 전통적인 메스를 사용하는 수술 대신 레이저를 이용해 병변 조직을 파괴·괴사시키는 시술이 널리 행해지고 있으며, 이는 실질적으로 수술의 목적과 효과를 달성하는 외과적 치료 행위이다"
         ],
@@ -444,7 +489,8 @@ const court_precedents = [
             "수술의정의",
             "작성자불이익원칙",
             "수원지방법원"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2023가단5157635_코로나백신_심근염_상해사망",
@@ -454,8 +500,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "코로나19 백신 접종 후 심근염으로 사망한 경우 백신 부작용을 보험약관상 상해로 볼 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "코로나19 백신 접종 후 심근염으로 사망한 경우 백신 부작용을 보험약관상 상해로 볼 수 있는지가 핵심 쟁점이다."
@@ -475,7 +525,8 @@ const court_precedents = [
             "상해사망",
             "외래성",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2023구합56996_코로나백신_동정맥기형_국가보상",
@@ -485,8 +536,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "무증상 뇌동정맥기형이 코로나19 백신 접종 직후 파열되어 사망한 경우 예방접종 피해보상 인과관계를 인정할 수 있는지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "무증상 뇌동정맥기형이 코로나19 백신 접종 직후 파열되어 사망한 경우 예방접종 피해보상 인과관계를 인정할 수 있는지가 핵심 쟁점이다."
@@ -506,7 +561,8 @@ const court_precedents = [
             "국가보상",
             "행정소송",
             "인과관계"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2023나223773_뇌하수체종양_임상악성_C75.1_암진단비",
@@ -522,9 +578,7 @@ const court_precedents = [
         "rejection_criteria": [
             "단순히 과거에 뇌하수체 선종 D35.2 양성 진단 또는 수술 이력이 있었다는 사정만으로는 이후 C75.1 악성 진단을 배척할 수 없다"
         ],
-        "fact_summary": [
-            "원고는 2022-08-05 피고 보험회사와 C 보험계약을 체결했고, 이 사건 담보는 암 진단비 지급을 예정하고 있었다."
-        ],
+        "fact_summary": [],
         "court_decision": [
             "법원은 이 사건 약관상 암에 C73~C75의 갑상선 및 기타 내분비선 악성신생물이 포함되어 있고, 뇌하수체의 악성 신생물 C75.1이 이에 해당한다고 보았다."
         ],
@@ -548,7 +602,8 @@ const court_precedents = [
             "진단확정",
             "잔존 종양",
             "방사선 치료"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2023나307305_3개척추체유합_기왕증감액",
@@ -558,8 +613,12 @@ const court_precedents = [
         "date": "",
         "case_type": "",
         "core_issue": "3개 척추체 유합 상태에 대해 뚜렷한 운동장해 지급률을 준용하고 기왕증 기여도를 어떻게 반영할지가 핵심 쟁점이다.",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "3개 척추체 유합 상태에 대해 뚜렷한 운동장해 지급률을 준용하고 기왕증 기여도를 어떻게 반영할지가 핵심 쟁점이다."
@@ -579,18 +638,23 @@ const court_precedents = [
             "기왕증감액",
             "후유장해",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2024가단5506517_줄기세포치료_입원필요성",
-        "case_no": "",
+        "case_no": "2024가단5506517",
         "court": "",
         "year": "",
         "date": "",
         "case_type": "",
         "core_issue": "줄기세포 시술 후 입원 치료의 의학적 필요성 인정 여부",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "입원은 단순히 병실을 사용한 사실이 아니라, 자택 치료가 곤란하여 의료기관의 관리 하에 치료에 전념할 필요가 있는 경우여야 함"
@@ -608,18 +672,23 @@ const court_precedents = [
             "실손보험",
             "입원필요성",
             "줄기세포치료"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2024가단68726_건강검진결과_고지의무위반여부",
-        "case_no": "",
+        "case_no": "2024가단68726",
         "court": "",
         "year": "",
         "date": "",
         "case_type": "",
         "core_issue": "건강검진 결과표상의 '추가검사 권장'이라는 문구가 상법 제651조 및 보험약관상 고지의무 대상인 '질병의심소견'에 해당하는지 여부",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "건강검진 결과표의 '추가검사 권장' 소견이 일률적으로 고지의무 대상이 되는 것은 아님"
@@ -638,18 +707,23 @@ const court_precedents = [
             "건강검진",
             "추가검사권장",
             "보험금분쟁"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2024가합100843_고지의무위반_제척기간 및 기판력",
-        "case_no": "",
+        "case_no": "2024가합100843",
         "court": "",
         "year": "",
         "date": "",
         "case_type": "",
         "core_issue": "고지의무 위반 계약에서 제척기간 경과 후 청구 시 보험금 지급 의무 존부",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "선행 확정판결의 기판력으로 인해 본 사건 청구는 부적법하거나 이유 없음"
@@ -668,7 +742,8 @@ const court_precedents = [
             "제척기간",
             "기판력",
             "권리남용"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2025나10400_폐경기여성_양측난소절제_질병후유장해",
@@ -684,9 +759,7 @@ const court_precedents = [
         "rejection_criteria": [
             "약관 장해분류표에 폐경 여성의 난소 상실을 장해 평가에서 제외한다는 명시적 규정이 존재하는 경우"
         ],
-        "fact_summary": [
-            "피고(피보험자)는 2013년 8월 30일 질병일반후유장해(가입금액 3,000만 원) 및 질병소득보상자금(가입금액 5,000만 원) 담보가 포함된 보험계약을 체결함"
-        ],
+        "fact_summary": [],
         "court_decision": [
             "보험약관은 '양측 난소를 모두 잃었을 때'를 장해로 명시하고 있으며, 연령이나 폐경 여부에 따른 예외나 제한 규정을 전혀 두고 있지 않음"
         ],
@@ -705,18 +778,23 @@ const court_precedents = [
             "양측 난소 상실",
             "약관 엄격해석",
             "비뇨생식기 장해"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2025나30690_백내장_입원의료비지급",
-        "case_no": "",
+        "case_no": "2025나30690",
         "court": "",
         "year": "",
         "date": "",
         "case_type": "",
         "core_issue": "백내장 수술 후 입원치료가 약관상 '입원'에 해당하는지 여부",
-        "acceptance_criteria": [],
-        "rejection_criteria": [],
+        "acceptance_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
+        "rejection_criteria": [
+            "기존 노트에 별도 기재 없음"
+        ],
         "fact_summary": [],
         "court_decision": [
             "백내장 수술이라고 하여 일률적으로 통원치료로 볼 수 없음"
@@ -734,7 +812,8 @@ const court_precedents = [
             "백내장",
             "입원의료비",
             "실손보험"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2025나6811_위80%절제_질병후유장해_소급적용불가",
@@ -750,9 +829,7 @@ const court_precedents = [
         "rejection_criteria": [
             "보험계약 체결 이후 개정되어 보장 범위가 확대된 장해분류표 기준을 기존 계약에 소급 적용해 달라고 요구하는 경우"
         ],
-        "fact_summary": [
-            "원고는 2013년 9월 27일 피고 보험사와 질병후유장해(80% 미만) 특약(가입금액 3,000만 원)이 포함된 보험계약을 체결함."
-        ],
+        "fact_summary": [],
         "court_decision": [
             "보험계약은 원칙적으로 계약 체결 당시의 약관을 기준으로 해석하고 판단해야 함."
         ],
@@ -772,7 +849,8 @@ const court_precedents = [
             "소급적용 불가",
             "약관해석 원칙",
             "위 80% 절제"
-        ]
+        ],
+        "consumer_result": ""
     },
     {
         "title": "2025다219379_통지의무위반_해지권행사기간_기산점",
@@ -788,9 +866,7 @@ const court_precedents = [
         "rejection_criteria": [
             "단순히 보험금 청구서를 접수하여 사고 내용이나 '위험이 증가한 사실'을 정황상 알게 되었거나 의심을 품은 정도에 불과한 경우"
         ],
-        "fact_summary": [
-            "망인은 보험계약 체결 당시 직업을 '경비원'으로 고지하였으나, 이후 선박 관련 업무(선박기관장)에 종사하게 됨."
-        ],
+        "fact_summary": [],
         "court_decision": [
             "원심(부산지방법원)은 보험사가 보험금 청구서를 접수한 2022년 6월 3일경 이미 통지의무 위반 사실을 알았다고 보아, 1개월의 제척기간을 경과한 2022년 7월 13일의 해지 통보는 효력이 없다고 판단함."
         ],
@@ -810,6 +886,7 @@ const court_precedents = [
             "직업변경",
             "상법 제652조",
             "대법원 2025다219379"
-        ]
+        ],
+        "consumer_result": ""
     }
 ];
