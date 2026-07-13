@@ -964,16 +964,18 @@
                             </button>
                             <h2 class="sub-header-title">법원 판례 검색</h2>
                         </div>
-                        <button id="sync-obsidian-btn" class="btn btn-outline" style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #cbd5e1; background: white; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'" onmouseout="this.style.backgroundColor='white'" onclick="syncObsidianData()">
-                            <span class="material-icons-round sync-icon" style="font-size: 18px;">sync</span>
-                            갱신하기
-                        </button>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="display: inline-block; font-size: 12px; font-weight: 700; color: #0f172a; background-color: #f1f5f9; padding: 5px 10px; border-radius: 6px; line-height: 1.5; text-align: center;">현재 수록<br>판례 수 : <span id="court-precedent-count-badge">0</span></span>
+                            <button id="sync-obsidian-btn" class="btn btn-outline" style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #cbd5e1; background: white; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'" onmouseout="this.style.backgroundColor='white'" onclick="syncObsidianData()">
+                                <span class="material-icons-round sync-icon" style="font-size: 18px;">sync</span>
+                                갱신하기
+                            </button>
+                        </div>
                     </div>
                     
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
                         <div style="margin-bottom: 24px;">
-                            <p style="font-size: 15px; color: #64748b; margin: 0 0 10px 0;">법원 판례 데이터를 검색하고 핵심 요약, 인정 요건, 실무 포인트를 확인하세요.</p>
-                            <span style="display: inline-block; font-size: 13px; font-weight: 700; color: #0f172a; background-color: #f1f5f9; padding: 6px 12px; border-radius: 6px; line-height: 1.5;">현재 수록<br>판례 수 : <span id="court-precedent-count-badge">0</span></span>
+                            <p style="font-size: 15px; color: #64748b; margin: 0;">법원 판례 데이터를 검색하고 핵심 요약, 인정 요건, 실무 포인트를 확인하세요.</p>
                         </div>
                         <div class="search-bar">
                             <span class="search-icon material-icons-round">search</span>
@@ -990,17 +992,19 @@
             <!-- Precedent: FSS -->
             <div id="view-precedent-fss" class="page-view hidden">
                 <div class="content-wrapper">
-                    <div class="sub-header">
-                        <button class="back-btn" onclick="navigateTo('view-main')">
-                            <span class="material-icons-round">arrow_back</span>
-                        </button>
-                        <h2 class="sub-header-title">금융감독원 조정례 검색</h2>
+                    <div class="sub-header" style="justify-content: space-between; display: flex; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <button class="back-btn" onclick="navigateTo('view-main')">
+                                <span class="material-icons-round">arrow_back</span>
+                            </button>
+                            <h2 class="sub-header-title">금융감독원 조정례 검색</h2>
+                        </div>
+                        <span style="display: inline-block; font-size: 12px; font-weight: 700; color: #0f172a; background-color: #f1f5f9; padding: 5px 10px; border-radius: 6px; line-height: 1.5; text-align: center;">현재 수록<br>판례 수 : <span id="fss-precedent-count-badge">0</span></span>
                     </div>
                     
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
                         <div style="margin-bottom: 24px;">
-                            <p style="font-size: 15px; color: #64748b; margin: 0 0 10px 0;">금융감독원 조정례 데이터를 검색하고 상세 내역을 확인하세요.</p>
-                            <span style="display: inline-block; font-size: 13px; font-weight: 700; color: #0f172a; background-color: #f1f5f9; padding: 6px 12px; border-radius: 6px; line-height: 1.5;">현재 수록<br>판례 수 : <span id="fss-precedent-count-badge">0</span></span>
+                            <p style="font-size: 15px; color: #64748b; margin: 0;">금융감독원 조정례 데이터를 검색하고 상세 내역을 확인하세요.</p>
                         </div>
                         <div class="search-bar">
                             <span class="search-icon material-icons-round">search</span>
