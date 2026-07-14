@@ -22,7 +22,8 @@ function parseMarkdown(content) {
         expected_rebuttals: [],
         counter_logic: [],
         keywords: [],
-        consumer_result: ""
+        consumer_result: "",
+        pdf_url: ""
     };
 
     // Extract frontmatter
@@ -37,6 +38,11 @@ function parseMarkdown(content) {
             data.keywords = tagsMatch[1].split('\n')
                 .map(t => t.replace(/^\s*-\s*"/, '').replace(/"\s*$/, '').trim())
                 .filter(t => t);
+        }
+
+        const pdfUrlMatch = fm.match(/^pdf_url:\s*"?(.*?)"?$/m);
+        if (pdfUrlMatch) {
+            data.pdf_url = pdfUrlMatch[1].trim();
         }
     }
 

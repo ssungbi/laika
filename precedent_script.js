@@ -179,6 +179,12 @@ function renderPrecedents(type, data, query = '') {
         const titleStr = highlightText(item.title, query);
         const mainSummaryStr = highlightText(mainSummary, query);
 
+        const pdfBtnHtml = item.pdf_url ? `
+            <a href="${item.pdf_url}" target="_blank" class="btn-pdf-download" style="display: inline-flex; align-items: center; gap: 4px; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 14px; background-color: #3b82f6; color: white; text-decoration: none; border: none; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#2563eb'" onmouseout="this.style.backgroundColor='#3b82f6'">
+                <span class="material-icons-round" style="font-size: 18px;">picture_as_pdf</span> PDF 다운로드
+            </a>
+        ` : '';
+
         card.innerHTML = `
             ${dateStr}
             ${subInfoHtml}
@@ -186,10 +192,11 @@ function renderPrecedents(type, data, query = '') {
             <div class="core-issue-box">
                 <strong>핵심 쟁점:</strong> ${mainSummaryStr}
             </div>
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px; margin-bottom: 16px;">
                 <button class="btn-details-toggle" onclick="toggleDetails(this)">
                     상세보기 <span class="material-icons-round" style="font-size: 18px; vertical-align: middle;">expand_more</span>
                 </button>
+                ${pdfBtnHtml}
             </div>
             <div class="precedent-details" style="display: none;">
                 ${detailsHtml}
