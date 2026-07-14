@@ -110,7 +110,7 @@ function parseMarkdown(content) {
     };
 
     // Extract frontmatter
-    const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (frontmatterMatch) {
         const fm = frontmatterMatch[1];
         const titleMatch = fm.match(/^title:\s*"?(.*?)"?$/m);
@@ -180,7 +180,45 @@ function parseMarkdown(content) {
 
     // Parse other sections
     const coreIssueText = extractSection('핵심 쟁점');
-    data.core_issue = parseList(coreIssueText).join(' '); // usually 1 line
+    if (coreIssueText) {
+        const lines = coreIssueText.split('\n');
+        let formattedLines = [];
+        let sectionCount = 1;
+        let skipSection = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line.startsWith('- **') && line.includes('**:')) {
+                const match = line.match(/\*\*(.*?)\*\*(?:.*?):\s*(.*)/);
+                if (match) {
+                    const headerText = match[1].trim();
+                    if (headerText.includes('실무 확장 쟁점')) {
+                        skipSection = true;
+                        continue;
+                    }
+                    skipSection = false;
+                    
+                    const contentText = match[2].trim();
+                    if (contentText) {
+                        formattedLines.push(`${sectionCount}) ${headerText} : ${contentText}`);
+                    } else {
+                        formattedLines.push(`${sectionCount}) ${headerText} :`);
+                    }
+                    sectionCount++;
+                }
+            } else if (!skipSection) {
+                if (line.startsWith('-')) {
+                    const contentText = line.replace(/^- /, '').trim();
+                    formattedLines.push(`  - ${contentText}`);
+                } else if (line.length > 0) {
+                    formattedLines.push(`  ${line}`);
+                }
+            }
+        }
+        data.core_issue = formattedLines.join('\n').trim();
+    } else {
+        data.core_issue = '';
+    }
 
     data.acceptance_criteria = parseList(extractSection('인정 요건'));
     data.rejection_criteria = parseList(extractSection('배척 요건 또는 한계'));
@@ -230,6 +268,8 @@ async function syncObsidian() {
         const status = execSync('git status --porcelain', { cwd: __dirname }).toString();
         if (status.includes('precedent_court_data.js')) {
             execSync('git commit -m "feat: 옵시디언 동기화 (손사봇볼트 판례 데이터 업데이트)"', { cwd: __dirname });
+            console.log('Pulling latest from GitHub...');
+            execSync('git pull --rebase origin main', { cwd: __dirname });
             console.log('Pushing to GitHub...');
             execSync('git push origin main', { cwd: __dirname });
             console.log('Sync and push successful!');

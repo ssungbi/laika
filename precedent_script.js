@@ -189,8 +189,8 @@ function renderPrecedents(type, data, query = '') {
             ${dateStr}
             ${subInfoHtml}
             <h3>${titleStr}</h3>
-            <div class="core-issue-box">
-                <strong>핵심 쟁점:</strong> ${mainSummaryStr}
+            <div class="core-issue-box" style="line-height: 1.6;">
+                <strong>핵심 쟁점:</strong><br>${mainSummaryStr.replace(/\\n/g, '<br>')}
             </div>
             <div style="display: flex; gap: 10px; margin-bottom: 16px;">
                 <button class="btn-details-toggle" onclick="toggleDetails(this)">
