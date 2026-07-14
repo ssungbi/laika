@@ -3,7 +3,7 @@ const http = require('http');
 
 const PORT = 3123;
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
     // Add CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
             // Delete cache so it always runs the latest version of sync_obsidian.js
             delete require.cache[require.resolve('./sync_obsidian')];
             const { syncObsidian } = require('./sync_obsidian');
-            const result = syncObsidian();
+            const result = await syncObsidian();
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(result));
         } catch (error) {

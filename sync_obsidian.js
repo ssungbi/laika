@@ -1,9 +1,92 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
 const VAULT_PATH = 'C:\\Users\\SB\\Documents\\손사봇볼트\\20_Precedents';
 const DATA_FILE_PATH = path.join(__dirname, 'precedent_court_data.js');
+
+// R2 Configuration
+const BUCKET_NAME = 'laika-document';
+const UPLOAD_DIR = 'C:\\Users\\SB\\Desktop\\R2_Upload';
+const PDF_SOURCE_DIR = '\\\\wsl$\\Ubuntu-24.04\\home\\sb\\.openclaw\\workspace\\sonsabot\\손해사정\\판례라이브러리\\원본';
+const R2_BASE_URL = 'https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev';
+
+const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: 'https://695861ff3b657e380590aade97387ac0.r2.cloudflarestorage.com',
+    credentials: {
+        accessKeyId: 'a3cc89f4c41bc676ae3af230ce932c98',
+        secretAccessKey: 'ac2fb4548dfb6d63b87f4ed8a9e6e3ce992f8bbea1e5446b028f06b8f4b4e057',
+    },
+});
+
+async function processAndUploadPdfs() {
+    console.log('Checking for new PDFs to process and upload...');
+    if (!fs.existsSync(UPLOAD_DIR)) {
+        fs.mkdirSync(UPLOAD_DIR);
+    }
+    if (!fs.existsSync(PDF_SOURCE_DIR)) {
+        console.log(`Original PDF directory not found: ${PDF_SOURCE_DIR}`);
+        return;
+    }
+
+    const originalPdfs = fs.readdirSync(PDF_SOURCE_DIR).filter(f => f.endsWith('.pdf'));
+    const mdFiles = fs.readdirSync(VAULT_PATH).filter(f => f.endsWith('.md'));
+    let newUploadsCount = 0;
+
+    for (const pdf of originalPdfs) {
+        const caseMatch = pdf.match(/20[0-9]{2}[가-힣]+[0-9]+/);
+        if (!caseMatch) continue;
+        
+        const caseNo = caseMatch[0];
+        const newFileName = `${caseNo}.pdf`;
+        const targetPdfPath = path.join(UPLOAD_DIR, newFileName);
+        
+        // If it's already in R2_Upload, we assume it's uploaded and skipped to save API calls
+        if (fs.existsSync(targetPdfPath)) continue;
+        
+        // It's a new PDF!
+        console.log(`Found new PDF: ${pdf} -> ${newFileName}`);
+        fs.copyFileSync(path.join(PDF_SOURCE_DIR, pdf), targetPdfPath);
+        
+        // Upload to R2
+        try {
+            console.log(`Uploading ${newFileName} to R2...`);
+            const fileStream = fs.createReadStream(targetPdfPath);
+            await s3Client.send(new PutObjectCommand({
+                Bucket: BUCKET_NAME,
+                Key: newFileName,
+                Body: fileStream,
+                ContentType: 'application/pdf'
+            }));
+            console.log(`✅ Uploaded: ${newFileName}`);
+            newUploadsCount++;
+        } catch (err) {
+            console.error(`❌ Upload failed for ${newFileName}`, err.message);
+            continue; // Skip markdown update if upload fails
+        }
+        
+        // Update matching Markdown file
+        const targetMdFile = mdFiles.find(md => md.startsWith(caseNo + '_') || md === `${caseNo}.md`);
+        if (targetMdFile) {
+            const mdPath = path.join(VAULT_PATH, targetMdFile);
+            let content = fs.readFileSync(mdPath, 'utf8');
+            if (content.startsWith('---') && !content.includes('pdf_url:')) {
+                const pdfUrlLine = `pdf_url: "${R2_BASE_URL}/${newFileName}"\n`;
+                content = content.replace(/^---\n/, `---\n${pdfUrlLine}`);
+                fs.writeFileSync(mdPath, content, 'utf8');
+                console.log(`Updated MD: ${targetMdFile}`);
+            }
+        }
+    }
+    
+    if (newUploadsCount === 0) {
+        console.log('No new PDFs to process.');
+    } else {
+        console.log(`Successfully processed and uploaded ${newUploadsCount} new PDFs.`);
+    }
+}
 
 function parseMarkdown(content) {
     const data = {
@@ -110,8 +193,16 @@ function parseMarkdown(content) {
     return data;
 }
 
-function syncObsidian() {
-    console.log('Starting sync...');
+async function syncObsidian() {
+    console.log('Starting sync pipeline...');
+    
+    try {
+        await processAndUploadPdfs();
+    } catch (err) {
+        console.error('Error during PDF upload phase:', err);
+        // Continue with markdown parsing even if PDF upload fails
+    }
+
     if (!fs.existsSync(VAULT_PATH)) {
         throw new Error(`Vault path not found: ${VAULT_PATH}`);
     }
@@ -153,7 +244,7 @@ function syncObsidian() {
 }
 
 if (require.main === module) {
-    syncObsidian();
+    syncObsidian().then(res => console.log('Finished:', res)).catch(err => console.error(err));
 }
 
 module.exports = { syncObsidian };
