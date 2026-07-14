@@ -72,9 +72,13 @@ async function processAndUploadPdfs() {
         if (targetMdFile) {
             const mdPath = path.join(VAULT_PATH, targetMdFile);
             let content = fs.readFileSync(mdPath, 'utf8');
-            if (content.startsWith('---') && !content.includes('pdf_url:')) {
-                const pdfUrlLine = `pdf_url: "${R2_BASE_URL}/${newFileName}"\n`;
-                content = content.replace(/^---\n/, `---\n${pdfUrlLine}`);
+            const pdfUrlLine = `pdf_url: "${R2_BASE_URL}/${newFileName}"`;
+            if (!content.includes('pdf_url:')) {
+                if (content.startsWith('---')) {
+                    content = content.replace(/^---\r?\n/, `---\n${pdfUrlLine}\n`);
+                } else {
+                    content = `---\n${pdfUrlLine}\n---\n\n` + content;
+                }
                 fs.writeFileSync(mdPath, content, 'utf8');
                 console.log(`Updated MD: ${targetMdFile}`);
             }
