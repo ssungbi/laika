@@ -45,7 +45,7 @@ const court_precedents = [
             "대법원2002다19940"
         ],
         "consumer_result": "유리 (보험금 지급 또는 소비자 측 주장을 인정하는 취지의 판단이 확인된다.)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2002다19940.pdf"
     },
     {
         "title": "2003나84240_뇌수막종_임상적악성_암진단비인정",
@@ -84,7 +84,7 @@ const court_precedents = [
         ],
         "keywords": [],
         "consumer_result": "유리 (보험금 지급 또는 소비자 측 주장을 인정하는 취지의 판단이 확인된다.)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2003나84240.pdf"
     },
     {
         "title": "2006다72734_사우나_심장마비_기왕증_외부요인",
