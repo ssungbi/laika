@@ -137,8 +137,49 @@ function navigateTo(viewId) {
 
 
     // KCD 데이터 지연 로딩
-        if (viewId === 'view-accident') {
+    if (viewId === 'view-accident') {
         if(typeof initAccidentView === 'function') initAccidentView();
+    }
+
+    if (viewId === 'view-insurance-portal') {
+        if (!sessionStorage.getItem('hanwhaAddressNotified')) {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            overlay.style.zIndex = '9999';
+            overlay.style.display = 'flex';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            
+            const popup = document.createElement('div');
+            popup.style.backgroundColor = '#fff';
+            popup.style.padding = '24px';
+            popup.style.borderRadius = '12px';
+            popup.style.maxWidth = '400px';
+            popup.style.width = '90%';
+            popup.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+            
+            popup.innerHTML = `
+                <h3 style="margin-top:0; color:#e67e22; display:flex; align-items:center; gap:8px;">
+                    <span class="material-icons-round">campaign</span> [한화손보] 우편접수처 변경 안내
+                </h3>
+                <div style="font-size:14px; line-height:1.6; margin-bottom: 20px;">
+                    <strong style="color:#64748b;">[기존]</strong><br>
+                    <span style="color:#94a3b8; text-decoration:line-through; font-size:13px;">서울 영등포구 은행로 30, 한화손해보험 장기보험심사팀 (사고보험금 접수담당자) (07327)</span>
+                    <br><br>
+                    <strong style="color:#2563eb;">[신규]</strong><br>
+                    <span style="color:#0f172a; font-weight:700; font-size:15px;">(07299) 서울 영등포구 경인로 775 에이스하이테크시티 1동 610호 한화손보 보험금 접수센터</span>
+                </div>
+                <button style="width:100%; padding:12px; background-color:#3b82f6; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:15px; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">확인</button>
+            `;
+            overlay.appendChild(popup);
+            document.body.appendChild(overlay);
+            sessionStorage.setItem('hanwhaAddressNotified', 'true');
+        }
     }
 
     if (viewId === 'view-neo' && typeof loadNeoData === 'function') {
