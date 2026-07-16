@@ -183,7 +183,7 @@ function parseMarkdown(content) {
     }
 
     // Parse other sections
-    const coreIssueText = extractSection('(핵심 쟁점|핵심 요지)');
+    const coreIssueText = extractSection('(?:핵심 쟁점|핵심 요지)');
     if (coreIssueText) {
         const lines = coreIssueText.split('\n');
         let formattedLines = [];
