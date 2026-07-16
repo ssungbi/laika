@@ -4226,7 +4226,7 @@ const insurersData = [
     "name": "한화손해보험",
     "aliases": "한화손보,Hanwha,한손,gksghkthsqh,ㅎㅎㅅㅎㅂㅎ,ㅎㅎㅅㅂ",
     "claim_fax": "0502-779-1004",
-    "mail_address": "서울 영등포구 은행로 30, 한화손해보험 장기보험심사팀 (사고보험금 접수담당자) (07327)",
+    "mail_address": "(07299) 서울 영등포구 경인로 775 에이스하이테크시티 1동 610호 한화손보 보험금 접수센터",
     "terms_url": "https://www.hwgeneralins.com/notice/ir/product-ing01.do",
     "claim_url": "https://www.hwgeneralins.com/fplaza/compensation/receipt01.do",
     "login_url": "http://portal.hwgeneralins.com/",
