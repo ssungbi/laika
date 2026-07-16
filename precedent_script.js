@@ -121,6 +121,24 @@ function renderPrecedents(type, data, query = '') {
     }
     
     data.forEach(item => {
+        // --- 데이터 스키마 정규화 (AI Bot 스키마 호환) ---
+        item.keywords = item.keywords || item.tags || [];
+        
+        if (!item.consumer_result && item.favorability) {
+            item.consumer_result = `${item.favorability} ${item.favorability_reason ? '(' + item.favorability_reason + ')' : ''}`.trim();
+        }
+        
+        if (!item.core_issue && item.core_issues) {
+            let issues = [];
+            if (item.core_issues.direct_issue) issues.push(`1) 사건 직접 쟁점 : ${item.core_issues.direct_issue}`);
+            if (item.core_issues.legal_issue) issues.push(`2) 약관/법리 쟁점 : ${item.core_issues.legal_issue}`);
+            if (item.core_issues.practical_issue) issues.push(`3) 실무 확장 쟁점 : ${item.core_issues.practical_issue}`);
+            item.core_issue = issues.join('\n');
+        }
+        
+        item.fact_summary = item.fact_summary || item.fact_timeline || item.recognized_facts || [];
+        // ------------------------------------------------
+        
         const card = document.createElement('div');
         card.className = 'precedent-card';
         
