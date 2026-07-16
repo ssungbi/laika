@@ -297,10 +297,11 @@ async function syncObsidian() {
             console.log('Pushing to GitHub...');
             execSync('git push origin main', { cwd: __dirname });
             console.log('Sync and push successful!');
+            return { success: true, count: finalPrecedents.length, changed: true };
         } else {
             console.log('No changes detected in precedent_court_data.js.');
+            return { success: true, count: finalPrecedents.length, changed: false };
         }
-        return { success: true, count: precedents.length, changed: status.includes('precedent_court_data.js') };
     } catch (e) {
         console.error('Git execution failed:', e.message);
         throw e;
