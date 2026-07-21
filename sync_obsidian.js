@@ -9,7 +9,7 @@ const DATA_FILE_PATH = path.join(__dirname, 'precedent_court_data.js');
 // R2 Configuration
 const BUCKET_NAME = 'laika-document';
 const UPLOAD_DIR = 'C:\\Users\\SB\\Desktop\\R2_Upload';
-const PDF_SOURCE_DIR = '\\\\wsl$\\Ubuntu-24.04\\home\\sb\\.openclaw\\workspace\\sonsabot\\손해사정\\판례라이브러리\\원본';
+const PDF_SOURCE_DIR = '\\\\wsl.localhost\\Ubuntu-24.04\\home\\sb\\.openclaw\\workspace\\sonsabot\\손해사정\\판례라이브러리\\원본';
 const R2_BASE_URL = 'https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev';
 
 const s3Client = new S3Client({
@@ -26,69 +26,79 @@ async function processAndUploadPdfs() {
     if (!fs.existsSync(UPLOAD_DIR)) {
         fs.mkdirSync(UPLOAD_DIR);
     }
-    if (!fs.existsSync(PDF_SOURCE_DIR)) {
+    
+    if (fs.existsSync(PDF_SOURCE_DIR)) {
+        const originalPdfs = fs.readdirSync(PDF_SOURCE_DIR).filter(f => f.endsWith('.pdf'));
+        for (const pdf of originalPdfs) {
+            const caseMatch = pdf.match(/20[0-9]{2}[가-힣]+[0-9]+/);
+            if (!caseMatch) continue;
+            const newFileName = `${caseMatch[0]}.pdf`;
+            const targetPdfPath = path.join(UPLOAD_DIR, newFileName);
+            if (!fs.existsSync(targetPdfPath)) {
+                console.log(`Copying new PDF from WSL: ${pdf} -> ${newFileName}`);
+                fs.copyFileSync(path.join(PDF_SOURCE_DIR, pdf), targetPdfPath);
+            }
+        }
+    } else {
         console.log(`Original PDF directory not found: ${PDF_SOURCE_DIR}`);
-        return;
     }
 
-    const originalPdfs = fs.readdirSync(PDF_SOURCE_DIR).filter(f => f.endsWith('.pdf'));
+    const uploadPdfs = fs.readdirSync(UPLOAD_DIR).filter(f => f.endsWith('.pdf'));
     const mdFiles = fs.readdirSync(VAULT_PATH).filter(f => f.endsWith('.md'));
     let newUploadsCount = 0;
 
-    for (const pdf of originalPdfs) {
-        const caseMatch = pdf.match(/20[0-9]{2}[가-힣]+[0-9]+/);
-        if (!caseMatch) continue;
+    for (const pdf of uploadPdfs) {
+        const caseNo = pdf.replace('.pdf', '');
+        const targetPdfPath = path.join(UPLOAD_DIR, pdf);
         
-        const caseNo = caseMatch[0];
-        const newFileName = `${caseNo}.pdf`;
-        const targetPdfPath = path.join(UPLOAD_DIR, newFileName);
-        
-        // If it's already in R2_Upload, we assume it's uploaded and skipped to save API calls
-        if (fs.existsSync(targetPdfPath)) continue;
-        
-        // It's a new PDF!
-        console.log(`Found new PDF: ${pdf} -> ${newFileName}`);
-        fs.copyFileSync(path.join(PDF_SOURCE_DIR, pdf), targetPdfPath);
-        
-        // Upload to R2
-        try {
-            console.log(`Uploading ${newFileName} to R2...`);
-            const fileStream = fs.createReadStream(targetPdfPath);
-            await s3Client.send(new PutObjectCommand({
-                Bucket: BUCKET_NAME,
-                Key: newFileName,
-                Body: fileStream,
-                ContentType: 'application/pdf'
-            }));
-            console.log(`✅ Uploaded: ${newFileName}`);
-            newUploadsCount++;
-        } catch (err) {
-            console.error(`❌ Upload failed for ${newFileName}`, err.message);
-            continue; // Skip markdown update if upload fails
-        }
-        
-        // Update matching Markdown file
         const targetMdFile = mdFiles.find(md => md.startsWith(caseNo + '_') || md === `${caseNo}.md`);
         if (targetMdFile) {
             const mdPath = path.join(VAULT_PATH, targetMdFile);
             let content = fs.readFileSync(mdPath, 'utf8');
-            const pdfUrlLine = `pdf_url: "${R2_BASE_URL}/${newFileName}"`;
-            if (!content.includes('pdf_url:')) {
+            const pdfUrlLine = `pdf_url: "${R2_BASE_URL}/${pdf}"`;
+            let updated = false;
+
+            if (content.includes('pdf_url: ""')) {
+                content = content.replace('pdf_url: ""', pdfUrlLine);
+                updated = true;
+            } else if (content.match(/^pdf_url:\s*$/m)) {
+                content = content.replace(/^pdf_url:\s*$/m, pdfUrlLine);
+                updated = true;
+            } else if (!content.includes('pdf_url:')) {
                 if (content.startsWith('---')) {
                     content = content.replace(/^---\r?\n/, `---\n${pdfUrlLine}\n`);
                 } else {
                     content = `---\n${pdfUrlLine}\n---\n\n` + content;
                 }
-                fs.writeFileSync(mdPath, content, 'utf8');
-                console.log(`Updated MD: ${targetMdFile}`);
+                updated = true;
+            }
+            
+            if (updated) {
+                try {
+                    console.log(`Uploading ${pdf} to R2...`);
+                    const fileStream = fs.createReadStream(targetPdfPath);
+                    await s3Client.send(new PutObjectCommand({
+                        Bucket: BUCKET_NAME,
+                        Key: pdf,
+                        Body: fileStream,
+                        ContentType: 'application/pdf'
+                    }));
+                    console.log(`✅ Uploaded: ${pdf}`);
+                    
+                    fs.writeFileSync(mdPath, content, 'utf8');
+                    console.log(`Updated MD: ${targetMdFile}`);
+                    newUploadsCount++;
+                } catch (err) {
+                    console.error(`❌ Upload failed for ${pdf}`, err.message);
+                }
             }
         }
     }
     
     if (newUploadsCount === 0) {
-        console.log('No new PDFs to process.');
+        console.log('No new PDFs to link/upload.');
     } else {
-        console.log(`Successfully processed and uploaded ${newUploadsCount} new PDFs.`);
+        console.log(`Successfully processed ${newUploadsCount} PDFs.`);
     }
 }
 
