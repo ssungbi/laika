@@ -235,9 +235,23 @@ function parseMarkdown(content) {
     return data;
 }
 
-async function syncObsidian() {
+async function syncObsidianCore() {
     console.log('Starting sync pipeline...');
     
+    // Step 1: Pre-sync to avoid conflicts
+    try {
+        console.log('Syncing latest from GitHub before generating data...');
+        // Discard any local auto-generated changes to prevent pull conflicts
+        try {
+            execSync('git checkout -- precedent_court_data.js', { cwd: __dirname, stdio: 'ignore' });
+        } catch (e) {} // Ignore error if file is not modified
+        
+        execSync('git pull --rebase origin main', { cwd: __dirname });
+    } catch (err) {
+        console.error('Error during initial git pull:', err.message);
+        throw new Error('사전 동기화(Pull)에 실패했습니다. Git 상태를 확인해주세요.');
+    }
+
     try {
         await processAndUploadPdfs();
     } catch (err) {
@@ -292,8 +306,6 @@ async function syncObsidian() {
         const status = execSync('git status --porcelain', { cwd: __dirname }).toString();
         if (status.includes('precedent_court_data.js')) {
             execSync('git commit -m "feat: 옵시디언 동기화 (손사봇볼트 판례 데이터 업데이트)"', { cwd: __dirname });
-            console.log('Pulling latest from GitHub...');
-            execSync('git pull --rebase origin main', { cwd: __dirname });
             console.log('Pushing to GitHub...');
             execSync('git push origin main', { cwd: __dirname });
             console.log('Sync and push successful!');
@@ -304,7 +316,25 @@ async function syncObsidian() {
         }
     } catch (e) {
         console.error('Git execution failed:', e.message);
-        throw e;
+        throw e; // Throw so that retry mechanism catches it
+    }
+}
+
+async function syncObsidian(maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            if (attempt > 1) {
+                console.log(`\n--- Sync Retry Attempt ${attempt}/${maxRetries} ---`);
+            }
+            return await syncObsidianCore();
+        } catch (e) {
+            console.error(`Sync attempt ${attempt} failed:`, e.message);
+            if (attempt === maxRetries) {
+                throw new Error('최대 재시도 횟수를 초과하여 동기화에 실패했습니다.');
+            }
+            console.log('Waiting 2 seconds before retrying...');
+            await new Promise(res => setTimeout(res, 2000));
+        }
     }
 }
 
