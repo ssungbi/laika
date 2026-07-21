@@ -2692,7 +2692,7 @@ const court_precedents = [
             "보험금분쟁"
         ],
         "consumer_result": "유리 (비침습성·고도 방광요로상피암에 대해 C67.9 암진단 및 약관상 진단확정을 인정하고, 상피내암 보험금 공제 후 잔액을 인용)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2019나47348.pdf"
     },
     {
         "title": "2019나51118_암입원비_직접목적입원",
@@ -4314,7 +4314,7 @@ const court_precedents = [
             "보험금분쟁"
         ],
         "consumer_result": "유리 (주치의의 C67.9 방광 악성신생물 진단이 국립암센터 감정촉탁 및 사실조회로 검증되었고, 보험사 자문보다 우선한다고 판단)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2021가소121464.pdf"
     },
     {
         "title": "2021가소2490593_방광암_C679_특정소액암진단비",
@@ -4373,7 +4373,7 @@ const court_precedents = [
             "보험금분쟁"
         ],
         "consumer_result": "유리 (임상의가 병리조직검사결과보고서 등을 토대로 C67.9 상세불명 방광 악성신생물로 진단한 것을 특정소액암 보험금 지급사유로 인정)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2021가소2490593.pdf"
     },
     {
         "title": "2021가소2956_보험금청구권_소멸시효기산점",
@@ -4973,7 +4973,7 @@ const court_precedents = [
             "공제금분쟁"
         ],
         "consumer_result": "유리 (비침범성 유두상 이행세포암 저등급, M8130/2·D09.0 쟁점에도 주치의의 C673 최종진단과 약관 문언을 근거로 암진단급여금 인정)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2021나90893.pdf"
     },
     {
         "title": "2021다201085_손해방지비용_방수공사비용",
