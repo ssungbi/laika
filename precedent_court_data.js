@@ -282,7 +282,7 @@ const court_precedents = [
             "보험금분쟁"
         ],
         "consumer_result": "유리 (건강검진상의 이상 소견은 의학적 확정진단이 아니므로, 이를 고지하지 않았더라도 고지의무 위반으로 볼 수 없다는 판결임.)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2009다103349.pdf"
     },
     {
         "title": "2010나11484_입원일당_동일한병증해석",
@@ -361,7 +361,7 @@ const court_precedents = [
             "보험금분쟁"
         ],
         "consumer_result": "불리 (법원은 '동일한 병증'의 범위를 넓게 해석하고, 치료의 연속성을 엄격히 판단하여 피보험자의 청구를 기각함)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2010나11484.pdf"
     },
     {
         "title": "2010다12241_에어컨_저체온증_부검미실시",
@@ -1453,7 +1453,7 @@ const court_precedents = [
             "신경학적결손"
         ],
         "consumer_result": "유리 (신경학적 결손이 뚜렷하지 않더라도 영상학적 검사 및 임상적 소견을 종합하여 의사가 진단을 내렸다면 보험금 지급 대상이 됨을 확인하였기 때문임.)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2016나60904.pdf"
     },
     {
         "title": "2016다1687_교통사고후유증_소멸시효기산점",
@@ -2407,7 +2407,7 @@ const court_precedents = [
             "수술비보험금"
         ],
         "consumer_result": "불리 (범망막광응고술은 약관에서 정한 수술의 정의(절단, 절제 등)에 부합하지 않는다는 이유로 보험금 지급이 거절됨.)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2019가단82345.pdf"
     },
     {
         "title": "2019가소86823_암입원급여금_암의직접치료",
@@ -5054,7 +5054,7 @@ const court_precedents = [
             "보험금분쟁"
         ],
         "consumer_result": "유리 (보험사고로 인한 손해의 확대를 방지하기 위해 지출한 방수공사 비용을 손해방지비용으로 인정하여 피보험자의 손을 들어줌)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2021다201085.pdf"
     },
     {
         "title": "2021다231406_사망보험_집중가입무효여부",
@@ -5589,7 +5589,7 @@ const court_precedents = [
             "착오취소"
         ],
         "consumer_result": "불리 (화해계약상 부제소합의를 유효하게 보고 착오 취소 주장도 받아들이지 않아 추가 보험금 청구가 막혔다.)",
-        "pdf_url": ""
+        "pdf_url": "https://pub-7fb437306e7041f3adecc45dd8eae262.r2.dev/2022가단5009166.pdf"
     },
     {
         "title": "2022가단5139548_낙상사망_재해사망인정여부",
