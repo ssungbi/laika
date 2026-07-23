@@ -4141,7 +4141,7 @@ const insuranceCompanies = [
 
     // --- 손해보험 (22개) ---
     { name: "삼성화재", fax: "0505-168-4114", address: "서울 양천구 목동동로 233-3 삼성화재", termsUrl: "#", formUrl: "#" },
-    { name: "현대해상", fax: "0507-774-6060", address: "서울 영등포구 국회대로 543 현대해상", termsUrl: "#", formUrl: "#" },
+    { name: "현대해상", fax: "0507-774-6060", address: "서울 영등포구 문래로 28길 25, 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수담당(07298)", termsUrl: "#", formUrl: "#" },
     { name: "DB손해보험", fax: "0505-181-4861", address: "전북 전주시 완산구 서원로 99 DB손해보험", termsUrl: "#", formUrl: "#" },
     { name: "KB손해보험", fax: "0505-136-6500", address: "서울 마포구 양화로 19 KB손해보험", termsUrl: "#", formUrl: "#" },
     { name: "메리츠화재", fax: "0505-021-3400", address: "경기 부천시 원미구 송내대로 80 메리츠화재", termsUrl: "#", formUrl: "#" },
@@ -4252,7 +4252,7 @@ const insurersData = [
     "name": "현대해상",
     "aliases": "Hyundai,현대,guseogotkd,ㅎㄷㅎㅅ",
     "claim_fax": "0507-774-6060",
-    "mail_address": "서울 영등포구 국회대로 543, (당산동4가) 동양타워빌딩 7층 (07219)",
+    "mail_address": "서울 영등포구 문래로 28길 25, 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수담당(07298)",
     "terms_url": "https://www.hi.co.kr/serviceAction.do?view=bin/PA/03/HHPA03010M#none",
     "claim_url": "https://www.hi.co.kr/serviceAction.do?menuId=100631",
     "login_url": "https://sp.hi.co.kr/websquare/websquare.html?w2xPath=/common/xml/Login.xml",
