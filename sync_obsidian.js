@@ -287,27 +287,12 @@ async function syncObsidianCore() {
         }
     }
 
-    // 기존 데이터 읽기 및 병합 (마크다운 없이 다른 봇이 직접 JS에 넣은 데이터 보존)
-    let existingData = [];
-    try {
-        if (fs.existsSync(DATA_FILE_PATH)) {
-            const existingContent = fs.readFileSync(DATA_FILE_PATH, 'utf8');
-            const existingDataStr = existingContent.replace('const court_precedents = ', '').trim().replace(/;$/, '');
-            existingData = JSON.parse(existingDataStr);
-        }
-    } catch (e) {
-        console.error('기존 데이터를 파싱하는데 실패했습니다:', e);
-    }
-
-    // 마크다운 폴더에 없는 사건번호만 기존 데이터에서 살리기
-    const preservedPrecedents = existingData.filter(d => d.case_no && !mdCaseNos.has(d.case_no));
-    
-    // 최종 병합
-    const finalPrecedents = [...mdPrecedents, ...preservedPrecedents];
+    // 최종 데이터 (마크다운 원본만 사용, 레거시 데이터 병합 제거)
+    const finalPrecedents = [...mdPrecedents];
 
     const jsContent = `const court_precedents = ${JSON.stringify(finalPrecedents, null, 4)};\n`;
     fs.writeFileSync(DATA_FILE_PATH, jsContent, 'utf8');
-    console.log(`Updated ${DATA_FILE_PATH} with ${finalPrecedents.length} precedents (Parsed: ${mdPrecedents.length}, Preserved: ${preservedPrecedents.length}).`);
+    console.log(`Updated ${DATA_FILE_PATH} with ${finalPrecedents.length} precedents (Parsed: ${mdPrecedents.length}).`);
 
     try {
         console.log('Committing to GitHub...');
