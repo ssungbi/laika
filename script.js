@@ -141,32 +141,7 @@ function navigateTo(viewId) {
         if(typeof initAccidentView === 'function') initAccidentView();
     }
 
-    if (viewId === 'view-insurance-portal') {
-        showNoticePopup(
-            'hanwha_address_update_260716', 
-            '[한화손보] 우편접수처 변경 안내', 
-            `
-            <strong style="color:#64748b;">[기존]</strong><br>
-            <span style="color:#94a3b8; text-decoration:line-through; font-size:13px;">서울 영등포구 은행로 30, 한화손해보험 장기보험심사팀 (사고보험금 접수담당자) (07327)</span>
-            <br><br>
-            <strong style="color:#2563eb;">[신규]</strong><br>
-            <span style="color:#0f172a; font-weight:700; font-size:15px;">(07299) 서울 영등포구 경인로 775 에이스하이테크시티 1동 610호 한화손보 보험금 접수센터</span>
-            `, 
-            2
-        );
-        showNoticePopup(
-            'hyundai_address_update_260723', 
-            '[현대해상] 우편접수처 변경 안내', 
-            `
-            <strong style="color:#64748b;">[기존]</strong><br>
-            <span style="color:#94a3b8; text-decoration:line-through; font-size:13px;">서울 영등포구 국회대로 543, (당산동4가) 동양타워빌딩 7층 (07219)</span>
-            <br><br>
-            <strong style="color:#2563eb;">[신규]</strong><br>
-            <span style="color:#0f172a; font-weight:700; font-size:15px;">(07298) 서울 영등포구 문래로 28길 25, 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수담당</span>
-            `, 
-            2
-        );
-    }
+
 
     if (viewId === 'view-neo' && typeof loadNeoData === 'function') {
         loadNeoData();
