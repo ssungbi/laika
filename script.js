@@ -4404,7 +4404,7 @@ const insurersData = [
     "name": "NH농협생명",
     "aliases": "농협생명,농생,nh생명,shdguqtodaud,ㄴㅎㅅㅁ",
     "claim_fax": "02-6971-6040",
-    "mail_address": "서울 마포구 마포대로 89, 서울마포우체국 사서함 13호 NH농협생명 지급심사 정보입력팀(다스카) (04156)",
+    "mail_address": "서울 마포구 마포대로 89, 서울마포우체국 사서함 13호 NH농협생명 지급심사 정보입력팀 (04156)",
     "terms_url": "https://www.nhlife.co.kr/ho/on/HOON0004M00.nhl",
     "claim_url": "https://www.nhlife.co.kr/ho/cc/HOCC0010M00.nhl",
     "login_url": "https://www.nhlife.co.kr/nhsmart.nhl",
