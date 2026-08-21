@@ -16514,7 +16514,7 @@ function showAccidentChart(chartNo) {
             if (detail.imageUrl) {
                 imageContainer.innerHTML = `<img src="${detail.imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
             } else {
-                imageContainer.innerHTML = `<span style="color: #94a3b8;">도표 이미지가 없습니다.</span>`;
+                imageContainer.innerHTML = `<span style="color: #94a3b8;">도표 영상/이미지를 제공하지 않는 케이스입니다.</span>`;
             }
         }, true);
         
@@ -16527,7 +16527,8 @@ function showAccidentChart(chartNo) {
     } else if(detail.imageUrl) {
         imageContainer.innerHTML = `<img src="${detail.imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
     } else {
-        imageContainer.innerHTML = `<span style="color: #94a3b8;">도표 이미지가 없습니다.</span>`;
+        // 영상도 없고 로컬 이미지도 없는 경우
+        imageContainer.innerHTML = `<span style="color: #94a3b8;">도표 영상/이미지를 제공하지 않는 케이스입니다.</span>`;
     }
     
     currentBaseRatioA = parseInt(detail.ratio_a) || 0;
