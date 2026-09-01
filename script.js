@@ -4526,7 +4526,7 @@ const insurersData = [
     "aliases": "LinaLife,라이나,라생,fkdlsktodaud,ㄹㅇㄴㅅㅁ",
     "claim_fax": "02-6944-1200",
     "mail_address": "서울 종로구 삼봉로 48, (청진동 188) 라이나타워 보험금 담당자 (03156)",
-    "terms_url": "https://www.chubb.com/kr-kr/disclosure/product.html",
+    "terms_url": "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
     "claim_url": "https://www.lina.co.kr/customer/required",
     "login_url": "https://ga.lina.co.kr/webfw/html/nawstart.html",
     "logo_url": "https://oomhivvzfyckwfubxveb.supabase.co/storage/v1/object/public/insurers_logo/life/lina-life.png",
