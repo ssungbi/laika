@@ -4799,6 +4799,54 @@ if (typeof originalNavigateTo === 'function') {
                 `,
                 2
             );
+            
+            showNoticePopup(
+                'kblife_address_update',
+                '[KB라이프] 우편접수처 변경 안내',
+                `
+                <div style="margin-bottom: 12px;">
+                    <strong style="color: #3b82f6; display: block; margin-bottom: 4px; font-size: 14px;">[기존]</strong>
+                    <span style="color: #888; text-decoration: line-through; font-size: 14px;">서울 영등포구 국제금융로 2길 28, KB금융타워 15층 보험금심사팀 (07325)</span>
+                </div>
+                <div>
+                    <strong style="color: #3b82f6; display: block; margin-bottom: 4px; font-size: 14px;">[신규]</strong>
+                    <strong style="color: #111; font-size: 15px;">서울시 중구 소공로 70 포스트타워 2층 KB라이프생명 보험금접수 담당자 앞</strong>
+                </div>
+                `,
+                2
+            );
+            
+            showNoticePopup(
+                'tongyang_address_update',
+                '[동양생명] 우편접수처 변경 안내',
+                `
+                <div style="margin-bottom: 12px;">
+                    <strong style="color: #3b82f6; display: block; margin-bottom: 4px; font-size: 14px;">[기존]</strong>
+                    <span style="color: #888; text-decoration: line-through; font-size: 14px;">서울 영등포구 선유로49길 23, 아이에스비즈타워 2차 12층 동양생명 보험심사팀 (07208)</span>
+                </div>
+                <div>
+                    <strong style="color: #3b82f6; display: block; margin-bottom: 4px; font-size: 14px;">[신규]</strong>
+                    <strong style="color: #111; font-size: 15px;">충청북도 청주시 상당구 상당로 126 수협은행 덕일빌딩 2층 동양생명 접수처</strong>
+                </div>
+                `,
+                2
+            );
+            
+            showNoticePopup(
+                'kdb_address_update',
+                '[KDB생명] 우편접수처 변경 안내',
+                `
+                <div style="margin-bottom: 12px;">
+                    <strong style="color: #3b82f6; display: block; margin-bottom: 4px; font-size: 14px;">[기존]</strong>
+                    <span style="color: #888; text-decoration: line-through; font-size: 14px;">광주 서구 천변좌로 268, KDB생명빌딩 15층 사고보험금 우편청구 담당자 (61925)</span>
+                </div>
+                <div>
+                    <strong style="color: #3b82f6; display: block; margin-bottom: 4px; font-size: 14px;">[신규]</strong>
+                    <strong style="color: #111; font-size: 15px;">서울특별시 영등포구 양산로 91, 리드원지식산업센터 210호 파란손해사정 KDB생명 콜센터 우편청구 담당자</strong>
+                </div>
+                `,
+                2
+            );
         }
     };
 }
