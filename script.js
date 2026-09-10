@@ -4108,7 +4108,7 @@ const insuranceCompanies = [
     { name: "교보생명", fax: "0505-333-3333", address: "서울 종로구 종로 1 교보생명", termsUrl: "#", formUrl: "#" },
     { name: "신한라이프", fax: "0505-444-4444", address: "서울 중구 삼일대로 358 신한라이프", termsUrl: "#", formUrl: "#" },
     { name: "NH농협생명", fax: "0505-555-5555", address: "서울 서대문구 통일로 87 NH농협생명", termsUrl: "#", formUrl: "#" },
-    { name: "미래에셋생명", fax: "0505-666-6666", address: "서울 영등포구 국제금융로 56 미래에셋생명", termsUrl: "#", formUrl: "#" },
+    { name: "미래에셋생명", fax: "0505-666-6666", address: "(07207) 서울시 영등포구 양평동5가 39 선유도 우림라이온스밸리 A동 1107호 프라임손해사정 미래에셋생명팀", termsUrl: "#", formUrl: "#" },
     { name: "동양생명", fax: "0505-777-7777", address: "충청북도 청주시 상당구 상당로 126 수협은행 덕일빌딩 2층 동양생명 접수처", termsUrl: "#", formUrl: "#" },
     { name: "흥국생명", fax: "0505-888-8888", address: "서울 종로구 새문안로 68 흥국생명", termsUrl: "#", formUrl: "#" },
     { name: "DB생명", fax: "0505-999-9999", address: "서울 강남구 테헤란로 432 DB생명", termsUrl: "#", formUrl: "#" },
@@ -4459,7 +4459,7 @@ const insurersData = [
     "name": "미래에셋생명",
     "aliases": "MiraeAssetLife,미래에셋,alfodptpt,ㅁㄹㅇㅅㅅㅁ",
     "claim_fax": "콜센터 개별접수",
-    "mail_address": "서울 영등포구 선유로 49길 23, 아이에스비즈타워 13층 미래에셋생명 보험금 접수 담당자 (07208)",
+    "mail_address": "(07207) 서울시 영등포구 양평동5가 39 선유도 우림라이온스밸리 A동 1107호 프라임손해사정 미래에셋생명팀",
     "terms_url": "https://life.miraeasset.com/micro/disclosure/product/PC-HO-080301-000000.do",
     "claim_url": "https://life.miraeasset.com/Cmmn/lifePage.do?cp=MNT-CC-012#MNT-CC-012",
     "login_url": "https://www.loveageplan.com/",
@@ -4690,6 +4690,65 @@ const insurersData = [
 ];
 
 
+function showToast(message) {
+    let toast = document.getElementById('custom-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'custom-toast';
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        `;
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+    }, 2000);
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("주소가 복사되었습니다.");
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            showToast("복사에 실패했습니다.");
+        });
+    } else {
+        // Fallback for non-HTTPS or older browsers
+        let textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast("주소가 복사되었습니다.");
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            showToast("복사에 실패했습니다.");
+        }
+        textArea.remove();
+    }
+}
+
 function renderInsurers(data) {
     const container = document.getElementById('insurance-list-container');
     if (!container) return;
@@ -4711,9 +4770,10 @@ function renderInsurers(data) {
                         <span style="min-width: 60px; font-weight: 600; color: #111827;">청구팩스</span>
                         <span>${ins.claim_fax || '-'}</span>
                     </div>
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 8px; align-items: center;">
                         <span style="min-width: 60px; font-weight: 600; color: #111827;">등기우편</span>
-                        <span style="line-height: 1.4;">${ins.mail_address || '-'}</span>
+                        <span style="line-height: 1.4; flex: 1;">${ins.mail_address || '-'}</span>
+                        ${ins.mail_address ? `<button onclick="copyToClipboard('${ins.mail_address}')" style="background:none; border:none; color:#3b82f6; cursor:pointer; padding:4px;" title="주소 복사"><span class="material-icons-round" style="font-size:18px;">content_copy</span></button>` : ''}
                     </div>
                 </div>
                 
