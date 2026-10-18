@@ -1,7 +1,7 @@
 // 이 파일은 GitHub Actions에 의해 자동으로 업데이트됩니다.
-// 마지막 업데이트: 2026-10-11 02:58:07
+// 마지막 업데이트: 2026-10-18 02:11:10
 window.WAGE_DATA = {
-    lastUpdated: "2026-10-11",
+    lastUpdated: "2026-10-18",
     year: 2026,
     period: "하반기",
     constructionDaily: 172698,
