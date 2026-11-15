@@ -1,12 +1,12 @@
 // 이 파일은 GitHub Actions에 의해 자동으로 업데이트됩니다.
-// 마지막 업데이트: 2026-11-08 03:27:17
+// 마지막 업데이트: 2026-11-15 03:52:28
 window.WAGE_DATA = {
-    lastUpdated: "2026-11-08",
+    lastUpdated: "2026-11-15",
     year: 2026,
     period: "하반기",
-    constructionDaily: 172698,
+    constructionDaily: 172068,
     manufacturingDaily: 95767,
-    dailyAverage: 134232,
-    monthlyCommon: 3355800,
-    monthlyCourt: 3453960
+    dailyAverage: 133918,
+    monthlyCommon: 3347950,
+    monthlyCourt: 3441360
 };
